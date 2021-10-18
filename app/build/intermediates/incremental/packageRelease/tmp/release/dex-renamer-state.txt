@@ -1,0 +1,4 @@
+#Mon Oct 18 17:37:43 AZT 2021
+base.0=C\:\\Users\\user\\Desktop\\PWA\\app\\build\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

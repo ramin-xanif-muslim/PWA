@@ -1,0 +1,8 @@
+io/github/ramin_xanif_muslim/twa/BuildConfig.java
+ io.github.ramin_xanif_muslim.twa.BuildConfig
+io/github/ramin_xanif_muslim/twa/LauncherActivity.java
+ io.github.ramin_xanif_muslim.twa.LauncherActivity
+io/github/ramin_xanif_muslim/twa/Application.java
+ io.github.ramin_xanif_muslim.twa.Application
+io/github/ramin_xanif_muslim/twa/DelegationService.java
+ io.github.ramin_xanif_muslim.twa.DelegationService
