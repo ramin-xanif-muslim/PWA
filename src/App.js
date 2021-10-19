@@ -10,7 +10,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <h1 style={{color: "orange"}}>RAMIN</h1>
+        <h1 style={{color: "orange"}}>Creat PWA in app</h1>
       </header>
     </div>
   );
