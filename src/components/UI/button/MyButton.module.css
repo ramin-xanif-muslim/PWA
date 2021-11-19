@@ -1,0 +1,42 @@
+.btn {
+  margin-top: 20px;
+  background-color: rgba(24, 241, 57, 0.342);
+  border: s;
+  color: rgb(22, 24, 22);
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  /* margin: 10px 30%; */
+  cursor: pointer;
+  border-radius: 15px;
+  /* box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2); */
+}
+.contendBtn {
+  font-size: 20px;
+  margin-top: 10px;
+  box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
+}
+  .contendBtn:hover {
+    background-color: blanchedalmond;
+    color: black;
+  }
+  .footerItem {
+    background-color: rgb(63, 219, 42);
+    border: none;
+    color: rgb(230, 241, 229);
+    padding: 0px 24%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 15px;
+    box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
+  }
+  .footerItem:hover {
+    background-color: blanchedalmond;
+    color: black;
+  }
+  

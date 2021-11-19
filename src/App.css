@@ -1,38 +1,213 @@
 .App {
-  text-align: center;
+	background-image: url(/src/components/images/lightBg.jpeg);
+	background-attachment: fixed;
+	text-align: center;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	background-color: white;
+}
+.header {
+	text-align: center;
+	padding-bottom: 40px;
+}
+img {
+	width: 70px;
+	height: 70px;
+	margin-top: 50px;
+	box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, 0.2);
+}
+.content {
+	margin-top: 10%;
+	width: 70%;
+	margin: 0 auto;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* footer */
+.footer {
+	width: 100%;
+	bottom: 0;
+	position: fixed;
+	margin-top: auto;
+	display: flex;
+	margin-bottom: 15px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.footer-col {
+	width: 25%;
+}
+.indicator {
+	background-color: rgb(231, 225, 216);
+	display: flex;
+	padding: 10px;
+	border: 2px solid teal;
+	margin-top: 10px;
+	justify-content: space-between;
+}
+.indicator p {
+	font-size: 15px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* sidebar icon */
+
+.sidebar-toggle {
+	color: blue;
+	position: fixed;
+	top: 2rem;
+	left: 3rem;
+	font-size: 2rem;
+	background: transparent;
+	border-color: transparent;
+	cursor: pointer;
+	animation: bounce 2s ease-in-out infinite;
+}
+.logout-btn {
+	color: rgb(31, 212, 31);
+	position: fixed;
+	top: 2rem;
+	right: 3rem;
+	font-size: 2rem;
+	background: transparent;
+	border-color: transparent;
+	cursor: pointer;
+	animation: bounce 2s ease-in-out infinite;
+}
+#inputID::placeholder {
+	color: gray;
+	opacity: 1;
 }
 
-.App-link {
-  color: #61dafb;
+input[type="checkbox"] {
+	/* Double-sized Checkboxes */
+	-ms-transform: scale(2); /* IE */
+	-moz-transform: scale(2); /* FF */
+	-webkit-transform: scale(2); /* Safari and Chrome */
+	-o-transform: scale(2); /* Opera */
+	transform: scale(2);
+	padding: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Might want to wrap a span around your checkbox text */
+.checkboxtext {
+	/* Checkbox text */
+	font-size: 110%;
+	display: inline;
+}
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.7);
+	display: grid;
+	place-items: center;
+	transition: var(--transition);
+	visibility: hidden;
+	z-index: -1;
+	overflow-y: scroll;
+}
+/* OPEN/CLOSE MODAL */
+.show-modal {
+	visibility: visible;
+	z-index: 10;
+}
+.modal-container {
+	background: white;
+	max-width: var(--fixed-width);
+	text-align: left;
+	display: grid;
+	place-items: center;
+	position: relative;
+	padding-top: 7px;
+}
+.modal-container p {
+	font-size: 15px;
+}
+.modal-overlay:-webkit-scrollbar {
+	width: 0;
+	background: transparent;
+}
+.close-modal-btn {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	font-size: 2rem;
+	background: transparent;
+	border-color: transparent;
+	color: var(--clr-red-dark);
+	cursor: pointer;
+}
+.row {
+	text-align: center;
+	width: 200px;
+	margin: 0 auto;
+	padding: 20px 0;
+}
+
+.number {
+	display: inline-block;
+	position: relative;
+	width: 100px;
+}
+.number input[type="number"] {
+	display: block;
+	height: 32px;
+	line-height: 32px;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	text-align: center;
+	-moz-appearance: textfield;
+	-webkit-appearance: textfield;
+	appearance: textfield;
+}
+.number input[type="number"]::-webkit-outer-spin-button,
+.number input[type="number"]::-webkit-inner-spin-button {
+	display: none;
+}
+.number-minus {
+	position: absolute;
+	top: 1px;
+	left: 1px;
+	bottom: 1px;
+	width: 20px;
+	padding: 0;
+	display: block;
+	text-align: center;
+	border: none;
+	border-right: 1px solid #ddd;
+	font-size: 16px;
+	font-weight: 600;
+}
+.number-plus {
+	position: absolute;
+	top: 1px;
+	right: 1px;
+	bottom: 1px;
+	width: 20px;
+	padding: 0;
+	display: block;
+	text-align: center;
+	border: none;
+	border-left: 1px solid #ddd;
+	font-size: 16px;
+	font-weight: 600;
+	background-color: chartreuse;
+}
+.barcode-button {
+	margin: 10px 0 5px 0;
+	border-style: solid;
+	border-color: teal;
+	border-width: 1px 0 1px 1px;
+	border-radius: 0.3rem 0 0 0.3rem;
+}
+.search-button {
+	margin: 10px 0 5px 0;
+	border-style: solid;
+	border-color: teal;
+	border-width: 1px 0 1px 1px;
+	border-radius: 0.3rem 0 0 0.3rem;
 }

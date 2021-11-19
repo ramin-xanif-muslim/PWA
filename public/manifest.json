@@ -1,12 +1,12 @@
 {
-  "name": "Ramin",
-  "short_name": "Ramin",
-  "theme_color": "#000000",
-  "background_color": "#000000",
-  "display": "standalone",
-  "scope": "/",
-  "start_url": "/",
-  "prefer_related_applications": false,
+    "name": "Bein System",
+    "short_name": "Bein System",
+    "theme_color": "#0d0d0e",
+    "background_color": "#0d0d0e",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/",
+    "prefer_related_applications": false,
   "icons": [
     {
       "src": "maskable.png",
@@ -15,19 +15,14 @@
       "purpose": "any maskable"
     },
     {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
       "src": "logo192.png",
       "type": "image/png",
       "sizes": "192x192"
-    },
-    {
-      "src": "logo256.png",
-      "type": "image/png",
-      "sizes": "256x256"
-    },
-    {
-      "src": "logo384.png",
-      "type": "image/png",
-      "sizes": "384x384"
     },
     {
       "src": "logo512.png",
