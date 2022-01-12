@@ -1,36 +1,37 @@
-import React from 'react';
-import './App.css';
-import FooterButton from './components/UI/button/FooterButton';
-import RouteComponent from './components/RouteComponent';
-import { Link } from 'react-router-dom';
-
+import React, { useState } from "react";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import SideBar from "./components/SideBar";
+import "antd/dist/antd.css";
+import RouteComponent from "./components/RouteComponent";
+import MyModal from "./components/UI/modal/MyModal";
+import "./styles/Content.css";
+import { useGlobalContext } from "./config/context";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
+	const { isLogin, isFooter } = useGlobalContext();
+	const [modal, setModal] = useState(false);
 
-  const removeToken = () => {
-    localStorage.removeItem('Token')
-  }
+	if (isLogin === false) {
+		return <LoginPage />;
+	}
+	return (
+		<div className="App">
 
-  return (
-    <div className='container-fluid'>
-        {/* <button className='sidebar-toggle'>
-          <FaBars />
-        </button> */}
-        <Link to='login'>
-          <button onClick={removeToken} className='logout-btn'>
-            LOGOUT
-          </button>
-        </Link>
-      <div className="App">
-        <div style={{marginTop: '10%', marginBottom: '30%'}}>
-        <div className='content'>
-           <RouteComponent />
-        </div>
-        </div>
-        <FooterButton />
-      </div>
-    </div>
-  );
+			<Header openSidebar={setModal} />
+
+			<div className="content">
+				<RouteComponent />
+			</div>
+
+            { isFooter && <Footer />}
+
+			<MyModal visible={modal} setVisible={setModal}>
+				<SideBar />
+			</MyModal>
+		</div>
+	);
 }
 
 export default App;

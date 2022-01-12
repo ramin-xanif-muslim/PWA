@@ -1,25 +1,39 @@
-import React from 'react'
-import classes from '../input/MyInput.module.css';
+import { Select } from "antd";
+import { Option } from "antd/lib/mentions";
+import React from "react";
 
 //<MySelect defaultValue='...' options={options} onChange={onChangeSelect} value={selected}/>
 
-    // const [selected, setSelected] = useState('')
+// const [selected, setSelected] = useState('')
 
 //const onChangeSelect = (value) => {
 //   setSelected(value)
 //}
 
 function MySelect({ options, defaultValue, onChange, value }) {
-    return (
-        <select class={`${classes.myInput} form-control form-control-lg`}
-        value={value} onChange={e => onChange(e.target.value)}>
-           <option defaultValue>{defaultValue}</option>
-           { options ? options.map(option => {
-               return <option value={option.Id} key={option.Id}>{option.Name}</option>
-           })
-        : ''}
-        </select>
-    )
+	const { Option } = Select;
+
+	function handleChange(value) {
+		console.log(`selected ${value}`);
+	}
+
+	return (
+		<Select
+			defaultValue={defaultValue}
+			value={value}
+			onChange={(e) => onChange(e)}
+		>
+			{options
+				? options.map((option) => {
+						return (
+							<Option value={option.Name} key={option.Id}>
+								{option.Name}
+							</Option>
+						);
+				  })
+				: ""}
+		</Select>
+	);
 }
 
-export default MySelect
+export default MySelect;

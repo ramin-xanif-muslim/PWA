@@ -1,21 +1,28 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
-import {AppProvider} from './confiq/context';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import "./styles/Index.css";
+import reportWebVitals from "./reportWebVitals";
+import { AppProvider } from "./config/context";
+import { BrowserRouter } from "react-router-dom";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import { QueryClientProvider, QueryClient } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+
+const queryClient = new QueryClient();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <AppProvider>
-        <App />
-      </AppProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById('root')
+	<React.StrictMode>
+		<BrowserRouter>
+			<QueryClientProvider client={queryClient}>
+				<AppProvider>
+					<App />
+				</AppProvider>
+				{/* <ReactQueryDevtools initialIsOpen={false} /> */}
+			</QueryClientProvider>
+		</BrowserRouter>
+	</React.StrictMode>,
+	document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

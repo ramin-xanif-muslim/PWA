@@ -1,33 +1,101 @@
-import React, { useState } from "react"; 
-import MyButton from "../components/UI/button/MyButton";
-import MyInput from "../components/UI/input/MyInput";
-import axios from 'axios'
-import { Redirect } from "react-router";
+import { Form, Input, Button, Checkbox } from "antd";
+import axios from "axios";
+import { useState } from "react";
+import { Navigate } from "react-router";
+import { useGlobalContext } from "../config/context";
+import "../styles/Login.css";
 
+const LoginPage = () => {
+    const { login } = useGlobalContext()
+    const [isLogin, setIsLogin] = useState(false)
+    const [error, setError] = useState("")
 
-export default function LoginPage() {
-    const[data, setData] = useState({'Login': '', 'Password': ''})
-    const[isLogin, setIsLogin] = useState(false)
-    const[error, setError] = useState("")
-    let postToServer = () => {
-        async function fetchToken() {
-            const res = await axios.post('https://pwa.bein.az/login/send.php', data)
-            console.log(res)
-            if(res.data.Headers.ResponseStatus === '0') {
-            localStorage.setItem('Token', res.data.Body.Token)
-            setIsLogin(true)
-            }else setError(res.data.Body)
-        }
-        fetchToken()
-    }
-    return(
-        <div>
-            {isLogin && <Redirect to='/' /> }
-            <h2 className="red-text text-center">Login</h2>
-            {error ? <h3 style={{color: 'red'}}>{error}</h3> : ''}
-            <MyInput type='text' name='name' onChange={e=>setData({...data,'Login': e.target.value})} />
-            <MyInput type='password' name='password' onChange={e=>setData({...data,'Password': e.target.value})} />
-            <MyButton onClick={postToServer}>Submit</MyButton>
-        </div>
-    )
-}
+	const onFinish = (values) => {
+		async function fetchToken() {
+			const res = await axios.post(
+				"https://dev.bein.az/login/send.php",
+				values
+			);
+			if (res.data.Headers.ResponseStatus === "0") {
+				localStorage.setItem("Token", res.data.Body.Token);
+                login(true)
+				setIsLogin(true);
+			} else setError(res.data.Body);
+		}
+		fetchToken();
+	};
+
+	const onFinishFailed = (errorInfo) => {
+		console.log("Failed:", errorInfo);
+	};
+	if (isLogin) {
+		return <Navigate to="/" />;
+	}
+
+	return (
+		<div className="container-form">
+			<Form
+				className="login-form"
+				name="basic"
+				labelCol={{
+					span: 8,
+				}}
+				wrapperCol={{
+					span: 16,
+				}}
+				initialValues={{
+					remember: true,
+				}}
+				onFinish={onFinish}
+				onFinishFailed={onFinishFailed}
+				autoComplete="off"
+			>
+				<Form.Item
+					label="Username"
+					name="Login"
+					rules={[
+						{
+							required: true,
+							message: "Please input your login!",
+						},
+					]}
+				>
+					<Input />
+				</Form.Item>
+
+				<Form.Item
+					label="Password"
+					name="Password"
+					rules={[
+						{
+							required: true,
+							message: "Please input your password!",
+						},
+					]}
+				>
+					<Input.Password />
+				</Form.Item>
+
+				<Form.Item
+					name="remember"
+					valuePropName="checked"
+					wrapperCol={{}}
+				>
+					<Checkbox>Remember me</Checkbox>
+				</Form.Item>
+
+				<Form.Item wrapperCol={{}}>
+					<Button
+						className="submit-button"
+						type="primary"
+						htmlType="submit"
+					>
+						Submit
+					</Button>
+				</Form.Item>
+			</Form>
+		</div>
+	);
+};
+
+export default LoginPage;

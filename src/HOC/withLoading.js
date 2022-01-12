@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from 'react'
-import { Redirect } from 'react-router';
+import { Navigate } from 'react-router';
 import MyLoading from '../components/UI/loading/MyLoading';
-import sendRequest from '../confiq/sentRequest';
+import { useGlobalContext } from '../config/context';
+import sendRequest from '../config/sentRequest';
 
 function withLoading(Component, url) {
 
     return (props) => {
+
+        const { logout } = useGlobalContext()
 
         const [isLoading, setIsLoading] = useState(false)
         const [data, setData] = useState(null)
@@ -14,7 +17,8 @@ function withLoading(Component, url) {
           setIsLoading(true)
           async function fetchData() {
             const res = await sendRequest(`${url}/get.php`,{})
-            setData(res)
+            if(res === null) { logout() }
+            else { setData(res) }
             setIsLoading(false)
           }
           fetchData();
@@ -27,7 +31,7 @@ function withLoading(Component, url) {
           </div>
         }
         if(data && data.props) {
-          return <Redirect to='login'/>
+          return <Navigate to='login'/>
         }
         return <Component {...props} data={data} />
     }
