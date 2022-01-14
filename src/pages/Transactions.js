@@ -3,7 +3,7 @@ import DocumentList from "../components/DocumentList";
 import withLoading from "../HOC/withLoading";
 import withSerchByDate from "../HOC/withSerchByDate";
 
-function Supply(props) {
+function Transactions(props) {
 	return (
 		<div>
 			<DocumentList list={props.data} />
@@ -11,4 +11,4 @@ function Supply(props) {
 	);
 }
 
-export default withLoading(withSerchByDate(Supply, "demandreturns"), "demandreturns");
+export default withLoading(withSerchByDate(Transactions, "transactions"), "transactions");

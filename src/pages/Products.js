@@ -11,4 +11,4 @@ function Supply(props) {
 	);
 }
 
-export default withLoading(withSerchByDate(Supply, "demandreturns"), "demandreturns");
+export default withLoading(withSerchByDate(Supply, "products"), "products");

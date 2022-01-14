@@ -18,8 +18,8 @@ import dashboard from "../img/Dashboard.png";
 import productDocuments from "../img/Product Documents.png";
 import products from "../img/Products.png";
 import enter from "../img/Enter.png";
-import loses from "../img/Loses.png";
-import move from "../img/Move.png";
+import losses from "../img/Loses.png";
+import moves from "../img/Move.png";
 import stockbalance from "../img/Stockbalance.png";
 import supply from "../img/Supplies.png";
 import supplyreturns from "../img/Supplyreturns.png";
@@ -208,15 +208,15 @@ export const productsLinks = [
 	},
 	{
 		id: 3,
-		url: "/loses",
+		url: "/losses",
 		text: "SİLİNMƏLƏR",
-		icon: loses,
+		icon: losses,
 	},
 	{
 		id: 4,
-		url: "/move",
+		url: "/moves",
 		text: "YERDƏYİŞMLƏR",
-		icon: move,
+		icon: moves,
 	},
 	{
 		id: 5,
@@ -256,7 +256,7 @@ export const demandsLinks = [
 export const customersLinks = [
 	{
 		id: 1,
-		url: "/customer",
+		url: "/customers",
 		text: "TƏRƏF MÜQABİLLƏR",
 		icon: customers,
 	},
@@ -279,7 +279,7 @@ export const relateLinks = [
 	{
 		id: 1,
 		url: "/sales",
-		text: "SAIŞLAR",
+		text: "SATIŞLAR",
 		icon: demands,
 	},
 	{
@@ -296,7 +296,7 @@ export const relateLinks = [
 	},
 	{
 		id: 4,
-		url: "/credittransaction",
+		url: "/credittransactions",
 		text: "ÖDƏNİŞLƏR",
 		icon: transactions,
 	},

@@ -1,13 +1,25 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router";
+import Credittransactions from "../pages/Credittransactions";
+import Customers from "../pages/Customers";
 import Dashboards from "../pages/Dashboards";
 import Demandreturns from "../pages/Demandreturns";
 import Demands from "../pages/Demands";
 import Document from "../pages/Document";
 import Documents from "../pages/Documents";
+import Enters from "../pages/Enters";
 import LoginPage from "../pages/LoginPage";
+import Losses from "../pages/Losses";
+import Moves from "../pages/Moves";
+import Products from "../pages/Products";
+import Returns from "../pages/Returns";
+import Salepoints from "../pages/Salepoints";
+import Sales from "../pages/Sales";
+import Spenditems from "../pages/Spenditems";
+import Stockbalance from "../pages/Stockbalance";
 import Supply from "../pages/Supply";
 import Supplyreturns from "../pages/Supplyreturns";
+import Transactions from "../pages/Transactions";
 import Content from "./Content";
 import TabContends from "./TabContends";
 
@@ -23,6 +35,18 @@ function RouteComponent(props) {
 			<Route path="/supply" element={<Supply />} />
 			<Route path="/supplyreturns" element={<Supplyreturns />} />
 			<Route path="/demandreturns" element={<Demandreturns />} />
+			<Route path="/products" element={<Products />} />
+			<Route path="/enter" element={<Enters />} />
+			<Route path="/losses" element={<Losses />} />
+			<Route path="/moves" element={<Moves />} />
+			<Route path="/stockbalance" element={<Stockbalance />} />
+			<Route path="/customers" element={<Customers />} />
+			<Route path="/transactions" element={<Transactions />} />
+			<Route path="/spenditems" element={<Spenditems />} />
+			<Route path="/sales" element={<Sales />} />
+			<Route path="/returns" element={<Returns />} />
+			<Route path="/credittransactions" element={<Credittransactions />} />
+			<Route path="/salepoints" element={<Salepoints />} />
 			{/* <Route path="*" element={<Navigate to='/' />} /> */}
 		</Routes>
 	);
