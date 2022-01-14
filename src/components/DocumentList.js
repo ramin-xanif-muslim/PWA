@@ -1,7 +1,7 @@
 import React from 'react'
 import Document from './Document';
 
-function DocumentList({ list }) {
+function DocumentList({ list, from }) {
 
 	return (
 		<div className="demands_wrapper">
@@ -12,6 +12,7 @@ function DocumentList({ list }) {
 								key={item.Name}
 								item={item}
 								index={index + 1}
+                                from={from}
 							/>
 						);
 				  })

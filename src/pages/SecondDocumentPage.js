@@ -15,7 +15,7 @@ import print_img from "../img/document_pages_img/print.png";
 import close_img from "../img/document_pages_img/close.png";
 import line_img from "../img/document_pages_img/line.svg";
 
-function Document() {
+function SecondDocumentPage() {
 	const { documentsItem, hideFooter } = useGlobalContext();
 	const [isLoading, setIsLoading] = useState(false);
 	const [marks, setMarks] = useState("");
@@ -33,28 +33,6 @@ function Document() {
 	const [dataForUpdateModal, getDataForUpdateModal] = useState("");
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [totalQuantity, setTotalQuantity] = useState(0);
-
-	const data = {
-		id: documentsItem.Id,
-		name: documentsItem.Name,
-		moment: documentsItem.Moment,
-		stockname: documentsItem.StockName,
-		modify: documentsItem.Modify,
-		stockid: documentsItem.StockId,
-		mark: documentsItem.Mark,
-		customerid: documentsItem.CustomerId,
-		customername: documentsItem.CustomerName,
-		departmentid: documentsItem.DepartmentId,
-		ownerid: documentsItem.OwnerId,
-		status: documentsItem.Status,
-		description: documentsItem.Description,
-		consumption: documentsItem.Consumption,
-		profit: documentsItem.Profit,
-		amount: documentsItem.Amount,
-		discount: documentsItem.Discount,
-		customerdiscount: documentsItem.CustomerDiscount,
-		positions: documentsItem.Positions,
-	};
 
 	useEffect(() => {
         hideFooter();
@@ -104,11 +82,6 @@ function Document() {
 	const onChangeMarks = (item) => {
 		console.log("ishledi", item);
 	};
-	const onChangeStocks = (item) => {
-		data.stockid = item;
-		console.log("ishledi", item);
-		console.log("data", data);
-	};
 
 	const selectPrd = (arr) => {
 		setSelectedProducts(arr);
@@ -121,19 +94,6 @@ function Document() {
 		deleteProduct();
 		setIsModal2Open(false);
 		computationPriceAndQuantity();
-	};
-	const saveButton = (values, submit) => {
-		let newArr = products.map((item) => {
-			return {
-				ProductId: item.ProductId,
-				Quantity: item.Quantity,
-				Price: item.Price,
-			};
-		});
-		data.positions = newArr;
-        console.log("data",data)
-        console.log("values",values)
-		// sendRequest("demands/put.php", data);
 	};
 	const getQuantity = async (data) => {
 		products.forEach((item) => {
@@ -170,7 +130,7 @@ function Document() {
 
 	return (
 		<div className="document">
-			<MyForm stocks={stocks} initialValues={documentsItem} saveButton={saveButton} />
+			<MyForm stocks={stocks} initialValues={documentsItem} />
 
 			{isLoading && <MyLoading />}
             
@@ -188,7 +148,6 @@ function Document() {
 				setIsFoterOpen={setIsFoterOpen}
 				totalQuantity={totalQuantity}
 				totalPrice={totalPrice}
-                saveButton={saveButton}
 			/>
 
 			<MyModal
@@ -210,7 +169,7 @@ function Document() {
 	);
 }
 
-export default Document;
+export default SecondDocumentPage;
 
 
 const Debt = ({debt}) => {
@@ -219,7 +178,7 @@ const Debt = ({debt}) => {
             <p>
                 Qalıq borc:
                 <strong>
-                    {debt} <sub>₼</sub>
+                    {debt.toFixed(2)} <sub>₼</sub>
                 </strong>
             </p>
         </div>
@@ -276,7 +235,7 @@ const DocFooter = (props) => {
 					</div>
 					<p>Print</p>
 				</button>
-				<button className="save" onClick={props.saveButton}>
+				<button className="save">
 					<div>
 						<img src={save_img} alt="" />
 					</div>

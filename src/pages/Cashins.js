@@ -1,11 +1,10 @@
 import React from "react";
-import "../styles/Demands.css";
-import withLoading from "../HOC/withLoading";
-import withSerchByDate from "../HOC/withSerchByDate";
 import DocumentList from "../components/DocumentList";
 import DocumentListFooter from "../components/DocumentListFooter";
+import withLoading from "../HOC/withLoading";
+import withSerchByDate from "../HOC/withSerchByDate";
 
-function Demands(props) {
+function Cashins(props) {
 	return (
 		<div>
 			<DocumentList list={props.data} from={props.from} />
@@ -14,4 +13,5 @@ function Demands(props) {
 		</div>
 	);
 }
-export default withLoading(withSerchByDate(Demands, "demands"), "demands");
+
+export default withLoading(withSerchByDate(Cashins, "cashins"), "cashins");

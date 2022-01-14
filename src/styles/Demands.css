@@ -12,7 +12,8 @@
 }
 
 .search-by-date .active {
-	text-decoration: underline;
+	color: var(--dark-blue) !important;
+	font-weight: 700;
 }
 
 .search-by-date img {
@@ -171,3 +172,5 @@
 .document-footer .number .amount {
 	font-size: 1.5em;
 }
+
+/**/

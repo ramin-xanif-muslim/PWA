@@ -290,27 +290,27 @@ export const relateLinks = [
 	},
 	{
 		id: 3,
-		url: "/cashtransaction",
-		text: "PUL TRANSFER",
+		url: "/cashins",
+		text: "KASSA MƏDAXIL",
 		icon: cashtransaction,
 	},
 	{
 		id: 4,
+		url: "/cashouts",
+		text: "KASSA MƏXARIC",
+		icon: cashtransaction,
+	},
+	{
+		id: 5,
 		url: "/credittransactions",
 		text: "ÖDƏNİŞLƏR",
 		icon: transactions,
 	},
 	{
-		id: 5,
+		id: 6,
 		url: "/salepoints",
 		text: "SATIŞ NÖQTƏLƏRİ",
 		icon: salepoints,
-	},
-	{
-		id: 6,
-		url: "/download",
-		text: "KASSA PROQRAMI",
-		icon: download,
 	},
 ];
 export const reportsLinks = [

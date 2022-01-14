@@ -1,7 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
+import style from "./SearchByDate.module.css";
 import dot from "../img/document_pages_img/dot.svg";
 
 function SearchByDate({ obj, getSearcObjByDate }) {
+	const [activId, setActivId] = useState(0);
+
+	const dateTexts = [
+		{
+			id: 1,
+			title: "Bu gün",
+		},
+		{
+			id: 2,
+			title: "Dünən",
+		},
+		{
+			id: 3,
+			title: "Bu ay",
+		},
+		{
+			id: 4,
+			title: "30 gün",
+		},
+		{
+			id: 5,
+			title: "Müddətsiz",
+		},
+	];
 	const select = (i) => {
 		let today = new Date();
 		let y = today.getFullYear();
@@ -68,17 +93,41 @@ function SearchByDate({ obj, getSearcObjByDate }) {
 			return;
 		}
 	};
+
+	const onClick = (i) => {
+		select(i);
+		setActivId(i);
+	};
 	return (
 		<div className="search-by-date">
-			<p onClick={() => select(1)}>Bu gün</p>
-			<img src={dot} alt=''></img>
+			{dateTexts.map((d) => {
+				return (
+					<ul className={style.ul}>
+						<li
+							onClick={() => onClick(d.id)}
+							className={d.id === activId ? "active" : ""}
+						>
+							{d.title}
+						</li>
+						{/* <p
+							onClick={() => onClick(d.id)}
+							className={d.id === activId ? "active" : ""}
+						>
+							{d.title}
+						</p>
+						{d.id !== 5 ? <img src={dot} alt=""></img> : ""} */}
+					</ul>
+				);
+			})}
+			{/* <p onClick={() => select(1)}>Bu gün</p>
+			<img src={dot} alt=""></img>
 			<p onClick={() => select(2)}>Dünən</p>
-			<img src={dot} alt=''></img>
+			<img src={dot} alt=""></img>
 			<p onClick={() => select(3)}>Bu ay</p>
-			<img src={dot} alt=''></img>
+			<img src={dot} alt=""></img>
 			<p onClick={() => select(4)}>Keçən ay</p>
-			<img src={dot} alt=''></img>
-			<p onClick={() => select(5)}>Müddətsiz</p>
+			<img src={dot} alt=""></img>
+			<p onClick={() => select(5)}>Müddətsiz</p> */}
 		</div>
 	);
 }

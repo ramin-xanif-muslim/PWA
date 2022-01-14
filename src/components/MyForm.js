@@ -21,7 +21,7 @@ function MyForm(props) {
 
 		try {
 			setFetching(true);
-			// await props.onSubmit(values)
+			await props.saveButton(values, submit)
 			console.log(values);
 		} finally {
 			setFetching(false);
@@ -215,111 +215,9 @@ function MyForm(props) {
 						<img src={miniArrow_img} />
 					</Col>
 				</Row>
-
-				{/* 
-                
-                
-						
-						
-						<img className="row-arrow" src={arrow_img} />
-						<img className="form-icons" src={status_img} />
-						<label className="form-label" htmlFor="status">
-							Status
-						</label>
-						<input
-							type="text"
-							name="status"
-							value={values?.Status ?? ""}
-							onChange={(e) => setValue("Status", e.target.value)}
-							required
-						/>
-                
-                
-                
-                
-                
-                
-                <label htmlFor="title">Ad</label>
-				<input
-					type="text"
-					name="title"
-					value={values?.Name ?? ""}
-					onChange={(e) => setValue("Name", e.target.value)}
-					required
-				/>
-
-				<label htmlFor="body">Moment</label>
-				<input
-					type="text"
-					name="body"
-					value={values?.Moment ?? ""}
-					onChange={(e) => setValue("Moment", e.target.value)}
-					required
-				/>
-				<label htmlFor="body">CustomerName</label>
-				<input
-					type="text"
-					name="body"
-					value={values?.CustomerName ?? ""}
-					onChange={(e) => setValue("CustomerName", e.target.value)}
-					required
-				/>
-				<label htmlFor="body">Status</label>
-				<input
-					type="text"
-					name="body"
-					value={values?.Status ?? ""}
-					onChange={(e) => setValue("Status", e.target.value)}
-					required
-				/>
-				<label htmlFor="body">Description</label>
-				<input
-					type="text"
-					name="body"
-					value={values?.Description ?? ""}
-					onChange={(e) => setValue("Description", e.target.value)}
-					required
-				/>
-				<label htmlFor="body">StockName</label>
-				<input
-					type="text"
-					name="body"
-					value={values?.StockName ?? ""}
-					onChange={(e) => setValue("StockName", e.target.value)}
-					required
-				/>
-
-				<input type="submit" value="send" /> */}
 			</fieldset>
 		</form>
 	);
 }
 
 export default MyForm;
-
-// const FormElement = () => {
-//     return (
-//         <Row className="doc-form-row">
-//             <Col className="form-icons" span={3}>
-//                 <img src={sale_img} />
-//             </Col>
-//             <Col className="form-label" span={6}>
-//                 <label htmlFor="name">Satış №:</label>
-//             </Col>
-//             <Col className="form-input" span={12}>
-//                 <input
-//                     type="text"
-//                     name="name"
-//                     placeholder="10254"
-//                     value={values?.Name ?? ""}
-//                     onChange={(e) => setValue("Name", e.target.value)}
-//                     required
-//                 />
-//             </Col>
-//             <Col className="form-icons" span={3}>
-//                 <img src={miniArrow_img} />
-//             </Col>
-//         </Row>
-
-//     )
-// }

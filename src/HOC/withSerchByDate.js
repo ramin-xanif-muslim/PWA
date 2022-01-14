@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { api } from "../api/api";
 import SearchByDate from "../components/SearchByDate";
 import MyLoading from "../components/UI/loading/MyLoading";
@@ -7,8 +8,7 @@ import { useGlobalContext } from "../config/context";
 
 function withSerchByDate(Component, controller) {
 	return (props) => {
-
-        const { isSearch, hideFooter } = useGlobalContext();
+		const { isSearch, hideFooter } = useGlobalContext();
 
 		const [data, setData] = useState();
 		const [isLoading, setLoading] = useState(false);
@@ -23,38 +23,57 @@ function withSerchByDate(Component, controller) {
 
 		const fetchData = async () => {
 			setLoading(true);
-			let res = await api.fetchData(controller,obj);
+			let res = await api.fetchData(controller, obj);
 			setData(res);
 			setLoading(false);
 		};
-        const fetchSearchTerm = async (searchTerm) => {
-            let searchObj = obj;
-            searchObj.nm = searchTerm;
-            let res = await api.fetchData(controller,searchObj);
-            console.log("withSerchByDate",res)
-            setData(res);
-        };
+		const fetchSearchTerm = async (searchTerm) => {
+			let searchObj = obj;
+			searchObj.nm = searchTerm;
+			let res = await api.fetchData(controller, searchObj);
+			setData(res);
+		};
 
 		const getSearcObjByDate = (ob) => {
 			setObj(ob);
 			fetchData();
 		};
 
-        useEffect(() => {
-            hideFooter();
-            setData(props.data)
-        },[])
+		let navigate = useNavigate();
 
-		if (isLoading) {
-			return <MyLoading />;
+		function handleClickOnPlusBtn() {
+			navigate(`/${controller}`);
 		}
+
+		useEffect(() => {
+			if (controller !== "documents") {
+				hideFooter();
+			}
+			setData(props.data);
+			console.log("props.data", props.data);
+		}, []);
+		useEffect(() => {
+			if (!isSearch) {
+				setObj({ ...obj, nm: "" });
+			}
+		}, [isSearch]);
+
 		return (
 			<div>
 				<SearchByDate obj={obj} getSearcObjByDate={getSearcObjByDate} />
 
 				{isSearch && <SearchInput fetchSearchTerm={fetchSearchTerm} />}
 
-				<Component {...props} data={data} />
+				{isLoading ? (
+					<MyLoading />
+				) : (
+					<Component
+						{...props}
+						data={data}
+						from={controller}
+						handleClickOnPlusBtn={handleClickOnPlusBtn}
+					/>
+				)}
 			</div>
 		);
 	};
