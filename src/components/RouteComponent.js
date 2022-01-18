@@ -34,7 +34,7 @@ function RouteComponent(props) {
 			<Route path="/demands" element={<Demands />} />
 			<Route path="/documents" element={<Documents />} />
 			<Route path="/document" element={<TabContends />} />
-			<Route path="/supply" element={<Supply />} />
+			<Route path="/supplies" element={<Supply />} />
 			<Route path="/supplyreturns" element={<Supplyreturns />} />
 			<Route path="/demandreturns" element={<Demandreturns />} />
 			<Route path="/products" element={<Products />} />

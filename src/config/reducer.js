@@ -22,6 +22,9 @@ const reducer = (state, action) => {
     if( action.type === 'DOCUMENTS_ITEM') {
         return { ...state, documentsItem: action.payload }
     }
+    if( action.type === 'BARCK_TO') {
+        return { ...state, barckTo: action.payload }
+    }
     return state
 }
 

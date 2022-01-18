@@ -228,7 +228,7 @@ export const productsLinks = [
 export const suppliesLinks = [
 	{
 		id: 1,
-		url: "/supply",
+		url: "/supplies",
 		text: "ALIŞLAR",
 		icon: supply,
 	},

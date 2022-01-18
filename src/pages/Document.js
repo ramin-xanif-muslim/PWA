@@ -6,21 +6,15 @@ import MyLoading from "../components/UI/loading/MyLoading";
 import MyModal from "../components/UI/modal/MyModal";
 import { useGlobalContext } from "../config/context";
 import sendRequest from "../config/sentRequest";
-import product_img from "../img/document_pages_img/product.png";
-import other_img from "../img/document_pages_img/other.svg";
-import addProduct_img from "../img/document_pages_img/add-product.png";
-import barcode_img from "../img/document_pages_img/barcode.png";
-import save_img from "../img/document_pages_img/save.png";
-import print_img from "../img/document_pages_img/print.png";
-import close_img from "../img/document_pages_img/close.png";
-import line_img from "../img/document_pages_img/line.svg";
+import Debt from "../components/Debt";
+import DocFooter from "../components/DocFooter";
+import ProductList from "../components/ProductList";
 
 function Document() {
 	const { documentsItem, hideFooter } = useGlobalContext();
 	const [isLoading, setIsLoading] = useState(false);
 	const [marks, setMarks] = useState("");
 	const [stocks, setStocks] = useState("");
-	const [debt, setDebt] = useState("");
 	const [gotProducts, setGotProducts] = useState([]);
 	const [products, setProducts] = useState([]);
 	const [isFooterOpen, setIsFoterOpen] = useState(false);
@@ -31,8 +25,7 @@ function Document() {
 	const [isModal2Open, setIsModal2Open] = useState(false);
 	const [selectedProducts, setSelectedProducts] = useState([]);
 	const [dataForUpdateModal, getDataForUpdateModal] = useState("");
-	const [totalPrice, setTotalPrice] = useState(0);
-	const [totalQuantity, setTotalQuantity] = useState(0);
+	const [formValues, setFormValues] = useState();
 
 	const data = {
 		id: documentsItem.Id,
@@ -72,13 +65,6 @@ function Document() {
 		setStocks(res.List);
 		setIsLoading(false);
 	}, []);
-	useEffect(async () => {
-		setIsLoading(true);
-		let obj = { id: documentsItem && documentsItem.CustomerId };
-		let res = await sendRequest("customers/getdata.php", obj);
-		setDebt(res.Debt);
-		setIsLoading(false);
-	}, []);
 
 	useEffect(async () => {
 		setIsLoading(true);
@@ -115,13 +101,14 @@ function Document() {
 	};
 	const closeModal = () => {
 		setModalProductListForSelect(false);
-		computationPriceAndQuantity();
 	};
 	const closeModal2 = () => {
 		deleteProduct();
 		setIsModal2Open(false);
-		computationPriceAndQuantity();
 	};
+    const getFormValues = (v) => {
+        setFormValues(v)
+    }
 	const saveButton = (values, submit) => {
 		let newArr = products.map((item) => {
 			return {
@@ -131,8 +118,9 @@ function Document() {
 			};
 		});
 		data.positions = newArr;
+		formValues.positions = newArr;
         console.log("data",data)
-        console.log("values",values)
+        console.log("formValues",formValues)
 		// sendRequest("demands/put.php", data);
 	};
 	const getQuantity = async (data) => {
@@ -142,27 +130,6 @@ function Document() {
 			}
 		});
 	};
-	const computationPriceAndQuantity = () => {
-		if (products[0]) {
-			let tq = 0;
-			let tp = 0;
-			for (let i = 0; i < products.length; i++) {
-                if(products &&  products[i] ) {
-                    tq += products[i].Quantity;
-                    tp += products[i].Price * products[i].Quantity;
-                }
-			}
-			setTotalQuantity(tq);
-			setTotalPrice(tp);
-		}
-	};
-	useEffect(() => {
-		computationPriceAndQuantity();
-	}, [totalQuantity, totalPrice]);
-
-	useMemo(() => {
-		computationPriceAndQuantity();
-	}, [gotProducts, modalProductListForSelect, isModal2Open, products]);
 
 	const closeModalProductListForSelect = () => {
 		setModalProductListForSelect();
@@ -170,11 +137,11 @@ function Document() {
 
 	return (
 		<div className="document">
-			<MyForm stocks={stocks} initialValues={documentsItem} saveButton={saveButton} />
+			<MyForm stocks={stocks} initialValues={documentsItem} getFormValues={getFormValues} />
 
 			{isLoading && <MyLoading />}
             
-            <Debt debt={debt} />
+            <Debt />
 
 			<ProductList
 				setModalProductListForSelect={setModalProductListForSelect}
@@ -184,10 +151,9 @@ function Document() {
 				setIsModal2Open={setIsModal2Open}
 			/>
 			<DocFooter
+				products={products}
 				isFooterOpen={isFooterOpen}
 				setIsFoterOpen={setIsFoterOpen}
-				totalQuantity={totalQuantity}
-				totalPrice={totalPrice}
                 saveButton={saveButton}
 			/>
 
@@ -211,159 +177,3 @@ function Document() {
 }
 
 export default Document;
-
-
-const Debt = ({debt}) => {
-    return (
-        <div className="debt">
-            <p>
-                Qalıq borc:
-                <strong>
-                    {debt} <sub>₼</sub>
-                </strong>
-            </p>
-        </div>
-    )
-}
-
-const DocFooter = (props) => {
-	return (
-		<div
-			onClick={() => props.setIsFoterOpen(!props.isFooterOpen)}
-			className={
-				props.isFooterOpen ? "doc-footer doc-footer-open" : "doc-footer"
-			}
-		>
-			<div className="line">
-				<img src={line_img} alt="" />
-			</div>
-			<div className="texts">
-				<div className="text-block">
-					<p className="text">Ümumi məbləğ:</p>
-					<p className="number">{props.totalPrice.toFixed(2)}</p>
-				</div>
-				<div className="text-block">
-					<p className="text">Endirim:</p>
-					<p className="number"></p>
-				</div>
-				<div className="text-block-important">
-					<p className="text">Yekun məbləğ:</p>
-					<p className="number"></p>
-				</div>
-				<div className="text-block">
-					<p className="text">Miqdar</p>
-					<p className="number">{props.totalQuantity}</p>
-				</div>
-				<div className="text-block">
-					<p className="text">Mayası:</p>
-					<p className="number"></p>
-				</div>
-				<div className="text-block">
-					<p className="text">Qazanc:</p>
-					<p className="number"></p>
-				</div>
-			</div>
-			<div className="submit-buttons">
-				<button className="close">
-					<div>
-						<img src={close_img} alt="" />
-					</div>
-					<p>Bağla</p>
-				</button>
-				<button className="print">
-					<div>
-						<img src={print_img} alt="" />
-					</div>
-					<p>Print</p>
-				</button>
-				<button className="save" onClick={props.saveButton}>
-					<div>
-						<img src={save_img} alt="" />
-					</div>
-					<p>Yadda saxla</p>
-				</button>
-			</div>
-		</div>
-	);
-};
-
-const ProductList = ({
-	setModalProductListForSelect,
-	products,
-	setIsModal2Open,
-	getDataForUpdateModal,
-	isFooterOpen,
-}) => {
-	return (
-		<div
-			className={
-				isFooterOpen
-					? "product-list product-list-small"
-					: "product-list"
-			}
-		>
-			{products[0] ? (
-				products.map((item, index) => {
-					const { Name, StockQuantity, Quantity, Id, Price } = item;
-                    let amount = Price * Quantity
-					const onClick = () => {
-						setIsModal2Open(true);
-						getDataForUpdateModal(item);
-					};
-					return (
-						<div key={index} onClick={onClick}>
-							<Row className="row-products">
-								<Col className="index" span={2}>
-									<p>{index + 1}</p>
-								</Col>
-								<Col className="body" span={20}>
-									<div className="text">
-										<p className="product-name">{Name}</p>
-										<div>
-											<img src={product_img} alt="" />
-											<p className="stock-quantity">
-												{ StockQuantity ? 0 : StockQuantity }
-											</p>
-										</div>
-									</div>
-									<div className="number">
-										<div className="amount">
-											<p>
-												{amount.toFixed(2)}<sub>₼</sub>
-											</p>
-										</div>
-										<div className="quantity-price">
-											<p>
-												{Quantity}ed * {Price}<sub>₼</sub>
-											</p>
-										</div>
-									</div>
-								</Col>
-								<Col className="other" span={2}>
-									<button>
-										<img src={other_img} alt="" />
-									</button>
-								</Col>
-							</Row>
-						</div>
-					);
-				})
-			) : (
-				<p>Mehsul secilmeyib</p>
-			)}
-
-			<div className="add-buttons">
-				<button className="add-barcode">
-					<img src={barcode_img} alt="" />
-				</button>
-				<button
-					onClick={() => setModalProductListForSelect(true)}
-					className="add-manual"
-				>
-					<img src={addProduct_img} alt="" />
-					<p>Məhsul əlavə et</p>
-				</button>
-			</div>
-		</div>
-	);
-};

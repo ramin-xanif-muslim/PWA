@@ -16,6 +16,10 @@ function MyForm(props) {
 	const [isFetching, setFetching] = useState(false);
 	const [showMoreForm, setShowMoreForm] = useState(false);
 
+    useEffect(() => {
+        props.getFormValues(values)
+    },[values])
+
 	const submit = async (e) => {
 		e.preventDefault();
 

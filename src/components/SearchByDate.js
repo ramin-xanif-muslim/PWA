@@ -109,25 +109,9 @@ function SearchByDate({ obj, getSearcObjByDate }) {
 						>
 							{d.title}
 						</li>
-						{/* <p
-							onClick={() => onClick(d.id)}
-							className={d.id === activId ? "active" : ""}
-						>
-							{d.title}
-						</p>
-						{d.id !== 5 ? <img src={dot} alt=""></img> : ""} */}
 					</ul>
 				);
 			})}
-			{/* <p onClick={() => select(1)}>Bu gün</p>
-			<img src={dot} alt=""></img>
-			<p onClick={() => select(2)}>Dünən</p>
-			<img src={dot} alt=""></img>
-			<p onClick={() => select(3)}>Bu ay</p>
-			<img src={dot} alt=""></img>
-			<p onClick={() => select(4)}>Keçən ay</p>
-			<img src={dot} alt=""></img>
-			<p onClick={() => select(5)}>Müddətsiz</p> */}
 		</div>
 	);
 }

@@ -5,18 +5,11 @@ import withSerchByDate from "../HOC/withSerchByDate";
 import DocumentListFooter from "../components/DocumentListFooter";
 
 function Supply(props) {
-	// let navigate = useNavigate();
-	// function handleClickOnPlusBtn() {
-	//     navigate("/document");
-	// }
 	return (
 		<div>
-			<DocumentList list={props.data} />
+			<DocumentList list={props.data} from={props.from} />
 
-			<DocumentListFooter
-				// handleClickOnPlusBtn={handleClickOnPlusBtn}
-				data={props.data}
-			/>
+			<DocumentListFooter {...props} />
 		</div>
 	);
 }

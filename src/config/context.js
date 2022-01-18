@@ -37,6 +37,9 @@ export const AppProvider = ({ children }) => {
     const getDocumentsItem = (item) => {
         dispatch({ type: 'DOCUMENTS_ITEM', payload: item})
     }
+    const putBarckTo = (item) => {
+        dispatch({ type: 'BARCK_TO', payload: item})
+    }
 
 	return (
 		<AppContect.Provider
@@ -49,6 +52,7 @@ export const AppProvider = ({ children }) => {
                 showFooter,
                 hideFooter,
                 getDocumentsItem,
+                putBarckTo,
 			}}
 		>
 			{children}
