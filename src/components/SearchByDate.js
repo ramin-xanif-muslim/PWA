@@ -100,9 +100,9 @@ function SearchByDate({ obj, getSearcObjByDate }) {
 	};
 	return (
 		<div className="search-by-date">
-			{dateTexts.map((d) => {
+			{dateTexts.map((d, index) => {
 				return (
-					<ul className={style.ul}>
+					<ul className={style.ul} key={index}>
 						<li
 							onClick={() => onClick(d.id)}
 							className={d.id === activId ? "active" : ""}

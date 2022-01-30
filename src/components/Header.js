@@ -14,14 +14,15 @@ import search from "../img/Search.png";
 import slider from "../img/Slider.png";
 import "../styles/Header.css";
 import { useGlobalContext } from "../config/context";
+import { Link } from "react-router-dom";
 
 function Header({ openSidebar }) {
-
-	const { checkedFooterNavItem, openSearchInput, isSearch } = useGlobalContext();
+	const { checkedFooterNavItem, openSearchInput, isSearch } =
+		useGlobalContext();
 
 	const [icon, setIcon] = useState("");
 	const [text, setText] = useState("");
-    
+
 	const fucShowIcons = () => {
 		if (checkedFooterNavItem === "") {
 			setIcon(home);
@@ -62,8 +63,8 @@ function Header({ openSidebar }) {
 	};
 	useEffect(() => {
 		fucShowIcons();
-	}, [ checkedFooterNavItem ]);
-    
+	}, [checkedFooterNavItem]);
+
 	return (
 		<div className="header">
 			<div>
@@ -72,7 +73,9 @@ function Header({ openSidebar }) {
 						<img src={menu} alt="menu" className="img-menu" />
 					</button>
 					<div>
-						<img src={logo} alt="logo" className="img-logo" />
+						<Link to="/">
+							<img src={logo} alt="logo" className="img-logo" />
+						</Link>
 					</div>
 					<div>
 						<img
@@ -95,13 +98,13 @@ function Header({ openSidebar }) {
 					<p className="text">/ {text}</p>
 				</div>
 				<div>
-                    <button onClick = {() => openSearchInput(!isSearch)}>
-                        <img
-                            src={search}
-                            alt="search"
-                            style={{ marginRight: "1em" }}
-                        />
-                    </button>
+					<button onClick={() => openSearchInput(!isSearch)}>
+						<img
+							src={search}
+							alt="search"
+							style={{ marginRight: "1em" }}
+						/>
+					</button>
 					<img src={slider} alt="slider" />
 				</div>
 			</div>

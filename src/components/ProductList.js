@@ -1,9 +1,11 @@
 import { Col, Row } from 'antd';
-import React from 'react'
+import React, { useState } from 'react'
 import product_img from "../img/document_pages_img/product.png";
 import other_img from "../img/document_pages_img/other.svg";
 import addProduct_img from "../img/document_pages_img/add-product.png";
 import barcode_img from "../img/document_pages_img/barcode.png";
+import BarcodeModal from './BarcodeModal';
+import { ConvertFixedTable } from '../functions/indexs';
 
 const ProductList = ({
 	setModalProductListForSelect,
@@ -11,7 +13,10 @@ const ProductList = ({
 	setIsModal2Open,
 	getDataForUpdateModal,
 	isFooterOpen,
+    getBarcodeProduct,
 }) => {
+
+	const [isModalBarcode, setIsModalBarcode] = useState(false);
 	return (
 		<div
 			className={
@@ -52,7 +57,7 @@ const ProductList = ({
 										</div>
 										<div className="quantity-price">
 											<p>
-												{Quantity}ed * {Price}<sub>₼</sub>
+												{Quantity}ed * {ConvertFixedTable(Price)}<sub>₼</sub>
 											</p>
 										</div>
 									</div>
@@ -71,7 +76,7 @@ const ProductList = ({
 			)}
 
 			<div className="add-buttons">
-				<button className="add-barcode">
+				<button onClick={() => setIsModalBarcode(true)} className="add-barcode">
 					<img src={barcode_img} alt="" />
 				</button>
 				<button
@@ -82,6 +87,9 @@ const ProductList = ({
 					<p>Məhsul əlavə et</p>
 				</button>
 			</div>
+
+            <BarcodeModal visible={isModalBarcode} setVisible={setIsModalBarcode} getBarcodeProduct={getBarcodeProduct} />
+
 		</div>
 	);
 };

@@ -1,4 +1,3 @@
-import { Col, Row } from "antd";
 import React, { useEffect, useMemo, useState } from "react";
 import MyForm from "../components/MyForm";
 import ProductListForSelect from "../components/ProductListForSelect";
@@ -9,23 +8,24 @@ import sendRequest from "../config/sentRequest";
 import Debt from "../components/Debt";
 import DocFooter from "../components/DocFooter";
 import ProductList from "../components/ProductList";
+import { message } from "antd";
 
 function Document() {
-	const { documentsItem, hideFooter } = useGlobalContext();
+	const { documentsItem, hideFooter, barckTo } = useGlobalContext();
 	const [isLoading, setIsLoading] = useState(false);
 	const [marks, setMarks] = useState("");
 	const [stocks, setStocks] = useState("");
 	const [gotProducts, setGotProducts] = useState([]);
 	const [products, setProducts] = useState([]);
 	const [isFooterOpen, setIsFoterOpen] = useState(false);
-
-	const [modalPrint, setModalPrint] = useState(false);
 	const [modalProductListForSelect, setModalProductListForSelect] =
 		useState(false);
 	const [isModal2Open, setIsModal2Open] = useState(false);
 	const [selectedProducts, setSelectedProducts] = useState([]);
 	const [dataForUpdateModal, getDataForUpdateModal] = useState("");
 	const [formValues, setFormValues] = useState();
+	const [barcodeProduct, setBarcodeProduct] = useState([]);
+	const [isChangeDocument, setIsChangeDocument] = useState(false);
 
 	const data = {
 		id: documentsItem.Id,
@@ -50,7 +50,7 @@ function Document() {
 	};
 
 	useEffect(() => {
-        hideFooter();
+		hideFooter();
 		getMarks();
 	}, []);
 	const getMarks = async () => {
@@ -76,10 +76,13 @@ function Document() {
 
 	useEffect(() => {
 		creatProductList();
-	}, [selectedProducts, gotProducts]);
+	}, [selectedProducts, gotProducts, barcodeProduct]);
 
 	const creatProductList = () => {
 		let productList = selectedProducts.concat(gotProducts);
+		if (barcodeProduct) {
+			productList = productList.concat(barcodeProduct);
+		}
 		setProducts(productList);
 	};
 	const deleteProduct = () => {
@@ -87,41 +90,39 @@ function Document() {
 		setProducts(newProductsArr);
 	};
 
-	const onChangeMarks = (item) => {
-		console.log("ishledi", item);
-	};
-	const onChangeStocks = (item) => {
-		data.stockid = item;
-		console.log("ishledi", item);
-		console.log("data", data);
-	};
-
 	const selectPrd = (arr) => {
+        setIsChangeDocument(true)
 		setSelectedProducts(arr);
 	};
-	const closeModal = () => {
-		setModalProductListForSelect(false);
+	const getBarcodeProduct = (newBarcodeProduct) => {
+        setIsChangeDocument(true)
+		setBarcodeProduct([...barcodeProduct, newBarcodeProduct]);
 	};
-	const closeModal2 = () => {
-		deleteProduct();
-		setIsModal2Open(false);
+	const getFormValues = (v) => {
+		setFormValues(v);
 	};
-    const getFormValues = (v) => {
-        setFormValues(v)
-    }
-	const saveButton = (values, submit) => {
+	const key = "updatable";
+	const saveButton = async () => {
+		message.loading({ content: "Loading...", key });
 		let newArr = products.map((item) => {
 			return {
-				ProductId: item.ProductId,
+				ProductId: item.ProductId ? item.ProductId : item.Id,
 				Quantity: item.Quantity,
 				Price: item.Price,
 			};
 		});
 		data.positions = newArr;
 		formValues.positions = newArr;
-        console.log("data",data)
-        console.log("formValues",formValues)
-		// sendRequest("demands/put.php", data);
+		let controller = barckTo;
+		let res = await sendRequest(controller + "/put.php", data);
+        if(res.ResponseStatus === '0') {
+            message.success({
+                content: "Dəyişikliklər yadda saxlanıldı!",
+                key,
+                duration: 2,
+            });
+            setIsChangeDocument(false)
+        }
 	};
 	const getQuantity = async (data) => {
 		products.forEach((item) => {
@@ -137,11 +138,16 @@ function Document() {
 
 	return (
 		<div className="document">
-			<MyForm stocks={stocks} initialValues={documentsItem} getFormValues={getFormValues} />
+			<MyForm
+				stocks={stocks}
+				initialValues={documentsItem}
+				getFormValues={getFormValues}
+				setIsChangeDocument={setIsChangeDocument}
+			/>
 
 			{isLoading && <MyLoading />}
-            
-            <Debt />
+
+			<Debt />
 
 			<ProductList
 				setModalProductListForSelect={setModalProductListForSelect}
@@ -149,28 +155,25 @@ function Document() {
 				products={products}
 				getDataForUpdateModal={getDataForUpdateModal}
 				setIsModal2Open={setIsModal2Open}
+				getBarcodeProduct={getBarcodeProduct}
 			/>
 			<DocFooter
 				products={products}
 				isFooterOpen={isFooterOpen}
 				setIsFoterOpen={setIsFoterOpen}
-                saveButton={saveButton}
+				saveButton={saveButton}
+				isChangeDocument={isChangeDocument}
+				setIsChangeDocument={setIsChangeDocument}
 			/>
 
 			<MyModal
 				visible={modalProductListForSelect}
 				setVisible={setModalProductListForSelect}
 			>
-				<ProductListForSelect close={setModalProductListForSelect} selectPrd={selectPrd} />
-			</MyModal>
-
-			<MyModal visible={modalPrint} setVisible={setModalPrint}>
-				<div>
-					<p style={{ color: "black" }}>Qaimə şablon seçin</p>
-					<button>A4</button>
-					<button>58 mm</button>
-					<button>78 mm</button>
-				</div>
+				<ProductListForSelect
+					close={setModalProductListForSelect}
+					selectPrd={selectPrd}
+				/>
 			</MyModal>
 		</div>
 	);

@@ -1,6 +1,7 @@
 
 import sendRequest from '../config/sentRequest'
 
+
 export const api = Object.freeze({
     async fetchData(controller, obj) {
         const response = await sendRequest(`${controller}/get.php`,obj)

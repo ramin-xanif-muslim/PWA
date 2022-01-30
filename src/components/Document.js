@@ -10,7 +10,6 @@ function Document(props) {
 	const onClick = () => {
 		getDocumentsItem(item);
         putBarckTo(from)
-        console.log("from",from)
 	};
 
     if(from === "products") { return <DocumentForProduct { ...props} onClick={onClick} />}

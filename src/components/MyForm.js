@@ -36,6 +36,7 @@ function MyForm(props) {
 		}
 	};
 	const setValue = (field, value) => {
+        props.setIsChangeDocument(true)
 		setValues((old) => ({ ...old, [field]: value }));
 	};
 
@@ -46,8 +47,6 @@ function MyForm(props) {
 
 	function onChange(value, dateString) {
 		setValue("Moment", dateString);
-		// console.log("Selected Time: ", value);
-		// console.log("Formatted Selected Time: ", dateString);
 	}
 
 	function onOk(value) {
