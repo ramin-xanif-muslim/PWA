@@ -26,17 +26,14 @@ function MyFastSearch({ url, getDataOnSearch }) {
             dr: 1,
         }
 		let res = await sendRequest(url, obj)
-        console.log(res)
-        getDataOnSearch(res)
+        getDataOnSearch(res.List)
 	};
 
-	const onSearch = () => {
-		searchFunc(searchTerm);
-	};
 	const onChange = (e) => {
 		setSearchTerm(e);
 		setIsPut(true);
 	};
+    
 	return (
         <Space direction="vertical">
             <Search
@@ -44,7 +41,6 @@ function MyFastSearch({ url, getDataOnSearch }) {
                 onChange={(e) => onChange(e.target.value)}
                 placeholder="Axtarış..."
                 allowClear
-                // onSearch={Search}
             />
         </Space>
 	);

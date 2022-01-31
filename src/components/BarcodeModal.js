@@ -71,8 +71,6 @@ function BarcodeModal(props) {
 			setTotalPrice(0);
 			setPrice(0);
 			setName("");
-		}
-		if (visible) {
 			setIsFocusOnRefInput(true);
 		}
 	}, [visible]);

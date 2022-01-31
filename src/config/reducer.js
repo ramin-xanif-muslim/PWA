@@ -25,9 +25,6 @@ const reducer = (state, action) => {
     if( action.type === 'BARCK_TO') {
         return { ...state, barckTo: action.payload }
     }
-    if( action.type === 'CUSTOMERS') {
-        return { ...state, customers: action.payload }
-    }
     return state
 }
 

@@ -65,10 +65,6 @@ function Header({ openSidebar }) {
 	useEffect(() => {
 		fucShowIcons();
 	}, [checkedFooterNavItem]);
-	useEffect(async() => {
-		let res = await sendRequest("/customers/get.php",{})
-        getCustomers(res.List)
-	}, []);
 
 	return (
 		<div className="header">

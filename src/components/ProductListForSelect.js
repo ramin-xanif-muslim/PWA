@@ -26,6 +26,7 @@ function ProductListForSelect(props) {
 	const [indexProductList, setIndexProductList] = useState(null);
 	const [quantity, setQuantity] = useState(1);
 	const [discount, setDiscount] = useState(0);
+	const [products, setProducts] = useState([]);
 
 	const select = () => {
 		props.close(false);
@@ -46,27 +47,25 @@ function ProductListForSelect(props) {
 			setQuantity(1);
 		}
 	}, [quantity]);
+	useEffect(() => {
+		if (props.data) {
+			setProducts(props.data.List);
+		}
+	}, [props.data]);
     const getDataOnSearch = (dataOnSearch) => {
-        console.log(dataOnSearch)
+        setProducts(dataOnSearch)
     }
 	return (
 		<div className="select-products-modal">
 			<div className="select-product-header">
 				<h2>Məhsullar</h2>
-				{/* <Space direction="vertical">
-					<Search
-						placeholder="Məhsul axtarışı..."
-						allowClear
-						onSearch={Search}
-					/>
-				</Space> */}
                 <MyFastSearch url="products/getfast.php" getDataOnSearch={getDataOnSearch} />
 			</div>
 			<ProductList
 				setModal={setModal}
 				setIndexProductList={setIndexProductList}
 				setItem={setItem}
-				products={props.data ? props.data.List : []}
+				products={products ? products : []}
 			/>
 			<button onClick={select}>SƏNƏDƏ QAYIT</button>
 			<MyModal style={style} visible={modal} setVisible={setModal}>

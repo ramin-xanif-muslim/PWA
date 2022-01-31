@@ -1,4 +1,4 @@
-
+import React from "react";
 import plus_img from "../img/document_pages_img/plus.svg";
 import minus_img from "../img/document_pages_img/minus.svg";
 

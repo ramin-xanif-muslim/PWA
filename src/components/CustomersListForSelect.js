@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from "react";
 import "../styles/SelectProducts.css";
-import nullProduct_img from "../img/document_pages_img/null-product.png";
 import { Input, Space } from "antd";
-import { useGlobalContext } from '../config/context';
+import MyFastSearch from "./MyFastSearch";
+import withLoading from "../HOC/withLoading";
 
 const { Search } = Input;
 
 function CustomersListForSelect(props) {
-    const { customers } = useGlobalContext()
+	const [customers, setCustomers] = useState([]);
+
+	useEffect(() => {
+		if (props.data) {
+			setCustomers(props.data.List);
+		}
+	}, [props.data]);
+
+    const getDataOnSearch = (dataOnSearch) => {
+        setCustomers(dataOnSearch)
+    }
 
 	return (
 		<div className="select-products-modal">
 			<div className="select-product-header">
 				<h2>Müştəri</h2>
-				<Space direction="vertical">
-					<Search
-						placeholder="Müştəri axtarışı..."
-						allowClear
-						onSearch={Search}
-					/>
-				</Space>
+				
+                <MyFastSearch url="customers/getfast.php" getDataOnSearch={getDataOnSearch} />
 			</div>
 			<CustomerList
 				customers={customers}
@@ -29,7 +34,7 @@ function CustomersListForSelect(props) {
 	);
 }
 
-export default CustomersListForSelect;
+export default withLoading(CustomersListForSelect, "customers");
 
 const CustomerList = ({ customers, setModal, setIndexProductList, setItem }) => {
 	return (
@@ -39,14 +44,15 @@ const CustomerList = ({ customers, setModal, setIndexProductList, setItem }) => 
 					const { Id, Name } = item;
 
 					return (
-						<div key={Id}>
-							<label className="product" htmlFor={`product${Id}`}>
+						<div key={Id} style={{backgroundColor:"white"}}>
+							{/* <label className="product" htmlFor={`product${Id}`}>
 								<p className="index">{index + 1}</p>
 								<img src={nullProduct_img} alt=""></img>
 								<div className="texts">
 									<p className="name">{Name}</p>
 								</div>
-							</label>
+							</label> */}
+                            <p>{Name}</p>
 						</div>
 					);
 				})
