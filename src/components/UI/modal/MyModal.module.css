@@ -1,11 +1,11 @@
 .myModal {
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	right: 0;
-	left: 0;
-	display: none;
-	background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: none;
+    background: rgba(0, 0, 0, 0.5);
     transform: translate(-100%);
 }
 
@@ -13,8 +13,9 @@
 }
 
 .myModal.active {
-	display: flex;
+    display: flex;
     transform: translate(0);
-	/* justify-content: center;
+    z-index: 1;
+    /* justify-content: center;
     align-items: center; */
 }

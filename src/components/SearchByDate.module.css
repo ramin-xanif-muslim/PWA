@@ -1,9 +1,12 @@
+.ul {
+    margin: 0;
+}
 .ul:first-child {
-	list-style: none;
+    list-style: none;
 }
 .ul li {
-	color: var(--blue);
+    color: var(--blue);
 }
 .ul li::marker {
-	color: #000;
+    color: #000;
 }

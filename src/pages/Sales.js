@@ -5,13 +5,13 @@ import withLoading from "../HOC/withLoading";
 import withSerchByDate from "../HOC/withSerchByDate";
 
 function Spenditems(props) {
-	return (
-		<div>
-			<DocumentList list={props.data} from={props.from} />
+    return (
+        <div>
+            <DocumentList list={props.data} from={props.from} />
 
-			<DocumentListFooter {...props} />
-		</div>
-	);
+            <DocumentListFooter {...props} />
+        </div>
+    );
 }
 
 export default withLoading(withSerchByDate(Spenditems, "sales"), "sales");

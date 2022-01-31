@@ -2,11 +2,16 @@ input:focus {
     outline: none;
 }
 
+button:focus {
+    outline: none !important;
+}
+
 .select-products-modal {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: #fff;
 }
 
 .select-products-modal > button {
@@ -16,8 +21,9 @@ input:focus {
     background: var(--dark-blue);
     color: #fff;
     border-radius: 5px;
-    font-size: 1.3em; 
-    padding: 0.6rem 12rem;
+    font-size: 1.3em;
+    width: 85%;
+    height: 40px;
 }
 
 .select-product-header {
@@ -35,16 +41,17 @@ input:focus {
     color: #fff;
 }
 
-.ant-space { 
+.ant-space {
     width: 100%;
 }
 
 .select-products-body {
     height: calc(100vh - 66px);
     overflow: auto;
+    padding-bottom: 90px;
 }
 
-.product { 
+.product {
     background-color: #fff;
     display: flex;
     align-items: center;
@@ -68,9 +75,10 @@ input:focus {
     flex: 1;
 }
 
-.product .texts .barcode, .product .texts .number {
+.product .texts .barcode,
+.product .texts .number {
     opacity: 0.7;
-} 
+}
 
 .product .texts .number {
     display: flex;
@@ -85,7 +93,7 @@ input:focus {
     color: red;
 }
 
-.set-data { 
+.set-data {
     text-align: center;
 }
 
@@ -95,6 +103,7 @@ input:focus {
 
 .set-data-body .quantity {
     opacity: 0.7;
+    margin: 0;
 }
 
 .set-data-body .set-quantity {
@@ -108,6 +117,7 @@ input:focus {
     font-size: 1.3em;
     border-bottom: 1px solid var(--dark-blue);
     margin: 0 2rem;
+    width: 100%;
 }
 
 .set-data-body .set-quantity button {
@@ -123,39 +133,25 @@ input:focus {
     margin: 0;
 }
 
+.set-data-body .amount,
 .set-data-body .price {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin: 1rem 0;
+    margin: 1rem;
 }
 
+.set-data-body .amount label,
 .set-data-body .price label {
     font-weight: 400;
 }
 
+.set-data-body .amount input,
 .set-data-body .price input {
     border: none;
     border-bottom: 1px solid var(--dark-blue);
     width: 100%;
     font-size: 1.2em;
-}
-
-.set-data-body .discount, .set-data-body .amount {
-    display: flex;
-    justify-content: start;
-    margin: 0.5rem 0;
-}
-
-.set-data-body .discount label, .set-data-body .amount label {
-    font-weight: 400;
-    margin-right: 1rem;
-}
-
-.set-data-body .discount input, .set-data-body .amount input {
-    border: none;
-    font-size: 1.2em;
-    width: 25%;
 }
 
 .set-data-body > button {
@@ -167,4 +163,29 @@ input:focus {
     color: #fff;
     font-size: 1.2em;
     border-radius: 5px;
+}
+
+.barcode-list-modal {
+    width: 100%;
+    background: #fff;
+}
+
+.quantity-amount {
+    display: flex;
+    justify-content: space-between;
+}
+
+.barcode-text {
+    border: 1px solid var(--dark-blue);
+    margin: 0.5rem;
+    padding: 0.3rem 1rem;
+    border-radius: 3px;
+}
+
+.hr {
+    margin-bottom: 0;
+}
+
+.btn-ok {
+    margin-top: 1rem;
 }
