@@ -10,8 +10,6 @@ import {
 	customersLinks,
 	financeLinks,
 	relateLinks,
-	reportsLinks,
-	transactionsLinks,
 } from "../config/data";
 import "../styles/Content.css";
 
@@ -23,7 +21,7 @@ function Content(props) {
         showFooter()
     },[])
 
-	const fucShowIcons = () => {
+	const showIconsFunction = () => {
 		if (checkedFooterNavItem === 1) {
 			setShowIcons(dashboardLinks);
 			return;
@@ -59,7 +57,7 @@ function Content(props) {
 		return setShowIcons(dashboardLinks);
 	};
 	useEffect(() => {
-		fucShowIcons();
+		showIconsFunction();
 	}, [checkedFooterNavItem]);
 
 	return (

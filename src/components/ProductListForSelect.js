@@ -7,6 +7,7 @@ import plus_img from "../img/document_pages_img/plus.svg";
 import minus_img from "../img/document_pages_img/minus.svg";
 import { Input, Space } from "antd";
 import { AudioOutlined } from "@ant-design/icons";
+import MyFastSearch from "./MyFastSearch";
 
 const { Search } = Input;
 
@@ -45,18 +46,21 @@ function ProductListForSelect(props) {
 			setQuantity(1);
 		}
 	}, [quantity]);
-
+    const getDataOnSearch = (dataOnSearch) => {
+        console.log(dataOnSearch)
+    }
 	return (
 		<div className="select-products-modal">
 			<div className="select-product-header">
 				<h2>Məhsullar</h2>
-				<Space direction="vertical">
+				{/* <Space direction="vertical">
 					<Search
 						placeholder="Məhsul axtarışı..."
 						allowClear
 						onSearch={Search}
 					/>
-				</Space>
+				</Space> */}
+                <MyFastSearch url="products/getfast.php" getDataOnSearch={getDataOnSearch} />
 			</div>
 			<ProductList
 				setModal={setModal}

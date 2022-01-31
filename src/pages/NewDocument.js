@@ -10,15 +10,13 @@ import DocFooter from "../components/DocFooter";
 import ProductList from "../components/ProductList";
 import { message } from "antd";
 import { keysToLowerCase } from "../functions/indexs";
-import CustomersListForSelect from "../components/CustomersListForSelect";
 
-function Document() {
-	const { documentsItem, hideFooter, barckTo } = useGlobalContext();
+function NewDocument () {
+	const { hideFooter, barckTo } = useGlobalContext();
 	const [isLoading, setIsLoading] = useState(false);
 	const [marks, setMarks] = useState("");
 	const [stocks, setStocks] = useState("");
-	const [customers, setCustomers] = useState("");
-	const [gotProducts, setGotProducts] = useState([]);
+	// const [gotProducts, setGotProducts] = useState([]);
 	const [products, setProducts] = useState([]);
 	const [isFooterOpen, setIsFoterOpen] = useState(false);
 	const [modalProductListForSelect, setModalProductListForSelect] =
@@ -30,65 +28,22 @@ function Document() {
 	const [barcodeProduct, setBarcodeProduct] = useState([]);
 	const [isChangeDocument, setIsChangeDocument] = useState(false);
 
-	const data = {
-		id: documentsItem.Id,
-		name: documentsItem.Name,
-		moment: documentsItem.Moment,
-		stockname: documentsItem.StockName,
-		modify: documentsItem.Modify,
-		stockid: documentsItem.StockId,
-		mark: documentsItem.Mark,
-		customerid: documentsItem.CustomerId,
-		customername: documentsItem.CustomerName,
-		departmentid: documentsItem.DepartmentId,
-		ownerid: documentsItem.OwnerId,
-		status: documentsItem.Status,
-		description: documentsItem.Description,
-		consumption: documentsItem.Consumption,
-		profit: documentsItem.Profit,
-		amount: documentsItem.Amount,
-		discount: documentsItem.Discount,
-		customerdiscount: documentsItem.CustomerDiscount,
-		positions: documentsItem.Positions,
-	};
-
 	useEffect(() => {
 		hideFooter();
-		// getMarks();
 	}, []);
-	const getMarks = async () => {
-		setIsLoading(true);
-		let res = await sendRequest("marks/get.php", {});
-		setMarks(res.List);
-		setIsLoading(false);
-	};
 	useEffect(async () => {
 		setIsLoading(true);
 		let res = await sendRequest("stocks/get.php", {});
 		setStocks(res.List);
 		setIsLoading(false);
 	}, []);
-	useEffect(async () => {
-		setIsLoading(true);
-		let res = await sendRequest("customers/get.php", {});
-		setCustomers(res.List);
-		setIsLoading(false);
-	}, []);
-
-	useEffect(async () => {
-		setIsLoading(true);
-		let obj = { id: documentsItem && documentsItem.Id };
-		let res = await sendRequest("demands/get.php", obj);
-		setGotProducts(res.List[0].Positions);
-		setIsLoading(false);
-	}, []);
 
 	useEffect(() => {
 		creatProductList();
-	}, [selectedProducts, gotProducts, barcodeProduct]);
+	}, [selectedProducts, barcodeProduct]);
 
 	const creatProductList = () => {
-		let productList = selectedProducts.concat(gotProducts);
+		let productList = selectedProducts
 		if (barcodeProduct) {
 			productList = productList.concat(barcodeProduct);
 		}
@@ -100,11 +55,11 @@ function Document() {
 	};
 
 	const selectPrd = (arr) => {
-		setIsChangeDocument(true);
+        setIsChangeDocument(true)
 		setSelectedProducts(arr);
 	};
 	const getBarcodeProduct = (newBarcodeProduct) => {
-		setIsChangeDocument(true);
+        setIsChangeDocument(true)
 		setBarcodeProduct([...barcodeProduct, newBarcodeProduct]);
 	};
 	const getFormValues = (v) => {
@@ -113,29 +68,29 @@ function Document() {
 	const key = "updatable";
 	const saveButton = async () => {
 		message.loading({ content: "Loading...", key });
-		let newArr = [];
-		if (products[0]) {
-			newArr = products.map((item) => {
-				return {
-					ProductId: item.ProductId ? item.ProductId : item.Id,
-					Quantity: item.Quantity,
-					Price: item.Price,
-				};
-			});
-		}
-		data.positions = newArr;
+		let newArr = products.map((item) => {
+			return {
+				ProductId: item.ProductId ? item.ProductId : item.Id,
+				Quantity: item.Quantity,
+				Price: item.Price,
+			};
+		});
 		formValues.positions = newArr;
 		let controller = barckTo;
-		let sendObj = keysToLowerCase(formValues);
-		let res = await sendRequest(controller + "/put.php", sendObj);
-		if (res.ResponseStatus === "0") {
-			message.success({
-				content: "Dəyişikliklər yadda saxlanıldı!",
-				key,
-				duration: 2,
-			});
-			setIsChangeDocument(false);
-		}
+        let sendObj = keysToLowerCase(formValues)
+		let responseName = await sendRequest(controller + "/newname.php", { name: sendObj.name ? sendObj.name : "" });
+        sendObj.name = responseName.ResponseService
+        let res = await sendRequest(controller + "/put.php", sendObj )
+        console.log(res)
+
+        // if(res.ResponseStatus === '0') {
+        //     message.success({
+        //         content: "Dəyişikliklər yadda saxlanıldı!",
+        //         key,
+        //         duration: 2,
+        //     });
+        //     setIsChangeDocument(false)
+        // }
 	};
 	const getQuantity = async (data) => {
 		products.forEach((item) => {
@@ -152,16 +107,15 @@ function Document() {
 	return (
 		<div className="document">
 			<MyForm
-				customers={customers}
 				stocks={stocks}
-				initialValues={documentsItem}
+				initialValues={null}
 				getFormValues={getFormValues}
 				setIsChangeDocument={setIsChangeDocument}
 			/>
 
 			{isLoading && <MyLoading />}
 
-			<Debt />
+			<Debt isNew={true} />
 
 			<ProductList
 				setModalProductListForSelect={setModalProductListForSelect}
@@ -193,4 +147,4 @@ function Document() {
 	);
 }
 
-export default Document;
+export default NewDocument;

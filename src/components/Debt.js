@@ -4,16 +4,18 @@ import sendRequest from '../config/sentRequest';
 import { ConvertFixedTable } from '../functions/indexs'
 
 
-const Debt = () => {
+const Debt = ({ isNew }) => {
 
 	const { documentsItem, hideFooter } = useGlobalContext();
 
 	const [debt, setDebt] = useState();
 
 	useEffect(async () => {
-		let obj = { id: documentsItem && documentsItem.CustomerId };
-		let res = await sendRequest("customers/getdata.php", obj);
-		setDebt(res.Debt);
+        if(!isNew) {
+            let obj = { id: documentsItem && documentsItem.CustomerId };
+            let res = await sendRequest("customers/getdata.php", obj);
+            setDebt(res.Debt);
+        } 
 	}, []);
 
     return (

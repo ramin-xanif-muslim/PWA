@@ -3,6 +3,7 @@ import MyModal from "./UI/modal/MyModal";
 import plus_img from "../img/document_pages_img/plus.svg";
 import minus_img from "../img/document_pages_img/minus.svg";
 import sendRequest from "../config/sentRequest";
+import { ConvertFixedTable } from "../functions/indexs";
 
 const style = {
 	width: "100%",
@@ -14,8 +15,13 @@ function BarcodeModal(props) {
 	const { visible, setVisible } = props;
 	const [quantity, setQuantity] = useState(1);
 	const [data, setData] = useState("");
+	const [name, setName] = useState("");
+	const [price, setPrice] = useState();
+	const [totalPrice, setTotalPrice] = useState();
+	const [isFocusOnRefInput, setIsFocusOnRefInput] = useState(true);
+	const [isDisableBarcodeInput, setIsDisableBarcodeInput] = useState(false);
 
-    const refInput = useRef()
+	const refInput = useRef();
 
 	const getBarcode = async () => {
 		let res = await sendRequest("products/getfast.php", {
@@ -24,16 +30,27 @@ function BarcodeModal(props) {
 		console.log(res.List[0]);
 		if (res.List[0]) {
 			setData(res.List[0]);
+			setPrice(ConvertFixedTable(Number(res.List[0].Price)));
+			setName(res.List[0].Name);
 		} else {
-			setData({ Name: "Məhsul tapılmadı" });
+			setName("Məhsul tapılmadı");
 		}
+		setSearchTerm("");
+		setIsDisableBarcodeInput(false);
 	};
+	useEffect(() => {
+		if (data) {
+			setTotalPrice(quantity * price);
+		}
+	}, [quantity, price]);
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			if (searchTerm) {
 				if (!isNaN(searchTerm) && searchTerm.length === 13) {
 					getBarcode();
+					setIsFocusOnRefInput(false);
+					setIsDisableBarcodeInput(true);
 				}
 			} else {
 				console.log("searchterm", searchTerm);
@@ -50,28 +67,42 @@ function BarcodeModal(props) {
 	useEffect(() => {
 		if (visible === false) {
 			setSearchTerm("");
-            setQuantity(1)
+			setQuantity(1);
+			setTotalPrice(0);
+			setPrice(0);
+			setName("");
+		}
+		if (visible) {
+			setIsFocusOnRefInput(true);
 		}
 	}, [visible]);
 
 	const onOk = () => {
-        if(data && data.Name !== "Məhsul tapılmadı" ){
-            data.Quantity = quantity;
-            props.getBarcodeProduct(data);
-        }
-        setVisible(false);
+		if (data && name !== "Məhsul tapılmadı") {
+			data.Quantity = quantity;
+			data.Price = price;
+			props.getBarcodeProduct(data);
+		}
+		setSearchTerm("");
+		setQuantity(1);
+		setTotalPrice(0);
+		setPrice(0);
+		setName("");
+		setIsFocusOnRefInput(true);
 	};
 
 	return (
 		<MyModal style={style} visible={visible} setVisible={setVisible}>
 			<div className="set-data">
 				<input
-                ref={refInput => refInput && refInput.focus()}
-                autoFocus={true}
+					ref={(refInput) =>
+						isFocusOnRefInput && refInput && refInput.focus()
+					}
+					disabled={isDisableBarcodeInput}
 					value={searchTerm}
 					onChange={(e) => setSearchTerm(e.target.value)}
 				/>
-				<p className="product-name">{data ? data.Name : ""}</p>
+				<p className="product-name">{name}</p>
 
 				<hr />
 				<div className="set-data-body">
@@ -97,15 +128,30 @@ function BarcodeModal(props) {
 							<img src={plus_img} alt=""></img>
 						</button>
 					</div>
+					<div className="price">
+						<label htmlFor="price">Qiymət</label>
+						<input
+							value={price}
+							onChange={(e) => setPrice(Number(e.target.value))}
+							id="price"
+							type="number"
+							placeholder="₼"
+						></input>
+					</div>
 					<div className="amount">
 						<label htmlFor="amount">Məbləğ:</label>
 						<input
+							value={totalPrice}
+							onChange={(e) =>
+								setTotalPrice(Number(e.target.value))
+							}
 							id="amount"
 							type="number"
 							placeholder="₼"
 						></input>
 					</div>
 					<button onClick={onOk}>Təsdiq et</button>
+					<button onClick={() => setVisible(false)}>Bagla</button>
 				</div>
 			</div>
 		</MyModal>

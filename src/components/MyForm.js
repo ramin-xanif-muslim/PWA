@@ -7,26 +7,31 @@ import description_img from "../img/document_pages_img/description.png";
 import status_img from "../img/document_pages_img/status.png";
 import miniArrow_img from "../img/document_pages_img/mini-arrow.svg";
 import miniArrowDown_img from "../img/document_pages_img/mini-arrow-down.svg";
-import { Col, DatePicker, Row, Space, Typography } from "antd";
+import { Col, DatePicker, Row, Space } from "antd";
 import "../styles/Documents.css";
-import MySelect from "./UI/select/MySelect";
+import SelectStock from "./UI/select/SelectStock";
+import MyModal from "./UI/modal/MyModal";
+import CustomersListForSelect from "./CustomersListForSelect";
 
 function MyForm(props) {
-	const [values, setValues] = useState(props.initialValues);
+	const [values, setValues] = useState(
+		props.initialValues ? props.initialValues : ""
+	);
 	const [isFetching, setFetching] = useState(false);
 	const [showMoreForm, setShowMoreForm] = useState(false);
+	const [modalCustomersListForSelect, setModalCustomersListForSelect] =
+		useState(false);
 
-    useEffect(() => {
-        props.getFormValues(values)
-    },[values])
+	useEffect(() => {
+		props.getFormValues(values);
+	}, [values]);
 
 	const submit = async (e) => {
 		e.preventDefault();
 
 		try {
 			setFetching(true);
-			await props.saveButton(values, submit)
-			console.log(values);
+			await props.saveButton(values, submit);
 		} finally {
 			setFetching(false);
 
@@ -36,13 +41,14 @@ function MyForm(props) {
 		}
 	};
 	const setValue = (field, value) => {
-        props.setIsChangeDocument(true)
+		props.setIsChangeDocument(true);
 		setValues((old) => ({ ...old, [field]: value }));
 	};
 
 	useEffect(() => {
-		console.log(props.initialValues);
-		setValues(props.initialValues);
+		if (props.initialValues) {
+			setValues(props.initialValues);
+		}
 	}, [props.initialValues]);
 
 	function onChange(value, dateString) {
@@ -104,6 +110,26 @@ function MyForm(props) {
 						</Row>
 						<Row className="doc-form-row">
 							<Col className="form-icons" span={3}>
+								<img src={moment_img} />
+							</Col>
+							<Col className="form-label" span={6}>
+								<label htmlFor="moment">Tarix:</label>
+							</Col>
+							<Col className="form-input" span={12}>
+								<Space direction="vertical">
+									<DatePicker
+										onChange={onChange}
+										className="date-picker"
+										placeholder="tarix"
+									/>
+								</Space>
+							</Col>
+							<Col className="form-icons" span={3}>
+								<img src={miniArrow_img} />
+							</Col>
+						</Row>
+						<Row className="doc-form-row">
+							<Col className="form-icons" span={3}>
 								<img src={status_img} />
 							</Col>
 							<Col className="form-label" span={6}>
@@ -154,37 +180,16 @@ function MyForm(props) {
 
 				<Row className="doc-form-row">
 					<Col className="form-icons" span={3}>
-						<img src={moment_img} />
-					</Col>
-					<Col className="form-label" span={6}>
-						<label htmlFor="moment">Tarix:</label>
-					</Col>
-					<Col className="form-input" span={12}>
-						<Space direction="vertical">
-							<DatePicker
-								onChange={onChange}
-								className="date-picker"
-								placeholder="tarix"
-							/>
-						</Space>
-					</Col>
-					<Col className="form-icons" span={3}>
-						<img src={miniArrow_img} />
-					</Col>
-				</Row>
-
-				<Row className="doc-form-row">
-					<Col className="form-icons" span={3}>
 						<img src={stock_img} />
 					</Col>
 					<Col className="form-label" span={6}>
-						<label htmlFor="status">Əsas Anbar:</label>
+						<label htmlFor="status">Anbar:</label>
 					</Col>
 					<Col className="form-input" span={12}>
-						<MySelect
+						<SelectStock
 							defaultValue={values?.StockName ?? ""}
 							options={props.stocks}
-							onChange={(e) => setValue("StockName", e)}
+							setValue={setValue}
 						/>
 					</Col>
 					<Col className="form-icons" span={3}>
@@ -200,6 +205,7 @@ function MyForm(props) {
 						className="form-input"
 						span={18}
 						style={{ padding: "0 1rem", justifyContent: "start" }}
+                        onClick={() => setModalCustomersListForSelect(true)}
 					>
 						<input
 							style={{ width: "100%" }}
@@ -219,6 +225,14 @@ function MyForm(props) {
 					</Col>
 				</Row>
 			</fieldset>
+			<MyModal
+				visible={modalCustomersListForSelect}
+				setVisible={setModalCustomersListForSelect}
+			>
+				<CustomersListForSelect
+					close={setModalCustomersListForSelect}
+				/>
+			</MyModal>
 		</form>
 	);
 }

@@ -1,6 +1,5 @@
 import { Select } from "antd";
-import { Option } from "antd/lib/mentions";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 //<MySelect defaultValue='...' options={options} onChange={onChangeSelect} value={selected}/>
 
@@ -10,24 +9,30 @@ import React from "react";
 //   setSelected(value)
 //}
 
-function MySelect({ options, defaultValue, onChange, value }) {
+function SelectStock({ options, defaultValue, setValue, value }) {
 	const { Option } = Select;
+	const [optionItems, setOptionItems] = useState([]);
 
-	function handleChange(value) {
-		console.log(`selected ${value}`);
-	}
+    useEffect(() => {
+        if(optionItems[0]) {
+            setValue("StockName", optionItems[1])
+            setValue("StockId", optionItems[0])
+        }
+    },[optionItems])
 
 	return (
 		<Select
 			defaultValue={defaultValue}
 			value={value}
-			onChange={(e) => onChange(e)}
 		>
 			{options
 				? options.map((option) => {
+						let arr = Object.values(option);
 						return (
 							<Option value={option.Name} key={option.Id}>
-								{option.Name}
+								<div onClick={() => setOptionItems(arr)}>
+									{option.Name}
+								</div>
 							</Option>
 						);
 				  })
@@ -36,4 +41,4 @@ function MySelect({ options, defaultValue, onChange, value }) {
 	);
 }
 
-export default MySelect;
+export default SelectStock;

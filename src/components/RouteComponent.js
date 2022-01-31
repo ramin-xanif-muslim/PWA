@@ -7,6 +7,7 @@ import Customers from "../pages/Customers";
 import Dashboards from "../pages/Dashboards";
 import Demandreturns from "../pages/Demandreturns";
 import Demands from "../pages/Demands";
+import NewDocument from "../pages/NewDocument";
 import Documents from "../pages/Documents";
 import Enters from "../pages/Enters";
 import LoginPage from "../pages/LoginPage";
@@ -34,6 +35,7 @@ function RouteComponent(props) {
 			<Route path="/demands" element={<Demands />} />
 			<Route path="/documents" element={<Documents />} />
 			<Route path="/document" element={<TabContends />} />
+			<Route path="/newdocument" element={<NewDocument />} />
 			<Route path="/supplies" element={<Supply />} />
 			<Route path="/supplyreturns" element={<Supplyreturns />} />
 			<Route path="/demandreturns" element={<Demandreturns />} />
@@ -52,7 +54,7 @@ function RouteComponent(props) {
 			<Route path="/settlements" element={<Settlements />} />
 			<Route path="/cashins" element={<Cashins />} />
 			<Route path="/cashouts" element={<Cashouts />} />
-			{/* <Route path="*" element={<Navigate to='/' />} /> */}
+			<Route path="*" element={<Navigate to='/' />} />
 		</Routes>
 	);
 }

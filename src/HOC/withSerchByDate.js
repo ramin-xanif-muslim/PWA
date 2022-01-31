@@ -8,7 +8,9 @@ import { useGlobalContext } from "../config/context";
 
 function withSerchByDate(Component, controller) {
 	return (props) => {
-		const { isSearch, hideFooter } = useGlobalContext();
+
+		let navigate = useNavigate();
+		const { isSearch, hideFooter, putBarckTo } = useGlobalContext();
 
 		const [data, setData] = useState();
 		const [isLoading, setLoading] = useState(false);
@@ -39,10 +41,9 @@ function withSerchByDate(Component, controller) {
 			fetchData();
 		};
 
-		let navigate = useNavigate();
-
 		function handleClickOnPlusBtn() {
-			navigate(`/${controller}`);
+			navigate(`/newdocument`);
+            putBarckTo(controller)
 		}
 
 		useEffect(() => {
@@ -50,7 +51,6 @@ function withSerchByDate(Component, controller) {
 				hideFooter();
 			}
 			setData(props.data);
-			console.log("props.data", props.data);
 		}, []);
 		useEffect(() => {
 			if (!isSearch) {
