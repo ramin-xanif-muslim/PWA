@@ -6,6 +6,8 @@ import addProduct_img from "../img/document_pages_img/add-product.png";
 import barcode_img from "../img/document_pages_img/barcode.png";
 import BarcodeModal from "./BarcodeModal";
 import { ConvertFixedTable } from "../functions/indexs";
+import ModalEditProductParams from "./ModalEditProductParams";
+import MyModal from "./UI/modal/MyModal";
 
 const ProductList = ({
     setModalProductListForSelect,
@@ -16,6 +18,8 @@ const ProductList = ({
     getBarcodeProduct,
 }) => {
     const [isModalBarcode, setIsModalBarcode] = useState(false);
+    const [isModalEditProductParams, setIsModalEditProductParams] =
+        useState(false);
     return (
         <div
             className={
@@ -26,7 +30,8 @@ const ProductList = ({
         >
             {products[0] ? (
                 products.map((item, index) => {
-                    const { Name, StockQuantity, Quantity, Id, Price } = item;
+                    const { Name, StockBalance, Quantity, Id, Price, BarCode } =
+                        item;
                     let amount = Price * Quantity;
                     const onClick = () => {
                         setIsModal2Open(true);
@@ -41,12 +46,15 @@ const ProductList = ({
                                 <Col className="body" span={20}>
                                     <div className="text">
                                         <p className="product-name">{Name}</p>
+                                        <p className="product-barcode">
+                                            {BarCode}
+                                        </p>
                                         <div>
                                             <img src={product_img} alt="" />
                                             <p className="stock-quantity">
-                                                {StockQuantity
-                                                    ? 0
-                                                    : StockQuantity}
+                                                {StockBalance
+                                                    ? StockBalance
+                                                    : 0}
                                             </p>
                                         </div>
                                     </div>
@@ -97,6 +105,18 @@ const ProductList = ({
                 </button>
             </div>
 
+            {/* <MyModal style={style} visible={isModalEditProductParams} setVisible={setIsModalEditProductParams}>
+                <ModalEditProductParams 
+                    item={item}
+                    setItem={setItem}
+                    quantity={quantity}
+                    setQuantity={setQuantity}
+                    putQuantity={putQuantity}
+                    discount={discount}
+                    setDiscount={setDiscount}
+                />
+			</MyModal> */}
+
             <BarcodeModal
                 visible={isModalBarcode}
                 setVisible={setIsModalBarcode}
@@ -107,3 +127,10 @@ const ProductList = ({
 };
 
 export default ProductList;
+
+const style = {
+    position: "absolute",
+    bottom: "0",
+    width: "100%",
+    background: "#fff",
+};

@@ -7,6 +7,7 @@ import { AudioOutlined } from "@ant-design/icons";
 import MyFastSearch from "./MyFastSearch";
 import ModalEditProductParams from "./ModalEditProductParams";
 import { useGlobalContext } from "../config/context";
+import { api } from "../api/api";
 
 const { Search } = Input;
 
@@ -26,7 +27,7 @@ function ProductListForSelect(props) {
 	const [indexProductList, setIndexProductList] = useState(null);
 	const [quantity, setQuantity] = useState(1);
 	const [discount, setDiscount] = useState(0);
-	const [products, setProducts] = useState([]);
+	const [products, setProducts] = useState();
 
 	const select = () => {
 		props.close(false);
@@ -35,11 +36,11 @@ function ProductListForSelect(props) {
 	};
 
 	const putQuantity = () => {
-		storeProducts[indexProductList].Quantity = quantity;
-		storeProducts[indexProductList].Discount = discount;
-		storeProducts[indexProductList].Price = item.Price;
+		products[indexProductList].Quantity = quantity;
+		products[indexProductList].Discount = discount;
+		products[indexProductList].Price = item.Price;
 		setModal(false);
-        setDiscount(null)
+		setDiscount(null);
 		setQuantity(1);
 	};
 	useEffect(() => {
@@ -52,14 +53,22 @@ function ProductListForSelect(props) {
 			setProducts(storeProducts);
 		}
 	}, [storeProducts]);
-    const getDataOnSearch = (dataOnSearch) => {
-        setProducts(dataOnSearch)
-    }
+	const getDataOnSearch = (dataOnSearch) => {
+		setProducts(dataOnSearch);
+	};
+	const getAllProducts = async() => {
+		let res = await api.fetchProducts();
+        console.log(res)
+	};
 	return (
 		<div className="select-products-modal">
 			<div className="select-product-header">
 				<h2>Məhsullar</h2>
-                <MyFastSearch url="products/getfast.php" getDataOnSearch={getDataOnSearch} />
+				<MyFastSearch
+					url="products/getfast.php"
+					getDataOnSearch={getDataOnSearch}
+				/>
+                <button onClick={() => getAllProducts() }>Click</button>
 			</div>
 			<ProductList
 				setModal={setModal}
@@ -69,23 +78,21 @@ function ProductListForSelect(props) {
 			/>
 			<button onClick={select}>SƏNƏDƏ QAYIT</button>
 			<MyModal style={style} visible={modal} setVisible={setModal}>
-                <ModalEditProductParams 
-                    item={item}
-                    setItem={setItem}
-                    quantity={quantity}
-                    setQuantity={setQuantity}
-                    putQuantity={putQuantity}
-                    discount={discount}
-                    setDiscount={setDiscount}
-                />
+				<ModalEditProductParams
+					item={item}
+					setItem={setItem}
+					quantity={quantity}
+					setQuantity={setQuantity}
+					putQuantity={putQuantity}
+					discount={discount}
+					setDiscount={setDiscount}
+				/>
 			</MyModal>
 		</div>
 	);
 }
 
-export default ProductListForSelect
-
-
+export default ProductListForSelect;
 
 const ProductList = ({ products, setModal, setIndexProductList, setItem }) => {
 	return (

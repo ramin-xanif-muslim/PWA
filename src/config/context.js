@@ -41,17 +41,20 @@ export const AppProvider = ({ children }) => {
     const putBarckTo = (item) => {
         dispatch({ type: 'BARCK_TO', payload: item})
     }
-    const putCustomersToGlobalStor = (item) => {
-        dispatch({ type: 'CUSTOMERS', payload: item})
-    }
-    const putStocksToGlobalStor = (item) => {
-        dispatch({ type: 'STOCKS', payload: item})
-    }
-    const putProductsToGlobalStor = (item) => {
-        dispatch({ type: 'PRODUCTS', payload: item})
-    }
+    // const putCustomersToGlobalStor = (item) => {
+    //     dispatch({ type: 'CUSTOMERS', payload: item})
+    // }
+    // const putStocksToGlobalStor = (item) => {
+    //     dispatch({ type: 'STOCKS', payload: item})
+    // }
+    // const putProductsToGlobalStor = (item) => {
+    //     dispatch({ type: 'PRODUCTS', payload: item})
+    // }
     const isCreateNewDocument = (item) => {
         dispatch({ type: 'IS_NEW_DOCUMENT', payload: item})
+    }
+    const setCustomerId = (item) => {
+        dispatch({ type: 'CUSTOMER_ID', payload: item})
     }
 
 	return (
@@ -66,10 +69,11 @@ export const AppProvider = ({ children }) => {
                 hideFooter,
                 getDocumentsItem,
                 putBarckTo,
-                putCustomersToGlobalStor,
-                putStocksToGlobalStor,
-                putProductsToGlobalStor,
+                // putCustomersToGlobalStor,
+                // putStocksToGlobalStor,
+                // putProductsToGlobalStor,
                 isCreateNewDocument,
+                setCustomerId,
 			}}
 		>
 			{children}
