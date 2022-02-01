@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MyModal from "./UI/modal/MyModal";
 import "../styles/SelectProducts.css";
 import nullProduct_img from "../img/document_pages_img/null-product.png";
-import { Input, Space } from "antd";
+import { Input, Space, Spin } from "antd";
 import { AudioOutlined } from "@ant-design/icons";
 import MyFastSearch from "./MyFastSearch";
 import ModalEditProductParams from "./ModalEditProductParams";
@@ -21,8 +21,8 @@ const suffix = (
 );
 
 function ProductListForSelect(props) {
-	const { storeProducts } = useGlobalContext();
 	const [modal, setModal] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const [item, setItem] = useState("");
 	const [indexProductList, setIndexProductList] = useState(null);
 	const [quantity, setQuantity] = useState(1);
@@ -31,7 +31,7 @@ function ProductListForSelect(props) {
 
 	const select = () => {
 		props.close(false);
-		let arr = storeProducts.filter((p) => p.checkedBox === true);
+		let arr = products.filter((p) => p.checkedBox === true);
 		props.selectPrd(arr);
 	};
 
@@ -48,17 +48,14 @@ function ProductListForSelect(props) {
 			setQuantity(1);
 		}
 	}, [quantity]);
-	useEffect(() => {
-		if (storeProducts) {
-			setProducts(storeProducts);
-		}
-	}, [storeProducts]);
 	const getDataOnSearch = (dataOnSearch) => {
 		setProducts(dataOnSearch);
 	};
 	const getAllProducts = async() => {
+        setIsLoading(true)
 		let res = await api.fetchProducts();
-        console.log(res)
+        setProducts(res.List)
+        setIsLoading(false)
 	};
 	return (
 		<div className="select-products-modal">
@@ -70,6 +67,7 @@ function ProductListForSelect(props) {
 				/>
                 <button onClick={() => getAllProducts() }>Click</button>
 			</div>
+            {isLoading && <Spin />}
 			<ProductList
 				setModal={setModal}
 				setIndexProductList={setIndexProductList}
