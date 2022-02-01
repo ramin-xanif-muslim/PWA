@@ -21,10 +21,18 @@ function MyForm(props) {
 	const [showMoreForm, setShowMoreForm] = useState(false);
 	const [modalCustomersListForSelect, setModalCustomersListForSelect] =
 		useState(false);
+	const [selectedCustomer, setSelectedCustomer] = useState();
 
 	useEffect(() => {
 		props.getFormValues(values);
 	}, [values]);
+	useEffect(() => {
+        if(selectedCustomer) {
+            setValue("CustomerName", selectedCustomer.Name)
+            setValue("CustomerId", selectedCustomer.Id)
+            console.log(selectedCustomer)
+        }
+	}, [selectedCustomer]);
 
 	const submit = async (e) => {
 		e.preventDefault();
@@ -188,7 +196,6 @@ function MyForm(props) {
 					<Col className="form-input" span={12}>
 						<SelectStock
 							defaultValue={values?.StockName ?? ""}
-							options={props.stocks}
 							setValue={setValue}
 						/>
 					</Col>
@@ -205,7 +212,7 @@ function MyForm(props) {
 						className="form-input"
 						span={18}
 						style={{ padding: "0 1rem", justifyContent: "start" }}
-                        onClick={() => setModalCustomersListForSelect(true)}
+						onClick={() => setModalCustomersListForSelect(true)}
 					>
 						<input
 							style={{ width: "100%" }}
@@ -213,10 +220,8 @@ function MyForm(props) {
 							type="text"
 							name="CustomerName"
 							placeholder="Müştəri"
-							value={values?.CustomerName ?? ""}
-							onChange={(e) =>
-								setValue("CustomerName", e.target.value)
-							}
+							value={selectedCustomer ? selectedCustomer.Name : values.CustomerName }
+                            readOnly
 							required
 						/>
 					</Col>
@@ -231,6 +236,8 @@ function MyForm(props) {
 			>
 				<CustomersListForSelect
 					close={setModalCustomersListForSelect}
+                    setSelectedCustomer={setSelectedCustomer}
+                    setVisibleModal={setModalCustomersListForSelect}
 				/>
 			</MyModal>
 		</form>

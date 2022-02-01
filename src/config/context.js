@@ -12,6 +12,7 @@ export const AppProvider = ({ children }) => {
         isLogin: true,
         isFooter: true,
         documentsItem: '',
+        isNewDocument: false,
 	};
 
 	const [state, dispatch] = useReducer(reducer, initialState);
@@ -40,6 +41,18 @@ export const AppProvider = ({ children }) => {
     const putBarckTo = (item) => {
         dispatch({ type: 'BARCK_TO', payload: item})
     }
+    const putCustomersToGlobalStor = (item) => {
+        dispatch({ type: 'CUSTOMERS', payload: item})
+    }
+    const putStocksToGlobalStor = (item) => {
+        dispatch({ type: 'STOCKS', payload: item})
+    }
+    const putProductsToGlobalStor = (item) => {
+        dispatch({ type: 'PRODUCTS', payload: item})
+    }
+    const isCreateNewDocument = (item) => {
+        dispatch({ type: 'IS_NEW_DOCUMENT', payload: item})
+    }
 
 	return (
 		<AppContect.Provider
@@ -53,6 +66,10 @@ export const AppProvider = ({ children }) => {
                 hideFooter,
                 getDocumentsItem,
                 putBarckTo,
+                putCustomersToGlobalStor,
+                putStocksToGlobalStor,
+                putProductsToGlobalStor,
+                isCreateNewDocument,
 			}}
 		>
 			{children}

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import withLoading from "../HOC/withLoading";
 import MyModal from "./UI/modal/MyModal";
 import "../styles/SelectProducts.css";
 import nullProduct_img from "../img/document_pages_img/null-product.png";
-import plus_img from "../img/document_pages_img/plus.svg";
-import minus_img from "../img/document_pages_img/minus.svg";
 import { Input, Space } from "antd";
 import { AudioOutlined } from "@ant-design/icons";
 import MyFastSearch from "./MyFastSearch";
+import ModalEditProductParams from "./ModalEditProductParams";
+import { useGlobalContext } from "../config/context";
 
 const { Search } = Input;
 
@@ -21,6 +20,7 @@ const suffix = (
 );
 
 function ProductListForSelect(props) {
+	const { storeProducts } = useGlobalContext();
 	const [modal, setModal] = useState(false);
 	const [item, setItem] = useState("");
 	const [indexProductList, setIndexProductList] = useState(null);
@@ -30,14 +30,14 @@ function ProductListForSelect(props) {
 
 	const select = () => {
 		props.close(false);
-		let arr = props.data.List.filter((p) => p.checkedBox === true);
+		let arr = storeProducts.filter((p) => p.checkedBox === true);
 		props.selectPrd(arr);
 	};
 
 	const putQuantity = () => {
-		props.data.List[indexProductList].Quantity = quantity;
-		props.data.List[indexProductList].Discount = discount;
-		props.data.List[indexProductList].Price = item.Price;
+		storeProducts[indexProductList].Quantity = quantity;
+		storeProducts[indexProductList].Discount = discount;
+		storeProducts[indexProductList].Price = item.Price;
 		setModal(false);
         setDiscount(null)
 		setQuantity(1);
@@ -48,10 +48,10 @@ function ProductListForSelect(props) {
 		}
 	}, [quantity]);
 	useEffect(() => {
-		if (props.data) {
-			setProducts(props.data.List);
+		if (storeProducts) {
+			setProducts(storeProducts);
 		}
-	}, [props.data]);
+	}, [storeProducts]);
     const getDataOnSearch = (dataOnSearch) => {
         setProducts(dataOnSearch)
     }
@@ -83,73 +83,9 @@ function ProductListForSelect(props) {
 	);
 }
 
-export default withLoading(ProductListForSelect, "products");
+export default ProductListForSelect
 
 
-const ModalEditProductParams = (props) => {
-    return (
-        <div className="set-data">
-            <p className="product-name">{props.item.Name}</p>
-            <hr />
-            <div className="set-data-body">
-                <p className="quantity">Miqdar</p>
-                <div className="set-quantity">
-                    <button
-                        onClick={() => props.setQuantity(props.quantity - 1)}
-                        className="decrease"
-                    >
-                        <img src={minus_img} alt=""></img>
-                    </button>
-                    <input
-                        value={props.quantity}
-                        min="0"
-                        onChange={(e) =>
-                            props.setQuantity(Number(e.target.value))
-                        }
-                        type="number"
-                    />
-                    <button
-                        onClick={() => props.setQuantity(props.quantity + 1)}
-                        className="increase"
-                    >
-                        <img src={plus_img} alt=""></img>
-                    </button>
-                </div>
-                <div className="price">
-                    <label htmlFor="price">Qiymət</label>
-                    <input
-                        value={props.item ? props.item.Price : 0}
-                        onChange={(e) =>
-                            props.setItem({ ...props.item, Price: e.target.value })
-                        }
-                        id="price"
-                        type="number"
-                        placeholder="₼"
-                    ></input>
-                </div>
-                <div className="discount">
-                    <label htmlFor="discount">Endirim:</label>
-                    <input
-                        value={props.discount}
-                        onChange={(e) => props.setDiscount(e.target.value)}
-                        id="discount"
-                        type="number"
-                        placeholder="%"
-                    ></input>
-                </div>
-                <div className="amount">
-                    <label htmlFor="amount">Məbləğ:</label>
-                    <input
-                        id="amount"
-                        type="number"
-                        placeholder="₼"
-                    ></input>
-                </div>
-                <button onClick={props.putQuantity}>Təsdiq et</button>
-            </div>
-        </div>
-        )
-}
 
 const ProductList = ({ products, setModal, setIndexProductList, setItem }) => {
 	return (

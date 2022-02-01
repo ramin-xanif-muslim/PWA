@@ -53,7 +53,7 @@ const DocFooter = ({
 	};
 	const onClose = (e) => {
 		e.stopPropagation();
-		if (isCloseDocument) {
+		if (isChangeDocument) {
 			setShowWarningModal(true);
 			setIsCloseDocument(false);
 		} else {

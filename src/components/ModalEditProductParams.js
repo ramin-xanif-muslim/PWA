@@ -43,7 +43,7 @@ const ModalEditProductParams = (props) => {
                         placeholder="₼"
                     ></input>
                 </div>
-                <div className="discount">
+                {/* <div className="discount">
                     <label htmlFor="discount">Endirim:</label>
                     <input
                         value={props.discount}
@@ -52,7 +52,7 @@ const ModalEditProductParams = (props) => {
                         type="number"
                         placeholder="%"
                     ></input>
-                </div>
+                </div> */}
                 <div className="amount">
                     <label htmlFor="amount">Məbləğ:</label>
                     <input

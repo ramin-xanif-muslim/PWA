@@ -2,21 +2,22 @@ import React, { useEffect, useState } from "react";
 import "../styles/SelectProducts.css";
 import { Input, Space } from "antd";
 import MyFastSearch from "./MyFastSearch";
-import withLoading from "../HOC/withLoading";
+import { useGlobalContext } from "../config/context";
 
 const { Search } = Input;
 
 function CustomersListForSelect(props) {
-	const [customers, setCustomers] = useState([]);
+	const { customers } = useGlobalContext();
+	const [customersOnList, setCustomersOnList] = useState([]);
 
 	useEffect(() => {
-		if (props.data) {
-			setCustomers(props.data.List);
+		if (customers) {
+			setCustomersOnList(customers);
 		}
-	}, [props.data]);
+	}, [customers]);
 
     const getDataOnSearch = (dataOnSearch) => {
-        setCustomers(dataOnSearch)
+        setCustomersOnList(dataOnSearch)
     }
 
 	return (
@@ -27,24 +28,31 @@ function CustomersListForSelect(props) {
                 <MyFastSearch url="customers/getfast.php" getDataOnSearch={getDataOnSearch} />
 			</div>
 			<CustomerList
-				customers={customers}
+				customers={customersOnList}
+                setSelectedCustomer={props.setSelectedCustomer}
+                setVisibleModal={props.setVisibleModal}
 			/>
 			<button>SƏNƏDƏ QAYIT</button>
 		</div>
 	);
 }
 
-export default withLoading(CustomersListForSelect, "customers");
+export default CustomersListForSelect
 
-const CustomerList = ({ customers, setModal, setIndexProductList, setItem }) => {
+const CustomerList = ({ customers, setSelectedCustomer, setVisibleModal }) => {
 	return (
 		<div className="select-products-body">
 			{customers ? (
 				customers.map((item, index) => {
 					const { Id, Name } = item;
 
+                    const onClick = () => {
+                        setSelectedCustomer(item)
+                        setVisibleModal(false)
+                    }
+
 					return (
-						<div key={Id} style={{backgroundColor:"white"}}>
+						<div key={Id} style={{backgroundColor:"white"}} onClick={onClick} >
 							{/* <label className="product" htmlFor={`product${Id}`}>
 								<p className="index">{index + 1}</p>
 								<img src={nullProduct_img} alt=""></img>

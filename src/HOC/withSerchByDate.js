@@ -10,7 +10,7 @@ function withSerchByDate(Component, controller) {
 	return (props) => {
 
 		let navigate = useNavigate();
-		const { isSearch, hideFooter, putBarckTo } = useGlobalContext();
+		const { isSearch, hideFooter, putBarckTo, isCreateNewDocument } = useGlobalContext();
 
 		const [data, setData] = useState();
 		const [isLoading, setLoading] = useState(false);
@@ -42,8 +42,9 @@ function withSerchByDate(Component, controller) {
 		};
 
 		function handleClickOnPlusBtn() {
-			navigate(`/newdocument`);
+			navigate(`/document`);
             putBarckTo(controller)
+            isCreateNewDocument(true)
 		}
 
 		useEffect(() => {
@@ -57,6 +58,9 @@ function withSerchByDate(Component, controller) {
 				setObj({ ...obj, nm: "" });
 			}
 		}, [isSearch]);
+		useEffect(() => {
+			isCreateNewDocument(false)
+		}, []);
 
 		return (
 			<div>

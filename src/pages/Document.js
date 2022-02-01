@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import MyForm from "../components/MyForm";
 import ProductListForSelect from "../components/ProductListForSelect";
 import MyLoading from "../components/UI/loading/MyLoading";
@@ -10,14 +10,13 @@ import DocFooter from "../components/DocFooter";
 import ProductList from "../components/ProductList";
 import { message } from "antd";
 import { keysToLowerCase } from "../functions/indexs";
-import CustomersListForSelect from "../components/CustomersListForSelect";
+import ok from "../audio/ok.mp3";
+
+const audio = new Audio(ok);
 
 function Document() {
-	const { documentsItem, hideFooter, barckTo } = useGlobalContext();
+	const { documentsItem, hideFooter, barckTo, isNewDocument } = useGlobalContext();
 	const [isLoading, setIsLoading] = useState(false);
-	const [marks, setMarks] = useState("");
-	const [stocks, setStocks] = useState("");
-	const [customers, setCustomers] = useState("");
 	const [gotProducts, setGotProducts] = useState([]);
 	const [products, setProducts] = useState([]);
 	const [isFooterOpen, setIsFoterOpen] = useState(false);
@@ -30,57 +29,18 @@ function Document() {
 	const [barcodeProduct, setBarcodeProduct] = useState([]);
 	const [isChangeDocument, setIsChangeDocument] = useState(false);
 
-	const data = {
-		id: documentsItem.Id,
-		name: documentsItem.Name,
-		moment: documentsItem.Moment,
-		stockname: documentsItem.StockName,
-		modify: documentsItem.Modify,
-		stockid: documentsItem.StockId,
-		mark: documentsItem.Mark,
-		customerid: documentsItem.CustomerId,
-		customername: documentsItem.CustomerName,
-		departmentid: documentsItem.DepartmentId,
-		ownerid: documentsItem.OwnerId,
-		status: documentsItem.Status,
-		description: documentsItem.Description,
-		consumption: documentsItem.Consumption,
-		profit: documentsItem.Profit,
-		amount: documentsItem.Amount,
-		discount: documentsItem.Discount,
-		customerdiscount: documentsItem.CustomerDiscount,
-		positions: documentsItem.Positions,
-	};
-
 	useEffect(() => {
 		hideFooter();
-		// getMarks();
-	}, []);
-	const getMarks = async () => {
-		setIsLoading(true);
-		let res = await sendRequest("marks/get.php", {});
-		setMarks(res.List);
-		setIsLoading(false);
-	};
-	useEffect(async () => {
-		setIsLoading(true);
-		let res = await sendRequest("stocks/get.php", {});
-		setStocks(res.List);
-		setIsLoading(false);
-	}, []);
-	useEffect(async () => {
-		setIsLoading(true);
-		let res = await sendRequest("customers/get.php", {});
-		setCustomers(res.List);
-		setIsLoading(false);
 	}, []);
 
 	useEffect(async () => {
-		setIsLoading(true);
-		let obj = { id: documentsItem && documentsItem.Id };
-		let res = await sendRequest("demands/get.php", obj);
-		setGotProducts(res.List[0].Positions);
-		setIsLoading(false);
+        if(!isNewDocument) {
+            setIsLoading(true);
+            let obj = { id: documentsItem && documentsItem.Id };
+            let res = await sendRequest("demands/get.php", obj);
+            setGotProducts(res.List[0].Positions);
+            setIsLoading(false);
+        }
 	}, []);
 
 	useEffect(() => {
@@ -88,7 +48,12 @@ function Document() {
 	}, [selectedProducts, gotProducts, barcodeProduct]);
 
 	const creatProductList = () => {
-		let productList = selectedProducts.concat(gotProducts);
+        let productList = []
+        if(isNewDocument) {
+            productList = selectedProducts
+        }else {
+            productList = selectedProducts.concat(gotProducts)
+        }
 		if (barcodeProduct) {
 			productList = productList.concat(barcodeProduct);
 		}
@@ -112,30 +77,48 @@ function Document() {
 	};
 	const key = "updatable";
 	const saveButton = async () => {
-		message.loading({ content: "Loading...", key });
-		let newArr = [];
-		if (products[0]) {
-			newArr = products.map((item) => {
-				return {
-					ProductId: item.ProductId ? item.ProductId : item.Id,
-					Quantity: item.Quantity,
-					Price: item.Price,
-				};
-			});
-		}
-		data.positions = newArr;
-		formValues.positions = newArr;
-		let controller = barckTo;
-		let sendObj = keysToLowerCase(formValues);
-		let res = await sendRequest(controller + "/put.php", sendObj);
-		if (res.ResponseStatus === "0") {
-			message.success({
-				content: "Dəyişikliklər yadda saxlanıldı!",
-				key,
-				duration: 2,
-			});
-			setIsChangeDocument(false);
-		}
+        if(!formValues.CustomerName){
+                message.success({
+                    content: "Zəhmət olmasa, qarşı tərəfi seçin",
+                    key,
+                    duration: 2,
+                });
+        }else if(!formValues.StockName){
+                message.success({
+                    content: "Zəhmət olmasa, anbarı seçin!",
+                    key,
+                    duration: 2,
+                });
+        }else {
+            message.loading({ content: "Loading...", key });
+            let newArr = [];
+            if (products[0]) {
+                newArr = products.map((item) => {
+                    return {
+                        ProductId: item.ProductId ? item.ProductId : item.Id,
+                        Quantity: item.Quantity,
+                        Price: item.Price,
+                    };
+                });
+            }
+            formValues.positions = newArr;
+            let controller = barckTo;
+            let sendObj = keysToLowerCase(formValues);
+            if(isNewDocument) {
+                let responseName = await sendRequest(controller + "/newname.php", { name: sendObj.name ? sendObj.name : "" });
+                sendObj.name = responseName.ResponseService
+            }
+            let res = await sendRequest(controller + "/put.php", sendObj);
+            if (res.ResponseStatus === "0") {
+                message.success({
+                    content: "Dəyişikliklər yadda saxlanıldı!",
+                    key,
+                    duration: 2,
+                });
+                audio.play();
+                setIsChangeDocument(false);
+            }
+        }
 	};
 	const getQuantity = async (data) => {
 		products.forEach((item) => {
@@ -152,16 +135,14 @@ function Document() {
 	return (
 		<div className="document">
 			<MyForm
-				customers={customers}
-				stocks={stocks}
-				initialValues={documentsItem}
+				initialValues={isNewDocument ? null : documentsItem}
 				getFormValues={getFormValues}
 				setIsChangeDocument={setIsChangeDocument}
 			/>
 
 			{isLoading && <MyLoading />}
 
-			<Debt />
+			<Debt isNew={isNewDocument} />
 
 			<ProductList
 				setModalProductListForSelect={setModalProductListForSelect}

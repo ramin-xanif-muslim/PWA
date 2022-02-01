@@ -25,6 +25,18 @@ const reducer = (state, action) => {
     if( action.type === 'BARCK_TO') {
         return { ...state, barckTo: action.payload }
     }
+    if( action.type === 'CUSTOMERS') {
+        return { ...state, customers: action.payload }
+    }
+    if( action.type === 'STOCKS') {
+        return { ...state, stocks: action.payload }
+    }
+    if( action.type === 'PRODUCTS') {
+        return { ...state, storeProducts: action.payload }
+    }
+    if( action.type === 'IS_NEW_DOCUMENT') {
+        return { ...state, isNewDocument: action.payload }
+    }
     return state
 }
 

@@ -1,15 +1,9 @@
 import { Select } from "antd";
 import React, { useEffect, useState } from "react";
-
-//<MySelect defaultValue='...' options={options} onChange={onChangeSelect} value={selected}/>
-
-// const [selected, setSelected] = useState('')
-
-//const onChangeSelect = (value) => {
-//   setSelected(value)
-//}
+import { useGlobalContext } from "../../../config/context";
 
 function SelectStock({ options, defaultValue, setValue, value }) {
+	const { stocks } = useGlobalContext();
 	const { Option } = Select;
 	const [optionItems, setOptionItems] = useState([]);
 
@@ -25,8 +19,8 @@ function SelectStock({ options, defaultValue, setValue, value }) {
 			defaultValue={defaultValue}
 			value={value}
 		>
-			{options
-				? options.map((option) => {
+			{stocks
+				? stocks.map((option) => {
 						let arr = Object.values(option);
 						return (
 							<Option value={option.Name} key={option.Id}>

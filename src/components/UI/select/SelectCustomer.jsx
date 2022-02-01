@@ -1,14 +1,6 @@
 import { Select } from "antd";
 import React, { useEffect, useState } from "react";
 
-//<MySelect defaultValue='...' options={options} onChange={onChangeSelect} value={selected}/>
-
-// const [selected, setSelected] = useState('')
-
-//const onChangeSelect = (value) => {
-//   setSelected(value)
-//}
-
 function SelectStock({ options, defaultValue, setValue, value }) {
 	const { Option } = Select;
 	const [optionItems, setOptionItems] = useState([]);
@@ -16,8 +8,8 @@ function SelectStock({ options, defaultValue, setValue, value }) {
     useEffect(() => {
         if(optionItems[0]) {
             console.log(optionItems)
-            // setValue("StockName", optionItems[1])
-            // setValue("StockId", optionItems[0])
+            setValue("StockName", optionItems[1])
+            setValue("StockId", optionItems[0])
         }
     },[optionItems])
 

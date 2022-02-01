@@ -14,8 +14,6 @@ import { keysToLowerCase } from "../functions/indexs";
 function NewDocument () {
 	const { hideFooter, barckTo } = useGlobalContext();
 	const [isLoading, setIsLoading] = useState(false);
-	const [marks, setMarks] = useState("");
-	const [stocks, setStocks] = useState("");
 	// const [gotProducts, setGotProducts] = useState([]);
 	const [products, setProducts] = useState([]);
 	const [isFooterOpen, setIsFoterOpen] = useState(false);
@@ -30,12 +28,6 @@ function NewDocument () {
 
 	useEffect(() => {
 		hideFooter();
-	}, []);
-	useEffect(async () => {
-		setIsLoading(true);
-		let res = await sendRequest("stocks/get.php", {});
-		setStocks(res.List);
-		setIsLoading(false);
 	}, []);
 
 	useEffect(() => {
@@ -67,30 +59,44 @@ function NewDocument () {
 	};
 	const key = "updatable";
 	const saveButton = async () => {
-		message.loading({ content: "Loading...", key });
-		let newArr = products.map((item) => {
-			return {
-				ProductId: item.ProductId ? item.ProductId : item.Id,
-				Quantity: item.Quantity,
-				Price: item.Price,
-			};
-		});
-		formValues.positions = newArr;
-		let controller = barckTo;
-        let sendObj = keysToLowerCase(formValues)
-		let responseName = await sendRequest(controller + "/newname.php", { name: sendObj.name ? sendObj.name : "" });
-        sendObj.name = responseName.ResponseService
-        let res = await sendRequest(controller + "/put.php", sendObj )
-        console.log(res)
-
-        // if(res.ResponseStatus === '0') {
-        //     message.success({
-        //         content: "Dəyişikliklər yadda saxlanıldı!",
-        //         key,
-        //         duration: 2,
-        //     });
-        //     setIsChangeDocument(false)
-        // }
+        if(!formValues.CustomerName){
+                message.success({
+                    content: "Zəhmət olmasa, qarşı tərəfi seçin",
+                    key,
+                    duration: 2,
+                });
+        }else if(!formValues.StockName){
+                message.success({
+                    content: "Zəhmət olmasa, anbarı seçin!",
+                    key,
+                    duration: 2,
+                });
+        }else {
+            message.loading({ content: "Loading...", key });
+            let newArr = products.map((item) => {
+                return {
+                    ProductId: item.ProductId ? item.ProductId : item.Id,
+                    Quantity: item.Quantity,
+                    Price: item.Price,
+                };
+            });
+            formValues.positions = newArr;
+            let controller = barckTo;
+            let sendObj = keysToLowerCase(formValues)
+            let responseName = await sendRequest(controller + "/newname.php", { name: sendObj.name ? sendObj.name : "" });
+            sendObj.name = responseName.ResponseService
+            let res = await sendRequest(controller + "/put.php", sendObj )
+            console.log(res)
+    
+            // if(res.ResponseStatus === '0') {
+            //     message.success({
+            //         content: "Dəyişikliklər yadda saxlanıldı!",
+            //         key,
+            //         duration: 2,
+            //     });
+            //     setIsChangeDocument(false)
+            // }
+        }
 	};
 	const getQuantity = async (data) => {
 		products.forEach((item) => {
@@ -107,7 +113,6 @@ function NewDocument () {
 	return (
 		<div className="document">
 			<MyForm
-				stocks={stocks}
 				initialValues={null}
 				getFormValues={getFormValues}
 				setIsChangeDocument={setIsChangeDocument}
