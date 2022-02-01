@@ -76,7 +76,9 @@ const ProductList = ({
                     );
                 })
             ) : (
-                <p>Mehsul secilmeyib</p>
+                <p style={{ textAlign: "center", opacity: "0.8" }}>
+                    Mehsul secilmeyib
+                </p>
             )}
 
             <div className="add-buttons">
@@ -96,7 +98,6 @@ const ProductList = ({
             </div>
 
             <BarcodeModal
-				
                 visible={isModalBarcode}
                 setVisible={setIsModalBarcode}
                 getBarcodeProduct={getBarcodeProduct}
