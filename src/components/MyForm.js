@@ -36,20 +36,20 @@ function MyForm(props) {
         }
     }, [selectedCustomer]);
 
-    const submit = async (e) => {
-        e.preventDefault();
+    // const submit = async (e) => {
+    //     e.preventDefault();
 
-        try {
-            setFetching(true);
-            await props.saveButton(values, submit);
-        } finally {
-            setFetching(false);
+    //     try {
+    //         setFetching(true);
+    //         await props.saveButton(values, submit);
+    //     } finally {
+    //         setFetching(false);
 
-            if (props.title?.toLowerCase().includes("create")) {
-                setValues(null);
-            }
-        }
-    };
+    //         if (props.title?.toLowerCase().includes("create")) {
+    //             setValues(null);
+    //         }
+    //     }
+    // };
     const setValue = (field, value) => {
         props.setIsChangeDocument(true);
         setValues((old) => ({ ...old, [field]: value }));
@@ -73,7 +73,7 @@ function MyForm(props) {
         return null;
     }
 	return (
-		<form className="doc-form" onSubmit={submit}>
+		<form className="doc-form">
 			<fieldset disabled={isFetching}>
 				<Row
 					className="doc-form-row"

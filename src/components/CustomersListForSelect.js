@@ -35,7 +35,7 @@ function CustomersListForSelect(props) {
                 setSelectedCustomer={props.setSelectedCustomer}
                 setVisibleModal={props.setVisibleModal}
             />
-            <button>SƏNƏDƏ QAYIT</button>
+            <button onClick={() => props.setVisibleModal(false)}>SƏNƏDƏ QAYIT</button>
         </div>
     );
 }
@@ -60,13 +60,6 @@ const CustomerList = ({ customers, setSelectedCustomer, setVisibleModal }) => {
                             key={Id}
                             onClick={onClick}
                         >
-                            {/* <label className="product" htmlFor={`product${Id}`}>
-								<p className="index">{index + 1}</p>
-								<img src={nullProduct_img} alt=""></img>
-								<div className="texts">
-									<p className="name">{Name}</p>
-								</div>
-							</label> */}
                             <p>{Name}</p>
                         </div>
                     );

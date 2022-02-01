@@ -6,18 +6,17 @@ import { Input, Space, Spin } from "antd";
 import { AudioOutlined } from "@ant-design/icons";
 import MyFastSearch from "./MyFastSearch";
 import ModalEditProductParams from "./ModalEditProductParams";
-import { useGlobalContext } from "../config/context";
 import { api } from "../api/api";
 
 const { Search } = Input;
 
 const suffix = (
-	<AudioOutlined
-		style={{
-			fontSize: 16,
-			color: "#1890ff",
-		}}
-	/>
+    <AudioOutlined
+        style={{
+            fontSize: 16,
+            color: "#1890ff",
+        }}
+    />
 );
 
 function ProductListForSelect(props) {
@@ -30,9 +29,11 @@ function ProductListForSelect(props) {
 	const [products, setProducts] = useState();
 
 	const select = () => {
-		props.close(false);
-		let arr = products.filter((p) => p.checkedBox === true);
-		props.selectPrd(arr);
+        if(products) {
+            let arr = products.filter((p) => p.checkedBox === true);
+            props.selectPrd(arr);
+        }
+        props.close(false);
 	};
 
 	const putQuantity = () => {
@@ -65,7 +66,9 @@ function ProductListForSelect(props) {
 					url="products/getfast.php"
 					getDataOnSearch={getDataOnSearch}
 				/>
-                <button onClick={() => getAllProducts() }>Click</button>
+                <button className="button-get-all-products" onClick={() => getAllProducts()}>
+                    Bütün məhsullar
+                </button>
 			</div>
             {isLoading && <Spin />}
 			<ProductList
@@ -93,61 +96,61 @@ function ProductListForSelect(props) {
 export default ProductListForSelect;
 
 const ProductList = ({ products, setModal, setIndexProductList, setItem }) => {
-	return (
-		<div className="select-products-body">
-			{products ? (
-				products.map((item, index) => {
-					const { Id, Name, StockBalance, Price, BarCode } = item;
+    return (
+        <div className="select-products-body">
+            {products ? (
+                products.map((item, index) => {
+                    const { Id, Name, StockBalance, Price, BarCode } = item;
 
-					const handelCheckBox = (e) => {
-						item.checkedBox = e.target.checked;
-						setItem(item);
-						e.target.checked && setModal(true);
-					};
-					const getProductId = () => {
-						setIndexProductList(index);
-					};
+                    const handelCheckBox = (e) => {
+                        item.checkedBox = e.target.checked;
+                        setItem(item);
+                        e.target.checked && setModal(true);
+                    };
+                    const getProductId = () => {
+                        setIndexProductList(index);
+                    };
 
-					return (
-						<div key={Id} onClick={getProductId}>
-							<label className="product" htmlFor={`product${Id}`}>
-								<p className="index">{index + 1}</p>
-								<img src={nullProduct_img} alt=""></img>
-								<div className="texts">
-									<p className="name">{Name}</p>
-									<p className="barcode">{BarCode}</p>
-									<div className="number">
-										<p className="price">{Price}₼</p>
-										<p
-											className={
-												StockBalance >= 0
-													? "stock-quantity"
-													: "stock-quantity red"
-											}
-										>
-											{StockBalance ? StockBalance : 0} əd
-										</p>
-									</div>
-								</div>
-								<input
-									id={`product${Id}`}
-									type="checkbox"
-									onChange={handelCheckBox}
-								/>
-							</label>
-						</div>
-					);
-				})
-			) : (
-				<p>Mehsullar yoxdur</p>
-			)}
-		</div>
-	);
+                    return (
+                        <div key={Id} onClick={getProductId}>
+                            <label className="product" htmlFor={`product${Id}`}>
+                                <p className="index">{index + 1}</p>
+                                <img src={nullProduct_img} alt=""></img>
+                                <div className="texts">
+                                    <p className="name">{Name}</p>
+                                    <p className="barcode">{BarCode}</p>
+                                    <div className="number">
+                                        <p className="price">{Price}₼</p>
+                                        <p
+                                            className={
+                                                StockBalance >= 0
+                                                    ? "stock-quantity"
+                                                    : "stock-quantity red"
+                                            }
+                                        >
+                                            {StockBalance ? StockBalance : 0} əd
+                                        </p>
+                                    </div>
+                                </div>
+                                <input
+                                    id={`product${Id}`}
+                                    type="checkbox"
+                                    onChange={handelCheckBox}
+                                />
+                            </label>
+                        </div>
+                    );
+                })
+            ) : (
+                <p>Mehsullar yoxdur</p>
+            )}
+        </div>
+    );
 };
 
 const style = {
-	position: "absolute",
-	bottom: "0",
-	width: "100%",
-	background: "#fff",
+    position: "absolute",
+    bottom: "0",
+    width: "100%",
+    background: "#fff",
 };
