@@ -53,6 +53,9 @@ export const AppProvider = ({ children }) => {
     const isCreateNewDocument = (item) => {
         dispatch({ type: 'IS_NEW_DOCUMENT', payload: item})
     }
+    const setCustomerId = (item) => {
+        dispatch({ type: 'CUSTOMER_ID', payload: item})
+    }
 
 	return (
 		<AppContect.Provider
@@ -70,6 +73,7 @@ export const AppProvider = ({ children }) => {
                 putStocksToGlobalStor,
                 putProductsToGlobalStor,
                 isCreateNewDocument,
+                setCustomerId,
 			}}
 		>
 			{children}

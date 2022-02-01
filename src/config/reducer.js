@@ -37,6 +37,9 @@ const reducer = (state, action) => {
     if( action.type === 'IS_NEW_DOCUMENT') {
         return { ...state, isNewDocument: action.payload }
     }
+    if( action.type === 'CUSTOMER_ID') {
+        return { ...state, customerId: action.payload }
+    }
     return state
 }
 

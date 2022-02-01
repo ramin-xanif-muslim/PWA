@@ -12,8 +12,10 @@ import "../styles/Documents.css";
 import SelectStock from "./UI/select/SelectStock";
 import MyModal from "./UI/modal/MyModal";
 import CustomersListForSelect from "./CustomersListForSelect";
+import { useGlobalContext } from "../config/context";
 
 function MyForm(props) {
+    const { setCustomerId } = useGlobalContext()
 	const [values, setValues] = useState(
 		props.initialValues ? props.initialValues : ""
 	);
@@ -30,7 +32,7 @@ function MyForm(props) {
         if(selectedCustomer) {
             setValue("CustomerName", selectedCustomer.Name)
             setValue("CustomerId", selectedCustomer.Id)
-            console.log(selectedCustomer)
+            setCustomerId(selectedCustomer.Id)
         }
 	}, [selectedCustomer]);
 
@@ -79,7 +81,7 @@ function MyForm(props) {
 					onClick={() => setShowMoreForm(!showMoreForm)}
 				>
 					<Col className="form-label" span={21}>
-						<label htmlFor="title">Təyinat</label>
+						<label>Təyinat</label>
 					</Col>
 					<Col className="form-icons" span={3}>
 						<img
@@ -97,7 +99,7 @@ function MyForm(props) {
 								<img src={sale_img} />
 							</Col>
 							<Col className="form-label" span={6}>
-								<label htmlFor="status">Satış №:</label>
+								<label>Satış №:</label>
 							</Col>
 							<Col className="form-input" span={12}>
 								<input
@@ -121,7 +123,7 @@ function MyForm(props) {
 								<img src={moment_img} />
 							</Col>
 							<Col className="form-label" span={6}>
-								<label htmlFor="moment">Tarix:</label>
+								<label>Tarix:</label>
 							</Col>
 							<Col className="form-input" span={12}>
 								<Space direction="vertical">
@@ -141,7 +143,7 @@ function MyForm(props) {
 								<img src={status_img} />
 							</Col>
 							<Col className="form-label" span={6}>
-								<label htmlFor="name">Status:</label>
+								<label>Status:</label>
 							</Col>
 							<Col className="form-input" span={12}>
 								<input
@@ -191,7 +193,7 @@ function MyForm(props) {
 						<img src={stock_img} />
 					</Col>
 					<Col className="form-label" span={6}>
-						<label htmlFor="status">Anbar:</label>
+						<label>Anbar:</label>
 					</Col>
 					<Col className="form-input" span={12}>
 						<SelectStock

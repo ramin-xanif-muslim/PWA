@@ -11,10 +11,12 @@ import ProductList from "../components/ProductList";
 import { message } from "antd";
 import { keysToLowerCase } from "../functions/indexs";
 import ok from "../audio/ok.mp3";
+import { useNavigate } from "react-router";
 
 const audio = new Audio(ok);
 
 function Document() {
+	let navigate = useNavigate();
 	const { documentsItem, hideFooter, barckTo, isNewDocument } = useGlobalContext();
 	const [isLoading, setIsLoading] = useState(false);
 	const [gotProducts, setGotProducts] = useState([]);
@@ -46,6 +48,9 @@ function Document() {
 	useEffect(() => {
 		creatProductList();
 	}, [selectedProducts, gotProducts, barcodeProduct]);
+	// useEffect(() => {
+	// 	deleteProduct();
+	// }, [selectedProducts, gotProducts, barcodeProduct]);
 
 	const creatProductList = () => {
         let productList = []
@@ -131,7 +136,10 @@ function Document() {
 	const closeModalProductListForSelect = () => {
 		setModalProductListForSelect();
 	};
-
+    if(!barckTo) {
+        navigate(`/`);
+        return null
+    }
 	return (
 		<div className="document">
 			<MyForm
