@@ -72,7 +72,8 @@ function Document() {
 
     const selectPrd = (arr) => {
         setIsChangeDocument(true);
-        setSelectedProducts(arr);
+        setSelectedProducts([...selectedProducts,...arr]);
+        // setSelectedProducts(arr);
     };
     const getBarcodeProduct = (newBarcodeProduct) => {
         setIsChangeDocument(true);

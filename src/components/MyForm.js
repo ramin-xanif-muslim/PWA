@@ -23,6 +23,8 @@ function MyForm(props) {
 	const [showMoreForm, setShowMoreForm] = useState(false);
 	const [modalCustomersListForSelect, setModalCustomersListForSelect] =
 		useState(false);
+	const [modalStocksListForSelect, setModalStocksListForSelect] =
+		useState(false);
 	const [selectedCustomer, setSelectedCustomer] = useState();
 
 	useEffect(() => {
@@ -36,20 +38,19 @@ function MyForm(props) {
         }
     }, [selectedCustomer]);
 
-    // const submit = async (e) => {
-    //     e.preventDefault();
+    const submit = async (e) => {
+        e.preventDefault();
 
-    //     try {
-    //         setFetching(true);
-    //         await props.saveButton(values, submit);
-    //     } finally {
-    //         setFetching(false);
+        try {
+            setFetching(true);
+        } finally {
+            setFetching(false);
 
-    //         if (props.title?.toLowerCase().includes("create")) {
-    //             setValues(null);
-    //         }
-    //     }
-    // };
+            if (props.title?.toLowerCase().includes("create")) {
+                setValues(null);
+            }
+        }
+    };
     const setValue = (field, value) => {
         props.setIsChangeDocument(true);
         setValues((old) => ({ ...old, [field]: value }));
@@ -73,7 +74,7 @@ function MyForm(props) {
         return null;
     }
 	return (
-		<form className="doc-form">
+		<form className="doc-form" onSubmit={submit}>
 			<fieldset disabled={isFetching}>
 				<Row
 					className="doc-form-row"
@@ -240,9 +241,20 @@ function MyForm(props) {
                 setVisible={setModalCustomersListForSelect}
             >
                 <CustomersListForSelect
-                    close={setModalCustomersListForSelect}
+                    // close={setModalCustomersListForSelect}
                     setSelectedCustomer={setSelectedCustomer}
                     setVisibleModal={setModalCustomersListForSelect}
+                />
+            </MyModal>
+            <MyModal
+                style={{ width: "100%" }}
+                visible={modalStocksListForSelect}
+                setVisible={setModalStocksListForSelect}
+            >
+                <CustomersListForSelect
+                    // close={setModalStocksListForSelect}
+                    setSelectedCustomer={setSelectedCustomer}
+                    setVisibleModal={setModalStocksListForSelect}
                 />
             </MyModal>
         </form>

@@ -34,4 +34,8 @@ export const api = Object.freeze({
         const response = await sendRequest("products/get.php",{})
         return response
     },
+    async fetchCustomers() {  
+        const response = await sendRequest("customers/get.php",{})
+        return response
+    },
 })

@@ -41,6 +41,9 @@ export const AppProvider = ({ children }) => {
     const putBarckTo = (item) => {
         dispatch({ type: 'BARCK_TO', payload: item})
     }
+    const putStocksToGlobalStor = (item) => {
+        dispatch({ type: 'STOCKS', payload: item})
+    }
     const isCreateNewDocument = (item) => {
         dispatch({ type: 'IS_NEW_DOCUMENT', payload: item})
     }
@@ -60,6 +63,7 @@ export const AppProvider = ({ children }) => {
                 hideFooter,
                 getDocumentsItem,
                 putBarckTo,
+                putStocksToGlobalStor,
                 isCreateNewDocument,
                 setCustomerId,
 			}}

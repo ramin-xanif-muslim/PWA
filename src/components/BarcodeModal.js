@@ -33,7 +33,6 @@ function BarcodeModal(props) {
         let res = await sendRequest("products/getfast.php", {
             fast: searchTerm,
         });
-        console.log(res.List[0]);
         if (res.List[0]) {
             setData(res.List[0]);
             setPrice(ConvertFixedTable(Number(res.List[0].Price)));
@@ -58,8 +57,6 @@ function BarcodeModal(props) {
                     setIsFocusOnRefInput(false);
                     setIsDisableBarcodeInput(true);
                 }
-            } else {
-                console.log("searchterm", searchTerm);
             }
         }, 300);
         return () => clearTimeout(timer);
@@ -93,6 +90,7 @@ function BarcodeModal(props) {
         setPrice(0);
         setName("");
         setIsFocusOnRefInput(true);
+        setData(null)
     };
 
     return (
@@ -160,7 +158,6 @@ function BarcodeModal(props) {
                         </button>
                     </div>
                     <button className="btn-ok" onClick={onOk}>Təsdiq et</button>
-                    {/* <button onClick={() => setVisible(false)}>Bagla</button> */}
                 </div>
             </div>
         </MyModal>
