@@ -1,0 +1,54 @@
+.selectCustomerModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+}
+
+.selectCustomerModal > button {
+    position: fixed;
+    bottom: 15px;
+    border: none;
+    background: var(--dark-blue);
+    color: #fff;
+    border-radius: 5px;
+    font-size: 1.3em;
+    width: 85%;
+    height: 40px;
+}
+
+.selectCustomerHeader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #b5b5b5;
+    width: 100%;
+    background: var(--dark-blue);
+}
+
+.selectCustomerHeader h2 {
+    color: #fff;
+}
+
+.ant-space {
+    width: 100%;
+}
+
+.selectCustomerBody {
+    height: calc(100vh - 66px);
+    overflow: auto;
+    padding-bottom: 90px;
+    width: 100%;
+}
+
+.customer {
+    padding: 1rem;
+    border-bottom: 1px solid #b5b5b5;
+}
+
+.customer p {
+    margin: 0;
+}

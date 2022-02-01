@@ -9,7 +9,6 @@ const Debt = ({ isNew }) => {
 
 	const [debt, setDebt] = useState();
 	const [isLoading, setIsLoading] = useState(false);
-
 	useEffect(async () => {
 		if (!isNew) {
 			let obj = { id: documentsItem && documentsItem.CustomerId };

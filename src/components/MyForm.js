@@ -34,45 +34,44 @@ function MyForm(props) {
             setValue("CustomerId", selectedCustomer.Id)
             setCustomerId(selectedCustomer.Id)
         }
-	}, [selectedCustomer]);
+    }, [selectedCustomer]);
 
-	const submit = async (e) => {
-		e.preventDefault();
+    const submit = async (e) => {
+        e.preventDefault();
 
-		try {
-			setFetching(true);
-			await props.saveButton(values, submit);
-		} finally {
-			setFetching(false);
+        try {
+            setFetching(true);
+            await props.saveButton(values, submit);
+        } finally {
+            setFetching(false);
 
-			if (props.title?.toLowerCase().includes("create")) {
-				setValues(null);
-			}
-		}
-	};
-	const setValue = (field, value) => {
-		props.setIsChangeDocument(true);
-		setValues((old) => ({ ...old, [field]: value }));
-	};
+            if (props.title?.toLowerCase().includes("create")) {
+                setValues(null);
+            }
+        }
+    };
+    const setValue = (field, value) => {
+        props.setIsChangeDocument(true);
+        setValues((old) => ({ ...old, [field]: value }));
+    };
 
-	useEffect(() => {
-		if (props.initialValues) {
-			setValues(props.initialValues);
-		}
-	}, [props.initialValues]);
+    useEffect(() => {
+        if (props.initialValues) {
+            setValues(props.initialValues);
+        }
+    }, [props.initialValues]);
 
-	function onChange(value, dateString) {
-		setValue("Moment", dateString);
-	}
+    function onChange(value, dateString) {
+        setValue("Moment", dateString);
+    }
 
-	function onOk(value) {
-		console.log("onOk: ", value);
-	}
+    function onOk(value) {
+        console.log("onOk: ", value);
+    }
 
-	if (values === null) {
-		return null;
-	}
-
+    if (values === null) {
+        return null;
+    }
 	return (
 		<form className="doc-form" onSubmit={submit}>
 			<fieldset disabled={isFetching}>
@@ -205,45 +204,49 @@ function MyForm(props) {
 						<img src={miniArrow_img} />
 					</Col>
 				</Row>
-
-				<Row className="doc-form-row">
-					<Col className="form-icons" span={3}>
-						<img src={costumer_img} />
-					</Col>
-					<Col
-						className="form-input"
-						span={18}
-						style={{ padding: "0 1rem", justifyContent: "start" }}
-						onClick={() => setModalCustomersListForSelect(true)}
-					>
-						<input
-							style={{ width: "100%" }}
-							autoComplete="off"
-							type="text"
-							name="CustomerName"
-							placeholder="Müştəri"
-							value={selectedCustomer ? selectedCustomer.Name : values.CustomerName }
+                <Row className="doc-form-row">
+                    <Col className="form-icons" span={3}>
+                        <img src={costumer_img} />
+                    </Col>
+                    <Col
+                        className="form-input"
+                        span={18}
+                        style={{ padding: "0 1rem", justifyContent: "start" }}
+                        onClick={() => setModalCustomersListForSelect(true)}
+                    >
+                        <input
+                            style={{ width: "100%" }}
+                            autoComplete="off"
+                            type="text"
+                            name="CustomerName"
+                            placeholder="Müştəri"
+                            value={
+                                selectedCustomer
+                                    ? selectedCustomer.Name
+                                    : values.CustomerName
+                            }
                             readOnly
-							required
-						/>
-					</Col>
-					<Col className="form-icons" span={3}>
-						<img src={miniArrow_img} />
-					</Col>
-				</Row>
-			</fieldset>
-			<MyModal
-				visible={modalCustomersListForSelect}
-				setVisible={setModalCustomersListForSelect}
-			>
-				<CustomersListForSelect
-					close={setModalCustomersListForSelect}
+                            required
+                        />
+                    </Col>
+                    <Col className="form-icons" span={3}>
+                        <img src={miniArrow_img} />
+                    </Col>
+                </Row>
+            </fieldset>
+            <MyModal
+                style={{ width: "100%" }}
+                visible={modalCustomersListForSelect}
+                setVisible={setModalCustomersListForSelect}
+            >
+                <CustomersListForSelect
+                    close={setModalCustomersListForSelect}
                     setSelectedCustomer={setSelectedCustomer}
                     setVisibleModal={setModalCustomersListForSelect}
-				/>
-			</MyModal>
-		</form>
-	);
+                />
+            </MyModal>
+        </form>
+    );
 }
 
 export default MyForm;

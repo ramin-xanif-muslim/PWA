@@ -57,7 +57,8 @@ function ProductListForSelect(props) {
 		setProducts(dataOnSearch);
 	};
 	const getAllProducts = async() => {
-		api.fetchProducts();
+		let res = await api.fetchProducts();
+        console.log(res)
 	};
 	return (
 		<div className="select-products-modal">
@@ -67,6 +68,7 @@ function ProductListForSelect(props) {
 					url="products/getfast.php"
 					getDataOnSearch={getDataOnSearch}
 				/>
+                <button onClick={() => getAllProducts() }>Click</button>
 			</div>
 			<ProductList
 				setModal={setModal}
