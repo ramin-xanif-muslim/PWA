@@ -48,7 +48,8 @@ button:focus {
 .select-products-body {
     height: calc(100vh - 66px);
     overflow: auto;
-    padding-bottom: 90px;
+    padding-bottom: 120px;
+    width: 100%;
 }
 
 .product {
@@ -188,4 +189,18 @@ button:focus {
 
 .btn-ok {
     margin-top: 1rem;
+}
+
+.button-get-all-products {
+    border: none;
+    background: #fff;
+    color: var(--dark-blue);
+    border-radius: 5px;
+    font-size: 1.3em;
+    width: 100%;
+    margin-top: 1rem;
+    height: 35px;
+}
+.button-get-all-products:active {
+    background-color: #e5e5e5;
 }
