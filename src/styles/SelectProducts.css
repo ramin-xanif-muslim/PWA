@@ -204,3 +204,9 @@ button:focus {
 .button-get-all-products:active {
     background-color: #e5e5e5;
 }
+.product-name {
+    font-weight: 600;
+}
+.product-name span {
+    font-weight: 400;
+}

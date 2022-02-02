@@ -6,7 +6,6 @@ import sendRequest from "../config/sentRequest";
 import { ConvertFixedTable } from "../functions/indexs";
 import bc from "../audio/bc.mp3";
 
-
 const audio = new Audio(bc);
 
 const style = {
@@ -23,6 +22,7 @@ function BarcodeModal(props) {
     const [data, setData] = useState("");
     const [name, setName] = useState("");
     const [price, setPrice] = useState();
+    const [barcode, setBarcode] = useState();
     const [totalPrice, setTotalPrice] = useState();
     const [isFocusOnRefInput, setIsFocusOnRefInput] = useState(true);
     const [isDisableBarcodeInput, setIsDisableBarcodeInput] = useState(false);
@@ -37,6 +37,7 @@ function BarcodeModal(props) {
             setData(res.List[0]);
             setPrice(ConvertFixedTable(Number(res.List[0].Price)));
             setName(res.List[0].Name);
+            setBarcode(res.List[0].BarCode);
         } else {
             setName("Məhsul tapılmadı");
         }
@@ -73,7 +74,7 @@ function BarcodeModal(props) {
             setTotalPrice(0);
             setPrice(0);
             setName("");
-			setIsFocusOnRefInput(true);
+            setIsFocusOnRefInput(true);
         }
     }, [visible]);
 
@@ -90,7 +91,7 @@ function BarcodeModal(props) {
         setPrice(0);
         setName("");
         setIsFocusOnRefInput(true);
-        setData(null)
+        setData(null);
     };
 
     return (
@@ -105,8 +106,13 @@ function BarcodeModal(props) {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <p className="product-name">{name}</p>
-
+                {name ? (
+                    <p className="product-name">
+                        {name} - <span>{barcode}</span>
+                    </p>
+                ) : (
+                    ""
+                )}
                 <hr className="hr" />
                 <div className="set-data-body">
                     <div className="quantity-amount">
@@ -157,7 +163,9 @@ function BarcodeModal(props) {
                             <img src={plus_img} alt=""></img>
                         </button>
                     </div>
-                    <button className="btn-ok" onClick={onOk}>Təsdiq et</button>
+                    <button className="btn-ok" onClick={onOk}>
+                        Təsdiq et
+                    </button>
                 </div>
             </div>
         </MyModal>
