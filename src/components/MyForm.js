@@ -15,6 +15,7 @@ import CustomersListForSelect from "./CustomersListForSelect";
 import { useGlobalContext } from "../config/context";
 
 function MyForm(props) {
+<<<<<<< HEAD
     const { setCustomerId } = useGlobalContext()
 	const [values, setValues] = useState(
 		props.initialValues ? props.initialValues : ""
@@ -24,15 +25,28 @@ function MyForm(props) {
 	const [modalCustomersListForSelect, setModalCustomersListForSelect] =
 		useState(false);
 	const [selectedCustomer, setSelectedCustomer] = useState();
+=======
+    const { setCustomerId } = useGlobalContext();
+    const [values, setValues] = useState(
+        props.initialValues ? props.initialValues : ""
+    );
+    const [isFetching, setFetching] = useState(false);
+    const [showMoreForm, setShowMoreForm] = useState(false);
+    const [modalCustomersListForSelect, setModalCustomersListForSelect] =
+        useState(false);
+    const [modalStocksListForSelect, setModalStocksListForSelect] =
+        useState(false);
+    const [selectedCustomer, setSelectedCustomer] = useState();
+>>>>>>> 3a9e5b85cc2b04458fdfdb1d57576270ca1b4aac
 
-	useEffect(() => {
-		props.getFormValues(values);
-	}, [values]);
-	useEffect(() => {
-        if(selectedCustomer) {
-            setValue("CustomerName", selectedCustomer.Name)
-            setValue("CustomerId", selectedCustomer.Id)
-            setCustomerId(selectedCustomer.Id)
+    useEffect(() => {
+        props.getFormValues(values);
+    }, [values]);
+    useEffect(() => {
+        if (selectedCustomer) {
+            setValue("CustomerName", selectedCustomer.Name);
+            setValue("CustomerId", selectedCustomer.Id);
+            setCustomerId(selectedCustomer.Id);
         }
     }, [selectedCustomer]);
 
@@ -71,138 +85,138 @@ function MyForm(props) {
     if (values === null) {
         return null;
     }
-	return (
-		<form className="doc-form" onSubmit={submit}>
-			<fieldset disabled={isFetching}>
-				<Row
-					className="doc-form-row"
-					onClick={() => setShowMoreForm(!showMoreForm)}
-				>
-					<Col className="form-label" span={21}>
-						<label>Təyinat</label>
-					</Col>
-					<Col className="form-icons" span={3}>
-						<img
-							src={
-								showMoreForm ? miniArrowDown_img : miniArrow_img
-							}
-						/>
-					</Col>
-				</Row>
+    return (
+        <form className="doc-form" onSubmit={submit}>
+            <fieldset disabled={isFetching}>
+                <Row
+                    className="doc-form-row"
+                    onClick={() => setShowMoreForm(!showMoreForm)}
+                >
+                    <Col className="form-label" span={21}>
+                        <label>Təyinat</label>
+                    </Col>
+                    <Col className="form-icons" span={3}>
+                        <img
+                            src={
+                                showMoreForm ? miniArrowDown_img : miniArrow_img
+                            }
+                        />
+                    </Col>
+                </Row>
 
-				{showMoreForm && (
-					<div>
-						<Row className="doc-form-row">
-							<Col className="form-icons" span={3}>
-								<img src={sale_img} />
-							</Col>
-							<Col className="form-label" span={6}>
-								<label>Satış №:</label>
-							</Col>
-							<Col className="form-input" span={12}>
-								<input
-									autoComplete="off"
-									type="text"
-									name="sale"
-									placeholder="satış nömrəsi"
-									value={values?.Name ?? ""}
-									onChange={(e) =>
-										setValue("Name", e.target.value)
-									}
-									required
-								/>
-							</Col>
-							<Col className="form-icons" span={3}>
-								<img src={miniArrow_img} />
-							</Col>
-						</Row>
-						<Row className="doc-form-row">
-							<Col className="form-icons" span={3}>
-								<img src={moment_img} />
-							</Col>
-							<Col className="form-label" span={6}>
-								<label>Tarix:</label>
-							</Col>
-							<Col className="form-input" span={12}>
-								<Space direction="vertical">
-									<DatePicker
-										onChange={onChange}
-										className="date-picker"
-										placeholder="tarix"
-									/>
-								</Space>
-							</Col>
-							<Col className="form-icons" span={3}>
-								<img src={miniArrow_img} />
-							</Col>
-						</Row>
-						<Row className="doc-form-row">
-							<Col className="form-icons" span={3}>
-								<img src={status_img} />
-							</Col>
-							<Col className="form-label" span={6}>
-								<label>Status:</label>
-							</Col>
-							<Col className="form-input" span={12}>
-								<input
-									type="text"
-									name="name"
-									placeholder="status"
-									value={values?.Status ?? ""}
-									onChange={(e) =>
-										setValue("Status", e.target.value)
-									}
-									required
-								/>
-							</Col>
-							<Col className="form-icons" span={3}>
-								<img src={miniArrow_img} />
-							</Col>
-						</Row>
-						<Row className="doc-form-row">
-							<Col className="form-icons" span={3}>
-								<img src={description_img} />
-							</Col>
-							<Col className="form-label" span={6}>
-								<label htmlFor="name">Şərh:</label>
-							</Col>
-							<Col className="form-input" span={12}>
-								<input
-									autoComplete="off"
-									type="text"
-									name="description"
-									placeholder="Şərh"
-									value={values?.Description ?? ""}
-									onChange={(e) =>
-										setValue("Description", e.target.value)
-									}
-									required
-								/>
-							</Col>
-							<Col className="form-icons" span={3}>
-								<img src={miniArrow_img} />
-							</Col>
-						</Row>
-					</div>
-				)}
+                {showMoreForm && (
+                    <div>
+                        <Row className="doc-form-row">
+                            <Col className="form-icons" span={3}>
+                                <img src={sale_img} />
+                            </Col>
+                            <Col className="form-label" span={6}>
+                                <label>Satış №:</label>
+                            </Col>
+                            <Col className="form-input" span={12}>
+                                <input
+                                    autoComplete="off"
+                                    type="text"
+                                    name="sale"
+                                    placeholder="satış nömrəsi"
+                                    value={values?.Name ?? ""}
+                                    onChange={(e) =>
+                                        setValue("Name", e.target.value)
+                                    }
+                                    required
+                                />
+                            </Col>
+                            <Col className="form-icons" span={3}>
+                                <img src={miniArrow_img} />
+                            </Col>
+                        </Row>
+                        <Row className="doc-form-row">
+                            <Col className="form-icons" span={3}>
+                                <img src={moment_img} />
+                            </Col>
+                            <Col className="form-label" span={6}>
+                                <label>Tarix:</label>
+                            </Col>
+                            <Col className="form-input" span={12}>
+                                <Space direction="vertical">
+                                    <DatePicker
+                                        onChange={onChange}
+                                        className="date-picker"
+                                        placeholder="tarix"
+                                    />
+                                </Space>
+                            </Col>
+                            <Col className="form-icons" span={3}>
+                                <img src={miniArrow_img} />
+                            </Col>
+                        </Row>
+                        <Row className="doc-form-row">
+                            <Col className="form-icons" span={3}>
+                                <img src={status_img} />
+                            </Col>
+                            <Col className="form-label" span={6}>
+                                <label>Status:</label>
+                            </Col>
+                            <Col className="form-input" span={12}>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    placeholder="status"
+                                    value={values?.Status ?? ""}
+                                    onChange={(e) =>
+                                        setValue("Status", e.target.value)
+                                    }
+                                    required
+                                />
+                            </Col>
+                            <Col className="form-icons" span={3}>
+                                <img src={miniArrow_img} />
+                            </Col>
+                        </Row>
+                        <Row className="doc-form-row">
+                            <Col className="form-icons" span={3}>
+                                <img src={description_img} />
+                            </Col>
+                            <Col className="form-label" span={6}>
+                                <label htmlFor="name">Şərh:</label>
+                            </Col>
+                            <Col className="form-input" span={12}>
+                                <input
+                                    autoComplete="off"
+                                    type="text"
+                                    name="description"
+                                    placeholder="Şərh"
+                                    value={values?.Description ?? ""}
+                                    onChange={(e) =>
+                                        setValue("Description", e.target.value)
+                                    }
+                                    required
+                                />
+                            </Col>
+                            <Col className="form-icons" span={3}>
+                                <img src={miniArrow_img} />
+                            </Col>
+                        </Row>
+                    </div>
+                )}
 
-				<Row className="doc-form-row">
-					<Col className="form-icons" span={3}>
-						<img src={stock_img} />
-					</Col>
-					<Col className="form-label" span={6}>
-						<label>Anbar:</label>
-					</Col>
-					<Col className="form-input" span={12}>
-						<SelectStock
-							defaultValue={values?.StockName ?? ""}
-							setValue={setValue}
-						/>
-					</Col>
-					<Col className="form-icons" span={3}>
-						<img src={miniArrow_img} />
-					</Col>
-				</Row>
+                <Row className="doc-form-row">
+                    <Col className="form-icons" span={3}>
+                        <img src={stock_img} />
+                    </Col>
+                    <Col className="form-label" span={6}>
+                        <label>Anbar:</label>
+                    </Col>
+                    <Col className="form-input" span={12}>
+                        <SelectStock
+                            defaultValue={values?.StockName ?? ""}
+                            setValue={setValue}
+                        />
+                    </Col>
+                    <Col className="form-icons" span={3}>
+                        <img src={miniArrow_img} />
+                    </Col>
+                </Row>
                 <Row className="doc-form-row">
                     <Col className="form-icons" span={3}>
                         <img src={costumer_img} />
