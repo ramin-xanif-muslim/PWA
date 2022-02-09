@@ -23,8 +23,6 @@ function MyForm(props) {
 	const [showMoreForm, setShowMoreForm] = useState(false);
 	const [modalCustomersListForSelect, setModalCustomersListForSelect] =
 		useState(false);
-	const [modalStocksListForSelect, setModalStocksListForSelect] =
-		useState(false);
 	const [selectedCustomer, setSelectedCustomer] = useState();
 
 	useEffect(() => {
@@ -241,20 +239,8 @@ function MyForm(props) {
                 setVisible={setModalCustomersListForSelect}
             >
                 <CustomersListForSelect
-                    // close={setModalCustomersListForSelect}
                     setSelectedCustomer={setSelectedCustomer}
                     setVisibleModal={setModalCustomersListForSelect}
-                />
-            </MyModal>
-            <MyModal
-                style={{ width: "100%" }}
-                visible={modalStocksListForSelect}
-                setVisible={setModalStocksListForSelect}
-            >
-                <CustomersListForSelect
-                    // close={setModalStocksListForSelect}
-                    setSelectedCustomer={setSelectedCustomer}
-                    setVisibleModal={setModalStocksListForSelect}
                 />
             </MyModal>
         </form>

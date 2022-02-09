@@ -33,6 +33,7 @@ function ProductListForSelect(props) {
             let arr = products.filter((p) => p.checkedBox === true);
             props.selectPrd(arr);
         }
+        setProducts([])
         props.close(false);
 	};
 

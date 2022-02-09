@@ -8,8 +8,8 @@ export const api = Object.freeze({
         console.log("response",response)
         return response
     },
-    async fetchDemands(obj) {
-        const response = await sendRequest("demands/get.php",obj)
+    async fetchDemands(id) {
+        const response = await sendRequest("demands/get.php",{ id: id })
         return response
     },
     async fetchDashboards() {

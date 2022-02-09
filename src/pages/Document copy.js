@@ -21,11 +21,14 @@ function Document() {
 	const { documentsItem, hideFooter, barckTo, isNewDocument } =
 		useGlobalContext();
 	const [isLoading, setIsLoading] = useState(false);
+	const [gotProducts, setGotProducts] = useState([]);
 	const [products, setProducts] = useState([]);
 	const [isFooterOpen, setIsFoterOpen] = useState(false);
 	const [modalProductListForSelect, setModalProductListForSelect] =
 		useState(false);
+	const [selectedProducts, setSelectedProducts] = useState([]);
 	const [formValues, setFormValues] = useState();
+	const [barcodeProduct, setBarcodeProduct] = useState([]);
 	const [isChangeDocument, setIsChangeDocument] = useState(false);
 
 	useEffect(() => {
@@ -36,21 +39,38 @@ function Document() {
 		if (!isNewDocument) {
 			setIsLoading(true);
 			let res = await api.fetchDemands(documentsItem.Id);
-			setProducts(res.List[0].Positions);
+			setGotProducts(res.List[0].Positions);
 			setIsLoading(false);
 		}
 	}, []);
+
+	useEffect(() => {
+		creatProductList();
+	}, [selectedProducts, gotProducts, barcodeProduct]);
+
+	const creatProductList = () => {
+		let productList = [];
+		if (isNewDocument) {
+			productList = selectedProducts;
+		} else {
+			productList = selectedProducts.concat(gotProducts);
+		}
+		if (barcodeProduct) {
+			productList = productList.concat(barcodeProduct);
+		}
+		setProducts(productList);
+	};
 	const deleteProduct = () => {
 		setProducts(products.filter((item) => item.Quantity !== 0));
 	};
 
 	const selectPrd = (arr) => {
 		setIsChangeDocument(true);
-		setProducts([...products, ...arr]);
+		setSelectedProducts([...selectedProducts, ...arr]);
 	};
 	const getBarcodeProduct = (newBarcodeProduct) => {
 		setIsChangeDocument(true);
-		setProducts([...products, newBarcodeProduct]);
+		setBarcodeProduct([...barcodeProduct, newBarcodeProduct]);
 	};
 	const getFormValues = (v) => {
 		setFormValues(v);
