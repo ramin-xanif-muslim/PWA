@@ -15,17 +15,6 @@ import CustomersListForSelect from "./CustomersListForSelect";
 import { useGlobalContext } from "../config/context";
 
 function MyForm(props) {
-<<<<<<< HEAD
-    const { setCustomerId } = useGlobalContext()
-	const [values, setValues] = useState(
-		props.initialValues ? props.initialValues : ""
-	);
-	const [isFetching, setFetching] = useState(false);
-	const [showMoreForm, setShowMoreForm] = useState(false);
-	const [modalCustomersListForSelect, setModalCustomersListForSelect] =
-		useState(false);
-	const [selectedCustomer, setSelectedCustomer] = useState();
-=======
     const { setCustomerId } = useGlobalContext();
     const [values, setValues] = useState(
         props.initialValues ? props.initialValues : ""
@@ -37,7 +26,6 @@ function MyForm(props) {
     const [modalStocksListForSelect, setModalStocksListForSelect] =
         useState(false);
     const [selectedCustomer, setSelectedCustomer] = useState();
->>>>>>> 3a9e5b85cc2b04458fdfdb1d57576270ca1b4aac
 
     useEffect(() => {
         props.getFormValues(values);

@@ -46,11 +46,33 @@ function Document() {
 
 	const selectPrd = (arr) => {
 		setIsChangeDocument(true);
-		setProducts([...products, ...arr]);
+        let isNewBarcodeProductInProducts = false
+        arr.map(a => {
+            console.log(a)
+            products.forEach((p) => {
+                if (p.BarCode === a.BarCode) {
+                    p.Quantity += a.Quantity;
+                    isNewBarcodeProductInProducts = true
+                }
+            });
+            if(!isNewBarcodeProductInProducts) {
+                setProducts([...products, a])
+            }
+
+        })
 	};
 	const getBarcodeProduct = (newBarcodeProduct) => {
 		setIsChangeDocument(true);
-		setProducts([...products, newBarcodeProduct]);
+        let isNewBarcodeProductInProducts = false
+		products.forEach((p) => {
+			if (p.BarCode === newBarcodeProduct.BarCode) {
+				p.Quantity += newBarcodeProduct.Quantity;
+                isNewBarcodeProductInProducts = true
+			}
+		});
+        if(!isNewBarcodeProductInProducts) {
+            setProducts([...products, newBarcodeProduct])
+        }
 	};
 	const getFormValues = (v) => {
 		setFormValues(v);
