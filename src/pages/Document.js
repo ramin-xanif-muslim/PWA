@@ -5,7 +5,6 @@ import MyLoading from "../components/UI/loading/MyLoading";
 import MyModal from "../components/UI/modal/MyModal";
 import { useGlobalContext } from "../config/context";
 import sendRequest from "../config/sentRequest";
-import Debt from "../components/Debt";
 import DocFooter from "../components/DocFooter";
 import ProductList from "../components/ProductList";
 import { message } from "antd";
@@ -13,12 +12,13 @@ import { keysToLowerCase } from "../functions/indexs";
 import ok from "../audio/ok.mp3";
 import { useNavigate } from "react-router";
 import { api } from "../api/api";
+import useRequest from "../hooks/useRequest";
 
 const audio = new Audio(ok);
 
 function Document() {
 	let navigate = useNavigate();
-	const { documentsItem, hideFooter, barckTo, isNewDocument } =
+	const { documentsItem, hideFooter, isNewDocument, from, setIsNewDocument } =
 		useGlobalContext();
 	const [isLoading, setIsLoading] = useState(false);
 	const [products, setProducts] = useState([]);
@@ -35,62 +35,68 @@ function Document() {
 	useEffect(async () => {
 		if (!isNewDocument) {
 			setIsLoading(true);
-			let res = await api.fetchDemands(documentsItem.Id);
+			let res = await sendRequest(from + "/get.php", {
+				id: documentsItem.id,
+			});
 			setProducts(res.List[0].Positions);
 			setIsLoading(false);
 		}
 	}, []);
+
 	const deleteProduct = () => {
 		setProducts(products.filter((item) => item.Quantity !== 0));
 	};
 
 	const selectPrd = (arr) => {
 		setIsChangeDocument(true);
-        let isNewBarcodeProductInProducts = false
-        arr.map(a => {
-            console.log(a)
-            products.forEach((p) => {
-                if (p.BarCode === a.BarCode) {
-                    p.Quantity += a.Quantity;
-                    isNewBarcodeProductInProducts = true
-                }
-            });
-            if(!isNewBarcodeProductInProducts) {
-                setProducts([...products, a])
-            }
-
-        })
+		let isNewBarcodeProductInProducts = false;
+		arr.map((a) => {
+			products.forEach((p) => {
+				if (p.BarCode === a.BarCode) {
+					p.Quantity += a.Quantity;
+					isNewBarcodeProductInProducts = true;
+				}
+			});
+			if (!isNewBarcodeProductInProducts) {
+				setProducts([...products, a]);
+			}
+		});
 	};
 	const getBarcodeProduct = (newBarcodeProduct) => {
 		setIsChangeDocument(true);
-        let isNewBarcodeProductInProducts = false
+		let isNewBarcodeProductInProducts = false;
 		products.forEach((p) => {
 			if (p.BarCode === newBarcodeProduct.BarCode) {
 				p.Quantity += newBarcodeProduct.Quantity;
-                isNewBarcodeProductInProducts = true
+				isNewBarcodeProductInProducts = true;
 			}
 		});
-        if(!isNewBarcodeProductInProducts) {
-            setProducts([...products, newBarcodeProduct])
-        }
+		if (!isNewBarcodeProductInProducts) {
+			setProducts([...products, newBarcodeProduct]);
+		}
 	};
 	const getFormValues = (v) => {
-		setFormValues(v);
+		setFormValues(keysToLowerCase(v));
 	};
 	const key = "updatable";
 	const saveButton = async () => {
-		if (!formValues.CustomerName) {
+		console.log(formValues);
+		console.log("from", from);
+		if (!formValues.customername) {
 			message.success({
 				content: "Zəhmət olmasa, qarşı tərəfi seçin",
 				key,
 				duration: 2,
 			});
-		} else if (!formValues.StockName) {
-			message.success({
-				content: "Zəhmət olmasa, anbarı seçin!",
-				key,
-				duration: 2,
-			});
+		} 
+         if (from !== "enters") {
+			if (!formValues.stockname) {
+				message.success({
+					content: "Zəhmət olmasa, anbarı seçin!",
+					key,
+					duration: 2,
+				});
+			}
 		} else {
 			message.loading({ content: "Loading...", key });
 			let newArr = [];
@@ -104,16 +110,15 @@ function Document() {
 				});
 			}
 			formValues.positions = newArr;
-			let controller = barckTo;
-			let sendObj = keysToLowerCase(formValues);
+			let controller = from;
 			if (isNewDocument) {
 				let responseName = await sendRequest(
 					controller + "/newname.php",
-					{ name: sendObj.name ? sendObj.name : "" }
+					{ name: formValues.name ? formValues.name : "" }
 				);
-				sendObj.name = responseName.ResponseService;
+				formValues.name = responseName.ResponseService;
 			}
-			let res = await sendRequest(controller + "/put.php", sendObj);
+			let res = await sendRequest(controller + "/put.php", formValues);
 			if (res.ResponseStatus === "0") {
 				message.success({
 					content: "Dəyişikliklər yadda saxlanıldı!",
@@ -122,10 +127,14 @@ function Document() {
 				});
 				audio.play();
 				setIsChangeDocument(false);
+				if (isNewDocument) {
+					navigate(`/${from}`);
+					setIsNewDocument(false);
+				}
 			}
 		}
 	};
-	if (!barckTo) {
+	if (!from) {
 		navigate(`/`);
 		return null;
 	}
@@ -138,8 +147,6 @@ function Document() {
 			/>
 
 			{isLoading && <MyLoading />}
-
-			<Debt isNew={isNewDocument} />
 
 			<ProductList
 				setIsChangeDocument={setIsChangeDocument}

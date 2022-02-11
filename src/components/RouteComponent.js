@@ -38,7 +38,7 @@ function RouteComponent(props) {
 			<Route path="/supplyreturns" element={<Supplyreturns />} />
 			<Route path="/demandreturns" element={<Demandreturns />} />
 			<Route path="/products" element={<Products />} />
-			<Route path="/enter" element={<Enters />} />
+			<Route path="/enters" element={<Enters />} />
 			<Route path="/losses" element={<Losses />} />
 			<Route path="/moves" element={<Moves />} />
 			<Route path="/stockbalance" element={<Stockbalance />} />

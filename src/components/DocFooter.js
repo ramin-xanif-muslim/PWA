@@ -17,7 +17,7 @@ const DocFooter = ({
 	setIsChangeDocument,
 }) => {
 	let navigate = useNavigate();
-	const { barckTo } = useGlobalContext();
+	const { from, setIsNewDocument } = useGlobalContext();
 
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [totalQuantity, setTotalQuantity] = useState(0);
@@ -49,7 +49,7 @@ const DocFooter = ({
 	}, [isChangeDocument]);
 
 	const closeDocument = () => {
-		navigate(`/${barckTo}`);
+		navigate(`/${from}`);
 	};
 	const onClose = (e) => {
 		e.stopPropagation();
@@ -57,7 +57,8 @@ const DocFooter = ({
 			setShowWarningModal(true);
 			setIsCloseDocument(false);
 		} else {
-			navigate(`/${barckTo}`);
+			navigate(`/${from}`);
+            setIsNewDocument(false)
 		}
 	};
 

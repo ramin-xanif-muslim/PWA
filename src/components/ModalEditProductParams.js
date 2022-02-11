@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import plus_img from "../img/document_pages_img/plus.svg";
 import minus_img from "../img/document_pages_img/minus.svg";
+import { ConvertFixedTable } from "../functions/indexs";
 
 const ModalEditProductParams = (props) => {
+    const [totalPrice, setTotalPrice] = useState();
+    useEffect(() => {
+        if (props.item) {
+            setTotalPrice(props.quantity * props.item.Price);
+        }
+    }, [props.quantity, props.item.Price]);
     return (
         <div className="set-data">
             <p className="product-name">{props.item.Name}</p>
@@ -34,7 +41,7 @@ const ModalEditProductParams = (props) => {
                 <div className="price">
                     <label htmlFor="price">Qiymət</label>
                     <input
-                        value={props.item ? props.item.Price : 0}
+                        value={props.item ? ConvertFixedTable(Number(props.item.Price)) : 0}
                         onChange={(e) =>
                             props.setItem({ ...props.item, Price: e.target.value })
                         }
@@ -55,11 +62,15 @@ const ModalEditProductParams = (props) => {
                 </div> */}
                 <div className="amount">
                     <label htmlFor="amount">Məbləğ:</label>
-                    <input
-                        id="amount"
-                        type="number"
-                        placeholder="₼"
-                    ></input>
+                            <input
+                                value={totalPrice}
+                                onChange={(e) =>
+                                    setTotalPrice(Number(e.target.value))
+                                }
+                                id="amount"
+                                type="number"
+                                placeholder="₼"
+                            ></input>
                 </div>
                 <button onClick={props.putQuantity}>Təsdiq et</button>
             </div>

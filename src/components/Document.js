@@ -4,12 +4,12 @@ import { useGlobalContext } from "../config/context";
 
 function Document(props) {
     const { item, index, from } = props;
-    const { getDocumentsItem, putBarckTo } = useGlobalContext();
+    const { getDocumentsItem, putFrom } = useGlobalContext();
     const { CustomerName, Name, Amount, Moment } = item;
 
     const onClick = () => {
         getDocumentsItem(item);
-        putBarckTo(from);
+        putFrom(from);
     };
 
     if (from === "products") {

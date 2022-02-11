@@ -96,8 +96,8 @@ const ProductList = ({
 										</div>
 										<div className="quantity-price">
 											<p>
-												{Quantity}ed *{" "}
-												{ConvertFixedTable(Price)}
+												{ConvertFixedTable(Number(Quantity))}ed *{" "}
+												{ConvertFixedTable(Number(Price))}
 												<sub>₼</sub>
 											</p>
 										</div>
@@ -142,7 +142,7 @@ const ProductList = ({
 				<ModalEditProductParams
 					item={item}
 					setItem={setItem}
-					quantity={quantity}
+					quantity={ConvertFixedTable(Number(quantity))}
 					setQuantity={setQuantity}
 					putQuantity={putQuantity}
 					discount={discount}
