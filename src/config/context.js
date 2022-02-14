@@ -41,9 +41,6 @@ export const AppProvider = ({ children }) => {
     const putFrom = (item) => {
         dispatch({ type: 'FROM', payload: item})
     }
-    const putStocksToGlobalStor = (item) => {
-        dispatch({ type: 'STOCKS', payload: item})
-    }
     const setIsNewDocument = (item) => {
         dispatch({ type: 'IS_NEW_DOCUMENT', payload: item})
     }
@@ -62,7 +59,6 @@ export const AppProvider = ({ children }) => {
                 showFooter,
                 hideFooter,
                 getDocumentsItem,
-                putStocksToGlobalStor,
                 setIsNewDocument,
                 setCustomerId,
                 putFrom,

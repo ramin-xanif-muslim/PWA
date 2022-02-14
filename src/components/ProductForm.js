@@ -4,14 +4,11 @@ import stock_img from "../img/document_pages_img/stock.png";
 import miniArrow_img from "../img/document_pages_img/mini-arrow.svg";
 import { Col, DatePicker, Row, Space } from "antd";
 import "../styles/Documents.css";
-import SelectStock from "./UI/select/SelectStock";
-import { useGlobalContext } from "../config/context";
 import sendRequest from "../config/sentRequest";
-import Form from "antd/lib/form/Form";
 import Checkbox from "antd/lib/checkbox/Checkbox";
-import SelectQroup from "./UI/select/SelectQroup";
 import MyModal from "./UI/modal/MyModal";
 import SelectPage from "./SelectPage";
+import { ConvertFixedTable } from "../functions/indexs";
 
 function ProductForm(props) {
     const [values, setValues] = useState(
@@ -58,7 +55,6 @@ function ProductForm(props) {
     }, [barcode]);
 
     useEffect(() => {
-        console.log(values);
         props.setIsChangeDocument(true);
         setIsOpenPage(true);
         props.getFormValues(values);
@@ -256,7 +252,7 @@ function ProductForm(props) {
                             type="number"
                             name="buyprice"
                             placeholder=""
-                            value={values?.buyprice ?? ""}
+                            value={ConvertFixedTable(values?.buyprice) ?? ""}
                             onChange={(e) =>
                                 setValue("buyprice", e.target.value)
                             }
@@ -281,7 +277,7 @@ function ProductForm(props) {
                             type="number"
                             name="minprice"
                             placeholder=""
-                            value={values?.minprice ?? ""}
+                            value={ConvertFixedTable(values?.minprice) ?? ""}
                             onChange={(e) =>
                                 setValue("minprice", e.target.value)
                             }
@@ -306,7 +302,7 @@ function ProductForm(props) {
                             type="number"
                             name="price"
                             placeholder=""
-                            value={values?.price ?? ""}
+                            value={ConvertFixedTable(values?.price) ?? ""}
                             onChange={(e) => setValue("price", e.target.value)}
                             required
                         />

@@ -4,9 +4,16 @@ import { sidebarProfileLinks, sidebarSettingsLinks } from "../config/data";
 import ProfilSidebarHeader from "../img/ProfilSidebarHeader.png";
 import chat from "../img/Chat.png";
 import "../styles/SideBar.css";
+import { useGlobalContext } from "../config/context";
 
 const Sidebar = () => {
 	const [isChecked, setIsChecked] = useState(false);
+    const { logout } = useGlobalContext()
+
+    const onLogout = () => {
+		localStorage.clear();
+        logout()
+    }
 
 	return (
 		<aside className="sidebar" >
@@ -70,6 +77,18 @@ const Sidebar = () => {
 						</li>
 					);
 				})}
+						<li onClick={onLogout}>
+								{/* <img src={isChecked === 10 ? icon_h : icon} /> */}
+								<div
+									className={
+										isChecked === 10
+											? "links_text_h"
+											: "links_text"
+									}
+								>
+									Çıxış
+								</div>
+						</li>
 			</ul>
 		</aside>
 	);

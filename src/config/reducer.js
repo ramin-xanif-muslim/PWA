@@ -25,9 +25,6 @@ const reducer = (state, action) => {
     if( action.type === 'FROM') {
         return { ...state, from: action.payload }
     }
-    if( action.type === 'STOCKS') {
-        return { ...state, stocks: action.payload }
-    }
     if( action.type === 'IS_NEW_DOCUMENT') {
         return { ...state, isNewDocument: action.payload }
     }

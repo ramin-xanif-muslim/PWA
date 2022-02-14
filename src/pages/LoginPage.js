@@ -8,9 +8,11 @@ import "../styles/Login.css";
 const LoginPage = () => {
     const { login } = useGlobalContext()
     const [isLogin, setIsLogin] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState("")
 
 	const onFinish = (values) => {
+        setIsLoading(true)
 		async function fetchToken() {
 			const res = await axios.post(
 				"https://dev.bein.az/login/send.php",
@@ -21,8 +23,9 @@ const LoginPage = () => {
                 login(true)
 				setIsLogin(true);
 			} else setError(res.data.Body);
+            setIsLoading(false)
 		}
-		fetchToken();
+        fetchToken();
 	};
 
 	const onFinishFailed = (errorInfo) => {
@@ -86,6 +89,7 @@ const LoginPage = () => {
 
 				<Form.Item wrapperCol={{}}>
 					<Button
+                        loading={isLoading}
 						className="submit-button"
 						type="primary"
 						htmlType="submit"

@@ -15,16 +15,12 @@ import slider from "../img/Slider.png";
 import "../styles/Header.css";
 import { useGlobalContext } from "../config/context";
 import { Link } from "react-router-dom";
-import sendRequest from "../config/newSentRequest";
-// import sendRequest from "../config/sentRequest";
-import useRequest from "../hooks/useRequest";
 
 function Header({ openSidebar }) {
 	const {
 		checkedFooterNavItem,
 		openSearchInput,
 		isSearch,
-		putStocksToGlobalStor,
 	} = useGlobalContext();
 
 	const [icon, setIcon] = useState("");
@@ -71,17 +67,6 @@ function Header({ openSidebar }) {
 	useEffect(() => {
 		fucShowIcons();
 	}, [checkedFooterNavItem]);
-    
-    // const responseStocks = useRequest('stocks/get.php',{})
-    // useEffect(() => {
-    //     if(responseStocks.data) {
-    //         	putStocksToGlobalStor(responseStocks.data.List);
-    //         }
-    // },[responseStocks.data])
-	// useEffect(async () => {
-	// 	// let res = await sendRequest("stocks/get.php", {});
-	// 	putStocksToGlobalStor(data.List);
-	// }, []);
 
 	return (
 		<div className="header">
