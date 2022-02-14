@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../config/context";
 
 function Document(props) {
     const { item, index, from } = props;
     const { getDocumentsItem, putFrom } = useGlobalContext();
-    const { CustomerName, Name, Amount, Moment } = item;
+    const { CustomerName, Name, Amount, Moment, Id } = item;
+    const [isPermmision, setIPermision] = useState(false)
+    const permission = ['supplies','supplyreturns','demands','demandreturns','enters','losses']
+
+    useEffect(() => {
+        let isLink = permission.includes(from)
+        setIPermision(isLink)
+    },[from])
 
     const onClick = () => {
         getDocumentsItem(item);
@@ -23,7 +30,7 @@ function Document(props) {
     }
 
     return (
-        <Link key={Name} to="/document" style={{ color: "inherit" }}>
+        <Link key={Id} to={isPermmision ? "/document" : `/${from}`} style={{ color: "inherit" }}>
             <div className="demand" onClick={onClick}>
                 <div className="index">
                     <p>{index}</p>
@@ -54,7 +61,7 @@ export default Document;
 const DocumentForProduct = ({ item, index, from, onClick }) => {
     const { BarCode, Name, Price, Moment, OwnerId } = item;
     return (
-        <Link key={OwnerId} to="/document" style={{ color: "inherit" }}>
+        <Link key={OwnerId} to="/document_product" style={{ color: "inherit" }}>
             <div className="demand" onClick={onClick}>
                 <div className="index">
                     <p>{index}</p>

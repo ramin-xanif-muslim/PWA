@@ -72,12 +72,12 @@ function Header({ openSidebar }) {
 		fucShowIcons();
 	}, [checkedFooterNavItem]);
     
-    const [data, loading, error] = useRequest(()=>sendRequest("stocks/get.php", {}))
+    const responseStocks = useRequest('stocks/get.php',{})
     useEffect(() => {
-        if(data) {
-            	putStocksToGlobalStor(data.List);
+        if(responseStocks.data) {
+            	putStocksToGlobalStor(responseStocks.data.List);
             }
-    },[data])
+    },[responseStocks.data])
 	// useEffect(async () => {
 	// 	// let res = await sendRequest("stocks/get.php", {});
 	// 	putStocksToGlobalStor(data.List);

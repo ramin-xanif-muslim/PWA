@@ -7,28 +7,44 @@ import description_img from "../img/document_pages_img/description.png";
 import status_img from "../img/document_pages_img/status.png";
 import miniArrow_img from "../img/document_pages_img/mini-arrow.svg";
 import miniArrowDown_img from "../img/document_pages_img/mini-arrow-down.svg";
-import { Col, DatePicker, Row, Space } from "antd";
+import { Checkbox, Col, DatePicker, Row, Space } from "antd";
 import "../styles/Documents.css";
 import SelectStock from "./UI/select/SelectStock";
 import MyModal from "./UI/modal/MyModal";
 import CustomersListForSelect from "./CustomersListForSelect";
 import { useGlobalContext } from "../config/context";
 import Debt from "./Debt";
+import SelectPage from "./SelectPage";
 
 function MyForm(props) {
 	const { setCustomerId, from } = useGlobalContext();
 	const [values, setValues] = useState(
-		props.initialValues ? props.initialValues : ""
+		props.initialValues ? props.initialValues : ''
 	);
 	const [isFetching, setFetching] = useState(false);
 	const [showMoreForm, setShowMoreForm] = useState(false);
 	const [modalCustomersListForSelect, setModalCustomersListForSelect] =
 		useState(false);
-	const [modalStocksListForSelect, setModalStocksListForSelect] =
-		useState(false);
 	const [selectedCustomer, setSelectedCustomer] = useState();
+	const [isChecked, setIsChecked] = useState(false);
+
+	const handleOnChange = () => {
+		setIsChecked(!isChecked);
+	};
 
 	useEffect(() => {
+		if (values?.Status === 1) {
+			setIsChecked(true);
+		}
+		if (!props.initialValues) {
+            setIsChecked(true);
+		}
+	}, []);
+	useEffect(() => {
+		setValue("Status", isChecked);
+	}, [isChecked]);
+	useEffect(() => {
+		console.log(values);
 		props.getFormValues(values);
 	}, [values]);
 	useEffect(() => {
@@ -96,8 +112,8 @@ function MyForm(props) {
 								<input
 									autoComplete="off"
 									type="text"
-									name="sale"
-									placeholder="satış nömrəsi"
+									name="name"
+									placeholder=""
 									value={values?.Name ?? ""}
 									onChange={(e) =>
 										setValue("Name", e.target.value)
@@ -109,7 +125,10 @@ function MyForm(props) {
 								<img src={miniArrow_img} />
 							</Col>
 						</Row>
-						<Row className="doc-form-row">
+
+                        {/* // datePicer don't worck is true */}
+
+						{/* <Row className="doc-form-row">
 							<Col className="form-icons" span={3}>
 								<img src={moment_img} />
 							</Col>
@@ -128,7 +147,8 @@ function MyForm(props) {
 							<Col className="form-icons" span={3}>
 								<img src={miniArrow_img} />
 							</Col>
-						</Row>
+						</Row> */}
+                        
 						<Row className="doc-form-row">
 							<Col className="form-icons" span={3}>
 								<img src={status_img} />
@@ -137,15 +157,9 @@ function MyForm(props) {
 								<label>Status:</label>
 							</Col>
 							<Col className="form-input" span={12}>
-								<input
-									type="text"
-									name="name"
-									placeholder="status"
-									value={values?.Status ?? ""}
-									onChange={(e) =>
-										setValue("Status", e.target.value)
-									}
-									required
+								<Checkbox
+									checked={isChecked}
+									onChange={handleOnChange}
 								/>
 							</Col>
 							<Col className="form-icons" span={3}>
@@ -164,7 +178,7 @@ function MyForm(props) {
 									autoComplete="off"
 									type="text"
 									name="description"
-									placeholder="Şərh"
+									placeholder=""
 									value={values?.Description ?? ""}
 									onChange={(e) =>
 										setValue("Description", e.target.value)
@@ -246,6 +260,19 @@ function MyForm(props) {
 					setVisibleModal={setModalCustomersListForSelect}
 				/>
 			</MyModal>
+
+			{/* <MyModal
+				style={{ width: "100%" }}
+				visible={modalCustomersListForSelect}
+				setVisible={setModalCustomersListForSelect}
+			>
+				<SelectPage
+                url='customers/get.php'
+                title='Müştəri'
+					select={setSelectedCustomer}
+					visible={setModalCustomersListForSelect}
+				/>
+			</MyModal> */}
 		</form>
 	);
 }

@@ -11,7 +11,7 @@ import { message } from "antd";
 import { keysToLowerCase } from "../functions/indexs";
 import ok from "../audio/ok.mp3";
 import { useNavigate } from "react-router";
-import { api } from "../api/api";
+import ProductForm from "../components/ProductForm";
 import useRequest from "../hooks/useRequest";
 
 const audio = new Audio(ok);
@@ -20,7 +20,6 @@ function Document() {
 	let navigate = useNavigate();
 	const { documentsItem, hideFooter, isNewDocument, from, setIsNewDocument } =
 		useGlobalContext();
-	const [isLoading, setIsLoading] = useState(false);
 	const [products, setProducts] = useState([]);
 	const [isFooterOpen, setIsFoterOpen] = useState(false);
 	const [modalProductListForSelect, setModalProductListForSelect] =
@@ -29,19 +28,36 @@ function Document() {
 	const [isChangeDocument, setIsChangeDocument] = useState(false);
 
 	useEffect(() => {
-		hideFooter();
+		if (isNewDocument) {
+			hideFooter();
+			setFormValues({ customername: null, stockname: null });
+		}
+		setIsChangeDocument(false);
 	}, []);
 
-	useEffect(async () => {
-		if (!isNewDocument) {
-			setIsLoading(true);
-			let res = await sendRequest(from + "/get.php", {
-				id: documentsItem.id,
-			});
-			setProducts(res.List[0].Positions);
-			setIsLoading(false);
+	const responsePositions = useRequest(
+		!isNewDocument ? from + "/get.php" : null,
+		{ id: documentsItem.Id }
+	);
+	useEffect(() => {
+		if (responsePositions.data) {
+			setProducts(responsePositions.data.List[0].Positions);
+			setIsChangeDocument(false);
 		}
-	}, []);
+	}, [responsePositions.data]);
+	// useEffect(async () => {
+	// 	if (!isNewDocument) {
+	// 		setIsLoading(true);
+	// 		let res = await sendRequest(from + "/get.php", {
+	// 			id: documentsItem.id,
+	// 		});
+	//         if(res) {
+	//             console.log(res)
+	//             setProducts(res.List[0].Positions);
+	//             setIsLoading(false);
+	//         }
+	// 	}
+	// }, []);
 
 	const deleteProduct = () => {
 		setProducts(products.filter((item) => item.Quantity !== 0));
@@ -50,6 +66,7 @@ function Document() {
 	const selectPrd = (arr) => {
 		setIsChangeDocument(true);
 		let isNewBarcodeProductInProducts = false;
+		let newarr = [];
 		arr.map((a) => {
 			products.forEach((p) => {
 				if (p.BarCode === a.BarCode) {
@@ -58,9 +75,12 @@ function Document() {
 				}
 			});
 			if (!isNewBarcodeProductInProducts) {
-				setProducts([...products, a]);
+				newarr.push(a);
+			} else {
+				isNewBarcodeProductInProducts = false;
 			}
 		});
+		setProducts([...products, ...newarr]);
 	};
 	const getBarcodeProduct = (newBarcodeProduct) => {
 		setIsChangeDocument(true);
@@ -76,28 +96,29 @@ function Document() {
 		}
 	};
 	const getFormValues = (v) => {
-		setFormValues(keysToLowerCase(v));
+		// setIsChangeDocument(true);
+		setFormValues(v);
 	};
 	const key = "updatable";
+
 	const saveButton = async () => {
-		console.log(formValues);
-		console.log("from", from);
-		if (!formValues.customername) {
-			message.success({
-				content: "Zəhmət olmasa, qarşı tərəfi seçin",
+		if (!formValues.StockName) {
+			message.warning({
+				content: "Zəhmət olmasa, anbarı seçin!",
 				key,
 				duration: 2,
 			});
-		} 
-         if (from !== "enters") {
-			if (!formValues.stockname) {
-				message.success({
-					content: "Zəhmət olmasa, anbarı seçin!",
+		}
+		if (from !== "enters") {
+			if (!formValues.CustomerName) {
+				message.warning({
+					content: "Zəhmət olmasa, qarşı tərəfi seçin",
 					key,
 					duration: 2,
 				});
 			}
-		} else {
+		}
+		if (formValues.StockName && formValues.CustomerName) {
 			message.loading({ content: "Loading...", key });
 			let newArr = [];
 			if (products[0]) {
@@ -114,11 +135,14 @@ function Document() {
 			if (isNewDocument) {
 				let responseName = await sendRequest(
 					controller + "/newname.php",
-					{ name: formValues.name ? formValues.name : "" }
+					{ name: formValues.Name ? formValues.Name : "" }
 				);
-				formValues.name = responseName.ResponseService;
+				formValues.Name = responseName.ResponseService;
 			}
-			let res = await sendRequest(controller + "/put.php", formValues);
+			let res = await sendRequest(
+				controller + "/put.php",
+				keysToLowerCase(formValues)
+			);
 			if (res.ResponseStatus === "0") {
 				message.success({
 					content: "Dəyişikliklər yadda saxlanıldı!",
@@ -146,7 +170,7 @@ function Document() {
 				setIsChangeDocument={setIsChangeDocument}
 			/>
 
-			{isLoading && <MyLoading />}
+			{responsePositions.loading && <MyLoading />}
 
 			<ProductList
 				setIsChangeDocument={setIsChangeDocument}
@@ -155,14 +179,6 @@ function Document() {
 				isFooterOpen={isFooterOpen}
 				products={products}
 				getBarcodeProduct={getBarcodeProduct}
-			/>
-			<DocFooter
-				products={products}
-				isFooterOpen={isFooterOpen}
-				setIsFoterOpen={setIsFoterOpen}
-				saveButton={saveButton}
-				isChangeDocument={isChangeDocument}
-				setIsChangeDocument={setIsChangeDocument}
 			/>
 
 			<MyModal
@@ -175,6 +191,13 @@ function Document() {
 					selectPrd={selectPrd}
 				/>
 			</MyModal>
+			<DocFooter
+				products={products}
+				isFooterOpen={isFooterOpen}
+				setIsFoterOpen={setIsFoterOpen}
+				saveButton={saveButton}
+				isChangeDocument={isChangeDocument}
+			/>
 		</div>
 	);
 }

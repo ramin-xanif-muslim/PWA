@@ -14,7 +14,6 @@ const DocFooter = ({
 	setIsFoterOpen,
 	saveButton,
 	isChangeDocument,
-	setIsChangeDocument,
 }) => {
 	let navigate = useNavigate();
 	const { from, setIsNewDocument } = useGlobalContext();
@@ -42,11 +41,11 @@ const DocFooter = ({
 	useEffect(() => {
 		computationPriceAndQuantity();
 	}, [products]);
-	useEffect(() => {
-		if (isChangeDocument) {
-			setIsCloseDocument(true);
-		}
-	}, [isChangeDocument]);
+	// useEffect(() => {
+	// 	if (isChangeDocument) {
+	// 		setIsCloseDocument(true);
+	// 	}
+	// }, [isChangeDocument]);
 
 	const closeDocument = () => {
 		navigate(`/${from}`);
@@ -55,7 +54,7 @@ const DocFooter = ({
 		e.stopPropagation();
 		if (isChangeDocument) {
 			setShowWarningModal(true);
-			setIsCloseDocument(false);
+			// setIsCloseDocument(false);
 		} else {
 			navigate(`/${from}`);
             setIsNewDocument(false)
@@ -105,32 +104,8 @@ const DocFooter = ({
 					</button>
 				)}
 			</div>
-			<div className="texts">
-				<div className="text-block">
-					<p className="text">Ümumi məbləğ:</p>
-					<p className="number">{totalPrice.toFixed(2)}</p>
-				</div>
-				<div className="text-block">
-					<p className="text">Endirim:</p>
-					<p className="number"></p>
-				</div>
-				<div className="text-block-important">
-					<p className="text">Yekun məbləğ:</p>
-					<p className="number"></p>
-				</div>
-				<div className="text-block">
-					<p className="text">Miqdar</p>
-					<p className="number">{totalQuantity}</p>
-				</div>
-				<div className="text-block">
-					<p className="text">Mayası:</p>
-					<p className="number"></p>
-				</div>
-				<div className="text-block">
-					<p className="text">Qazanc:</p>
-					<p className="number"></p>
-				</div>
-			</div>
+
+            {/* {from === 'products' ? null : ""} */}
 
 			<Modal
 				title={
