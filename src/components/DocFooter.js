@@ -104,6 +104,7 @@ const DocFooter = ({
 					</button>
 				)}
 			</div>
+            { from === 'products' ? null : 
 			<div className="texts">
 				<div className="text-block">
 					<p className="text">Ümumi məbləğ:</p>
@@ -130,6 +131,7 @@ const DocFooter = ({
 					<p className="number"></p>
 				</div>
 			</div>
+             }
 
 			<Modal
 				title={
