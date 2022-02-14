@@ -35,7 +35,7 @@ function BarcodeModal(props) {
             fast: searchTerm,
         });
         if (res.List[0]) {
-            console.log(res.List[0])
+            console.log(res.List[0]);
             setData(res.List[0]);
             setPrice(ConvertFixedTable(Number(res.List[0].Price)));
             setName(res.List[0].Name);
@@ -111,7 +111,10 @@ function BarcodeModal(props) {
                 />
                 {name ? (
                     <p className="product-name">
-                        {name} - <span>{barcode} ({stockBalance ? stockBalance : 0} ed)</span>
+                        {name} -{" "}
+                        <span>
+                            {barcode} ({stockBalance ? stockBalance : 0} ed)
+                        </span>
                     </p>
                 ) : (
                     ""
