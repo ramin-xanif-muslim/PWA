@@ -104,8 +104,32 @@ const DocFooter = ({
 					</button>
 				)}
 			</div>
-
-            {/* {from === 'products' ? null : ""} */}
+			<div className="texts">
+				<div className="text-block">
+					<p className="text">Ümumi məbləğ:</p>
+					<p className="number">{totalPrice.toFixed(2)}</p>
+				</div>
+				<div className="text-block">
+					<p className="text">Endirim:</p>
+					<p className="number"></p>
+				</div>
+				<div className="text-block-important">
+					<p className="text">Yekun məbləğ:</p>
+					<p className="number"></p>
+				</div>
+				<div className="text-block">
+					<p className="text">Miqdar</p>
+					<p className="number">{totalQuantity}</p>
+				</div>
+				<div className="text-block">
+					<p className="text">Mayası:</p>
+					<p className="number"></p>
+				</div>
+				<div className="text-block">
+					<p className="text">Qazanc:</p>
+					<p className="number"></p>
+				</div>
+			</div>
 
 			<Modal
 				title={

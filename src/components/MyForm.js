@@ -9,9 +9,7 @@ import miniArrow_img from "../img/document_pages_img/mini-arrow.svg";
 import miniArrowDown_img from "../img/document_pages_img/mini-arrow-down.svg";
 import { Checkbox, Col, DatePicker, Row, Space } from "antd";
 import "../styles/Documents.css";
-import SelectStock from "./UI/select/SelectStock";
 import MyModal from "./UI/modal/MyModal";
-import CustomersListForSelect from "./CustomersListForSelect";
 import { useGlobalContext } from "../config/context";
 import Debt from "./Debt";
 import SelectPage from "./SelectPage";
@@ -19,13 +17,16 @@ import SelectPage from "./SelectPage";
 function MyForm(props) {
 	const { setCustomerId, from } = useGlobalContext();
 	const [values, setValues] = useState(
-		props.initialValues ? props.initialValues : ''
+		props.initialValues ? props.initialValues : ""
 	);
 	const [isFetching, setFetching] = useState(false);
 	const [showMoreForm, setShowMoreForm] = useState(false);
 	const [modalCustomersListForSelect, setModalCustomersListForSelect] =
 		useState(false);
+	const [modalGroupsListForSelect, setModalGroupsListForSelect] =
+		useState(false);
 	const [selectedCustomer, setSelectedCustomer] = useState();
+	const [selectedGroup, setSelectedGroup] = useState();
 	const [isChecked, setIsChecked] = useState(false);
 
 	const handleOnChange = () => {
@@ -37,7 +38,7 @@ function MyForm(props) {
 			setIsChecked(true);
 		}
 		if (!props.initialValues) {
-            setIsChecked(true);
+			setIsChecked(true);
 		}
 	}, []);
 	useEffect(() => {
@@ -52,6 +53,12 @@ function MyForm(props) {
 			setValue("CustomerName", selectedCustomer.Name);
 			setValue("CustomerId", selectedCustomer.Id);
 			setCustomerId(selectedCustomer.Id);
+		}
+	}, [selectedCustomer]);
+	useEffect(() => {
+		if (selectedCustomer) {
+			setValue("CustomerName", selectedCustomer.Name);
+			setValue("CustomerId", selectedCustomer.Id);
 		}
 	}, [selectedCustomer]);
 
@@ -126,7 +133,7 @@ function MyForm(props) {
 							</Col>
 						</Row>
 
-                        {/* // datePicer don't worck is true */}
+						{/* // datePicer don't worck is true */}
 
 						{/* <Row className="doc-form-row">
 							<Col className="form-icons" span={3}>
@@ -148,7 +155,7 @@ function MyForm(props) {
 								<img src={miniArrow_img} />
 							</Col>
 						</Row> */}
-                        
+
 						<Row className="doc-form-row">
 							<Col className="form-icons" span={3}>
 								<img src={status_img} />
@@ -200,10 +207,23 @@ function MyForm(props) {
 					<Col className="form-label" span={6}>
 						<label>Anbar:</label>
 					</Col>
-					<Col className="form-input" span={12}>
-						<SelectStock
-							defaultValue={values?.StockName ?? ""}
-							setValue={setValue}
+					<Col
+						className="form-input"
+						span={12}
+						onClick={() => setModalGroupsListForSelect(true)}
+					>
+						<input
+							style={{ width: "100%" }}
+							autoComplete="off"
+							type="text"
+							name="StockName"
+							placeholder=""
+							value={
+								selectedGroup
+									? selectedGroup.Name
+									: values.CustomerName
+							}
+							readOnly
 						/>
 					</Col>
 					<Col className="form-icons" span={3}>
@@ -250,29 +270,35 @@ function MyForm(props) {
 					</>
 				)}
 			</fieldset>
+
 			<MyModal
 				style={{ width: "100%" }}
 				visible={modalCustomersListForSelect}
 				setVisible={setModalCustomersListForSelect}
 			>
-				<CustomersListForSelect
-					setSelectedCustomer={setSelectedCustomer}
-					setVisibleModal={setModalCustomersListForSelect}
-				/>
-			</MyModal>
-
-			{/* <MyModal
-				style={{ width: "100%" }}
-				visible={modalCustomersListForSelect}
-				setVisible={setModalCustomersListForSelect}
-			>
 				<SelectPage
-                url='customers/get.php'
-                title='Müştəri'
+					isSearchInput={true}
+					searchURL={"customers/getfast.php"}
+					url="customers/get.php"
+					title="Müştəri"
 					select={setSelectedCustomer}
 					visible={setModalCustomersListForSelect}
 				/>
-			</MyModal> */}
+			</MyModal>
+			<MyModal
+				style={{ width: "100%" }}
+				visible={modalGroupsListForSelect}
+				setVisible={setModalGroupsListForSelect}
+			>
+				<SelectPage
+					// isSearchInput={false}
+					// searchURL={"URL"}
+					url="stocks/get.php"
+					title="Qruplar"
+					select={setSelectedGroup}
+					visible={setModalGroupsListForSelect}
+				/>
+			</MyModal>
 		</form>
 	);
 }

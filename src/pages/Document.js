@@ -11,7 +11,6 @@ import { message } from "antd";
 import { keysToLowerCase } from "../functions/indexs";
 import ok from "../audio/ok.mp3";
 import { useNavigate } from "react-router";
-import ProductForm from "../components/ProductForm";
 import useRequest from "../hooks/useRequest";
 
 const audio = new Audio(ok);
@@ -45,19 +44,6 @@ function Document() {
 			setIsChangeDocument(false);
 		}
 	}, [responsePositions.data]);
-	// useEffect(async () => {
-	// 	if (!isNewDocument) {
-	// 		setIsLoading(true);
-	// 		let res = await sendRequest(from + "/get.php", {
-	// 			id: documentsItem.id,
-	// 		});
-	//         if(res) {
-	//             console.log(res)
-	//             setProducts(res.List[0].Positions);
-	//             setIsLoading(false);
-	//         }
-	// 	}
-	// }, []);
 
 	const deleteProduct = () => {
 		setProducts(products.filter((item) => item.Quantity !== 0));

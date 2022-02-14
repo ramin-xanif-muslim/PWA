@@ -42,9 +42,9 @@ function withSerchByDate(Component, controller) {
 		};
 		const fetchSearchTerm = async (searchTerm) => {
 			console.log("fetchSearchTerm");
-			let searchObj = obj;
-			searchObj.docNumber = searchTerm;
-			let res = await api.fetchData(controller, searchObj);
+			// let searchObj = obj;
+			// searchObj.docNumber = searchTerm;
+			let res = await api.fetchData(controller, {fast: searchTerm});
 			setData(res);
 		};
 

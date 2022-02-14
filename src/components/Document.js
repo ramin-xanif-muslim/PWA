@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../config/context";
+import { ConvertFixedTable } from "../functions/indexs";
 
 function Document(props) {
     const { item, index, from } = props;
@@ -86,7 +87,7 @@ const DocumentForProduct = ({ item, index, from, onClick }) => {
     );
 };
 const DocumentForStockbalance = ({ item, index, from, onClick }) => {
-    const { BarCode, ProductName, Price, Moment, OwnerId } = item;
+    const { BarCode, ProductName, Quantity, Moment, OwnerId } = item;
     return (
         <Link key={OwnerId} to="/document" style={{ color: "inherit" }}>
             <div className="demand" onClick={onClick}>
@@ -102,10 +103,8 @@ const DocumentForStockbalance = ({ item, index, from, onClick }) => {
                         </div>
                     </div>
                     <div className="demand-price">
-                        <p className="amount">
-                            {Price ? Number(Price).toFixed(2) : 0}
-                            <sub>₼</sub>
-                        </p>
+                        <p className="amount">Qalıq </p>
+                        <p className="amount">{ConvertFixedTable(Quantity)}</p>
                     </div>
                 </div>
             </div>
