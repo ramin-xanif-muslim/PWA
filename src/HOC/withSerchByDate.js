@@ -8,20 +8,31 @@ import { useGlobalContext } from "../config/context";
 
 function withSerchByDate(Component, controller) {
 	return (props) => {
-
 		let navigate = useNavigate();
-		const { isSearch, hideFooter, putBarckTo, isCreateNewDocument, setCustomerId } = useGlobalContext();
+		const {
+			isSearch,
+			hideFooter,
+			putFrom,
+			setIsNewDocument,
+			setCustomerId,
+		} = useGlobalContext();
 
 		const [data, setData] = useState();
 		const [isLoading, setLoading] = useState(false);
 		const [obj, setObj] = useState({
 			pg: 0,
-			nm: "",
 			dr: 1,
 			sr: "Moment",
 			momb: "",
 			mome: "",
 		});
+		// const [isPermisionCreatNewDocument, setIsPermisionCreatNewDocument] = useState(false)
+		// const permisionCreatNewDocument = ['supplies','supplyreturns','demands','demandreturns','enters','losses']
+
+		// useEffect(() => {
+		//     let is = permisionCreatNewDocument.includes(controller)
+		//     setIsPermisionCreatNewDocument(is)
+		// },[controller])
 
 		const fetchData = async () => {
 			setLoading(true);
@@ -30,8 +41,9 @@ function withSerchByDate(Component, controller) {
 			setLoading(false);
 		};
 		const fetchSearchTerm = async (searchTerm) => {
+			console.log("fetchSearchTerm");
 			let searchObj = obj;
-			searchObj.nm = searchTerm;
+			searchObj.docNumber = searchTerm;
 			let res = await api.fetchData(controller, searchObj);
 			setData(res);
 		};
@@ -42,15 +54,15 @@ function withSerchByDate(Component, controller) {
 		};
 
 		function handleClickOnPlusBtn() {
-			navigate(`/document`);
-            putBarckTo(controller)
-            isCreateNewDocument(true)
-		}
-
-		useEffect(() => {
-			if (controller !== "documents") {
-				hideFooter();
+			if (controller === "products") {
+				navigate(`/document_product`);
+			} else {
+				navigate(`/document`);
 			}
+			putFrom(controller);
+			setIsNewDocument(true);
+		}
+		useEffect(() => {
 			setData(props.data);
 		}, []);
 		useEffect(() => {
@@ -59,8 +71,8 @@ function withSerchByDate(Component, controller) {
 			}
 		}, [isSearch]);
 		useEffect(() => {
-			isCreateNewDocument(false)
-            setCustomerId(null)
+			setIsNewDocument(false);
+			setCustomerId(null);
 		}, []);
 
 		return (

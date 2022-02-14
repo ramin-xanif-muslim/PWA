@@ -202,7 +202,7 @@ export const productsLinks = [
 	},
 	{
 		id: 2,
-		url: "/enter",
+		url: "/enters",
 		text: "DAXİLOLMALAR",
 		icon: enter,
 	},

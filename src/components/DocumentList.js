@@ -8,7 +8,7 @@ function DocumentList({ list, from }) {
                 ? list.List.map((item, index) => {
                       return (
                           <Document
-                              key={item.Name}
+                              key={item.Id}
                               item={item}
                               index={index + 1}
                               from={from}

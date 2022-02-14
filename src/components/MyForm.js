@@ -7,258 +7,274 @@ import description_img from "../img/document_pages_img/description.png";
 import status_img from "../img/document_pages_img/status.png";
 import miniArrow_img from "../img/document_pages_img/mini-arrow.svg";
 import miniArrowDown_img from "../img/document_pages_img/mini-arrow-down.svg";
-import { Col, DatePicker, Row, Space } from "antd";
+import { Checkbox, Col, DatePicker, Row, Space } from "antd";
 import "../styles/Documents.css";
 import SelectStock from "./UI/select/SelectStock";
 import MyModal from "./UI/modal/MyModal";
 import CustomersListForSelect from "./CustomersListForSelect";
 import { useGlobalContext } from "../config/context";
+import Debt from "./Debt";
+import SelectPage from "./SelectPage";
 
 function MyForm(props) {
-    const { setCustomerId } = useGlobalContext();
-    const [values, setValues] = useState(
-        props.initialValues ? props.initialValues : ""
-    );
-    const [isFetching, setFetching] = useState(false);
-    const [showMoreForm, setShowMoreForm] = useState(false);
-    const [modalCustomersListForSelect, setModalCustomersListForSelect] =
-        useState(false);
-    const [modalStocksListForSelect, setModalStocksListForSelect] =
-        useState(false);
-    const [selectedCustomer, setSelectedCustomer] = useState();
+	const { setCustomerId, from } = useGlobalContext();
+	const [values, setValues] = useState(
+		props.initialValues ? props.initialValues : ''
+	);
+	const [isFetching, setFetching] = useState(false);
+	const [showMoreForm, setShowMoreForm] = useState(false);
+	const [modalCustomersListForSelect, setModalCustomersListForSelect] =
+		useState(false);
+	const [selectedCustomer, setSelectedCustomer] = useState();
+	const [isChecked, setIsChecked] = useState(false);
 
-    useEffect(() => {
-        props.getFormValues(values);
-    }, [values]);
-    useEffect(() => {
-        if (selectedCustomer) {
-            setValue("CustomerName", selectedCustomer.Name);
-            setValue("CustomerId", selectedCustomer.Id);
-            setCustomerId(selectedCustomer.Id);
-        }
-    }, [selectedCustomer]);
+	const handleOnChange = () => {
+		setIsChecked(!isChecked);
+	};
 
-    const submit = async (e) => {
-        e.preventDefault();
+	useEffect(() => {
+		if (values?.Status === 1) {
+			setIsChecked(true);
+		}
+		if (!props.initialValues) {
+            setIsChecked(true);
+		}
+	}, []);
+	useEffect(() => {
+		setValue("Status", isChecked);
+	}, [isChecked]);
+	useEffect(() => {
+		console.log(values);
+		props.getFormValues(values);
+	}, [values]);
+	useEffect(() => {
+		if (selectedCustomer) {
+			setValue("CustomerName", selectedCustomer.Name);
+			setValue("CustomerId", selectedCustomer.Id);
+			setCustomerId(selectedCustomer.Id);
+		}
+	}, [selectedCustomer]);
 
-        try {
-            setFetching(true);
-        } finally {
-            setFetching(false);
+	const submit = async (e) => {
+		e.preventDefault();
 
-            if (props.title?.toLowerCase().includes("create")) {
-                setValues(null);
-            }
-        }
-    };
-    const setValue = (field, value) => {
-        props.setIsChangeDocument(true);
-        setValues((old) => ({ ...old, [field]: value }));
-    };
+		try {
+			setFetching(true);
+		} finally {
+			setFetching(false);
 
-    useEffect(() => {
-        if (props.initialValues) {
-            setValues(props.initialValues);
-        }
-    }, [props.initialValues]);
+			if (props.title?.toLowerCase().includes("create")) {
+				// setValues(null);
+			}
+		}
+	};
+	const setValue = (field, value) => {
+		props.setIsChangeDocument(true);
+		setValues((old) => ({ ...old, [field]: value }));
+	};
 
-    function onChange(value, dateString) {
-        setValue("Moment", dateString);
-    }
+	function onChange(value, dateString) {
+		setValue("Moment", dateString);
+	}
 
-    function onOk(value) {
-        console.log("onOk: ", value);
-    }
+	if (values === null) {
+		return null;
+	}
+	return (
+		<form className="doc-form" onSubmit={submit}>
+			<fieldset disabled={isFetching}>
+				<Row
+					className="doc-form-row"
+					onClick={() => setShowMoreForm(!showMoreForm)}
+				>
+					<Col className="form-label" span={21}>
+						<label>Təyinat</label>
+					</Col>
+					<Col className="form-icons" span={3}>
+						<img
+							src={
+								showMoreForm ? miniArrowDown_img : miniArrow_img
+							}
+						/>
+					</Col>
+				</Row>
 
-    if (values === null) {
-        return null;
-    }
-    return (
-        <form className="doc-form" onSubmit={submit}>
-            <fieldset disabled={isFetching}>
-                <Row
-                    className="doc-form-row"
-                    onClick={() => setShowMoreForm(!showMoreForm)}
-                >
-                    <Col className="form-label" span={21}>
-                        <label>Təyinat</label>
-                    </Col>
-                    <Col className="form-icons" span={3}>
-                        <img
-                            src={
-                                showMoreForm ? miniArrowDown_img : miniArrow_img
-                            }
-                        />
-                    </Col>
-                </Row>
+				{showMoreForm && (
+					<div>
+						<Row className="doc-form-row">
+							<Col className="form-icons" span={3}>
+								<img src={sale_img} />
+							</Col>
+							<Col className="form-label" span={6}>
+								<label>Satış №:</label>
+							</Col>
+							<Col className="form-input" span={12}>
+								<input
+									autoComplete="off"
+									type="text"
+									name="name"
+									placeholder=""
+									value={values?.Name ?? ""}
+									onChange={(e) =>
+										setValue("Name", e.target.value)
+									}
+									required
+								/>
+							</Col>
+							<Col className="form-icons" span={3}>
+								<img src={miniArrow_img} />
+							</Col>
+						</Row>
 
-                {showMoreForm && (
-                    <div>
-                        <Row className="doc-form-row">
-                            <Col className="form-icons" span={3}>
-                                <img src={sale_img} />
-                            </Col>
-                            <Col className="form-label" span={6}>
-                                <label>Satış №:</label>
-                            </Col>
-                            <Col className="form-input" span={12}>
-                                <input
-                                    autoComplete="off"
-                                    type="text"
-                                    name="sale"
-                                    placeholder="satış nömrəsi"
-                                    value={values?.Name ?? ""}
-                                    onChange={(e) =>
-                                        setValue("Name", e.target.value)
-                                    }
-                                    required
-                                />
-                            </Col>
-                            <Col className="form-icons" span={3}>
-                                <img src={miniArrow_img} />
-                            </Col>
-                        </Row>
-                        <Row className="doc-form-row">
-                            <Col className="form-icons" span={3}>
-                                <img src={moment_img} />
-                            </Col>
-                            <Col className="form-label" span={6}>
-                                <label>Tarix:</label>
-                            </Col>
-                            <Col className="form-input" span={12}>
-                                <Space direction="vertical">
-                                    <DatePicker
-                                        onChange={onChange}
-                                        className="date-picker"
-                                        placeholder="tarix"
-                                    />
-                                </Space>
-                            </Col>
-                            <Col className="form-icons" span={3}>
-                                <img src={miniArrow_img} />
-                            </Col>
-                        </Row>
-                        <Row className="doc-form-row">
-                            <Col className="form-icons" span={3}>
-                                <img src={status_img} />
-                            </Col>
-                            <Col className="form-label" span={6}>
-                                <label>Status:</label>
-                            </Col>
-                            <Col className="form-input" span={12}>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    placeholder="status"
-                                    value={values?.Status ?? ""}
-                                    onChange={(e) =>
-                                        setValue("Status", e.target.value)
-                                    }
-                                    required
-                                />
-                            </Col>
-                            <Col className="form-icons" span={3}>
-                                <img src={miniArrow_img} />
-                            </Col>
-                        </Row>
-                        <Row className="doc-form-row">
-                            <Col className="form-icons" span={3}>
-                                <img src={description_img} />
-                            </Col>
-                            <Col className="form-label" span={6}>
-                                <label htmlFor="name">Şərh:</label>
-                            </Col>
-                            <Col className="form-input" span={12}>
-                                <input
-                                    autoComplete="off"
-                                    type="text"
-                                    name="description"
-                                    placeholder="Şərh"
-                                    value={values?.Description ?? ""}
-                                    onChange={(e) =>
-                                        setValue("Description", e.target.value)
-                                    }
-                                    required
-                                />
-                            </Col>
-                            <Col className="form-icons" span={3}>
-                                <img src={miniArrow_img} />
-                            </Col>
-                        </Row>
-                    </div>
-                )}
+                        {/* // datePicer don't worck is true */}
 
-                <Row className="doc-form-row">
-                    <Col className="form-icons" span={3}>
-                        <img src={stock_img} />
-                    </Col>
-                    <Col className="form-label" span={6}>
-                        <label>Anbar:</label>
-                    </Col>
-                    <Col className="form-input" span={12}>
-                        <SelectStock
-                            defaultValue={values?.StockName ?? ""}
-                            setValue={setValue}
-                        />
-                    </Col>
-                    <Col className="form-icons" span={3}>
-                        <img src={miniArrow_img} />
-                    </Col>
-                </Row>
-                <Row className="doc-form-row">
-                    <Col className="form-icons" span={3}>
-                        <img src={costumer_img} />
-                    </Col>
-                    <Col
-                        className="form-input"
-                        span={18}
-                        style={{ padding: "0 1rem", justifyContent: "start" }}
-                        onClick={() => setModalCustomersListForSelect(true)}
-                    >
-                        <input
-                            style={{ width: "100%" }}
-                            autoComplete="off"
-                            type="text"
-                            name="CustomerName"
-                            placeholder="Müştəri"
-                            value={
-                                selectedCustomer
-                                    ? selectedCustomer.Name
-                                    : values.CustomerName
-                            }
-                            readOnly
-                            required
-                        />
-                    </Col>
-                    <Col className="form-icons" span={3}>
-                        <img src={miniArrow_img} />
-                    </Col>
-                </Row>
-            </fieldset>
-            <MyModal
-                style={{ width: "100%" }}
-                visible={modalCustomersListForSelect}
-                setVisible={setModalCustomersListForSelect}
-            >
-                <CustomersListForSelect
-                    // close={setModalCustomersListForSelect}
-                    setSelectedCustomer={setSelectedCustomer}
-                    setVisibleModal={setModalCustomersListForSelect}
-                />
-            </MyModal>
-            <MyModal
-                style={{ width: "100%" }}
-                visible={modalStocksListForSelect}
-                setVisible={setModalStocksListForSelect}
-            >
-                <CustomersListForSelect
-                    // close={setModalStocksListForSelect}
-                    setSelectedCustomer={setSelectedCustomer}
-                    setVisibleModal={setModalStocksListForSelect}
-                />
-            </MyModal>
-        </form>
-    );
+						{/* <Row className="doc-form-row">
+							<Col className="form-icons" span={3}>
+								<img src={moment_img} />
+							</Col>
+							<Col className="form-label" span={6}>
+								<label>Tarix:</label>
+							</Col>
+							<Col className="form-input" span={12}>
+								<Space direction="vertical">
+									<DatePicker
+										onChange={onChange}
+										className="date-picker"
+										placeholder="tarix"
+									/>
+								</Space>
+							</Col>
+							<Col className="form-icons" span={3}>
+								<img src={miniArrow_img} />
+							</Col>
+						</Row> */}
+                        
+						<Row className="doc-form-row">
+							<Col className="form-icons" span={3}>
+								<img src={status_img} />
+							</Col>
+							<Col className="form-label" span={6}>
+								<label>Status:</label>
+							</Col>
+							<Col className="form-input" span={12}>
+								<Checkbox
+									checked={isChecked}
+									onChange={handleOnChange}
+								/>
+							</Col>
+							<Col className="form-icons" span={3}>
+								<img src={miniArrow_img} />
+							</Col>
+						</Row>
+						<Row className="doc-form-row">
+							<Col className="form-icons" span={3}>
+								<img src={description_img} />
+							</Col>
+							<Col className="form-label" span={6}>
+								<label htmlFor="name">Şərh:</label>
+							</Col>
+							<Col className="form-input" span={12}>
+								<input
+									autoComplete="off"
+									type="text"
+									name="description"
+									placeholder=""
+									value={values?.Description ?? ""}
+									onChange={(e) =>
+										setValue("Description", e.target.value)
+									}
+									required
+								/>
+							</Col>
+							<Col className="form-icons" span={3}>
+								<img src={miniArrow_img} />
+							</Col>
+						</Row>
+					</div>
+				)}
+
+				<Row className="doc-form-row">
+					<Col className="form-icons" span={3}>
+						<img src={stock_img} />
+					</Col>
+					<Col className="form-label" span={6}>
+						<label>Anbar:</label>
+					</Col>
+					<Col className="form-input" span={12}>
+						<SelectStock
+							defaultValue={values?.StockName ?? ""}
+							setValue={setValue}
+						/>
+					</Col>
+					<Col className="form-icons" span={3}>
+						<img src={miniArrow_img} />
+					</Col>
+				</Row>
+				{from === "enters" ? null : (
+					<>
+						<Row className="doc-form-row">
+							<Col className="form-icons" span={3}>
+								<img src={costumer_img} />
+							</Col>
+							<Col
+								className="form-input"
+								span={18}
+								style={{
+									padding: "0 1rem",
+									justifyContent: "start",
+								}}
+								onClick={() =>
+									setModalCustomersListForSelect(true)
+								}
+							>
+								<input
+									style={{ width: "100%" }}
+									autoComplete="off"
+									type="text"
+									name="CustomerName"
+									placeholder="Müştəri"
+									value={
+										selectedCustomer
+											? selectedCustomer.Name
+											: values.CustomerName
+									}
+									readOnly
+									required
+								/>
+							</Col>
+							<Col className="form-icons" span={3}>
+								<img src={miniArrow_img} />
+							</Col>
+						</Row>
+						<Debt />
+					</>
+				)}
+			</fieldset>
+			<MyModal
+				style={{ width: "100%" }}
+				visible={modalCustomersListForSelect}
+				setVisible={setModalCustomersListForSelect}
+			>
+				<CustomersListForSelect
+					setSelectedCustomer={setSelectedCustomer}
+					setVisibleModal={setModalCustomersListForSelect}
+				/>
+			</MyModal>
+
+			{/* <MyModal
+				style={{ width: "100%" }}
+				visible={modalCustomersListForSelect}
+				setVisible={setModalCustomersListForSelect}
+			>
+				<SelectPage
+                url='customers/get.php'
+                title='Müştəri'
+					select={setSelectedCustomer}
+					visible={setModalCustomersListForSelect}
+				/>
+			</MyModal> */}
+		</form>
+	);
 }
 
 export default MyForm;

@@ -111,11 +111,10 @@ function BarcodeModal(props) {
                 />
                 {name ? (
                     <p className="product-name">
-                        {name} <span>- {barcode} (</span>
-                        <span className={stockBalance < 0 ? "red" : ""}>
-                            {stockBalance ? stockBalance : 0} əd
+                        {name} -{" "}
+                        <span>
+                            {barcode} ({stockBalance ? stockBalance : 0} ed)
                         </span>
-                        <span>)</span>
                     </p>
                 ) : (
                     ""

@@ -9,7 +9,7 @@ function Stockbalance(props) {
 		<div>
 			<DocumentList list={props.data} from={props.from} />
 
-			<DocumentListFooter {...props} />
+			{/* <DocumentListFooter {...props} /> */}
 		</div>
 	);
 }

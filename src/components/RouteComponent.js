@@ -7,6 +7,7 @@ import Customers from "../pages/Customers";
 import Dashboards from "../pages/Dashboards";
 import Demandreturns from "../pages/Demandreturns";
 import Demands from "../pages/Demands";
+import DocumentProduct from "../pages/DocumentProduct";
 import Documents from "../pages/Documents";
 import Enters from "../pages/Enters";
 import LoginPage from "../pages/LoginPage";
@@ -30,15 +31,16 @@ function RouteComponent(props) {
 		<Routes>
 			<Route path="login" element={<LoginPage />} />
 			<Route path="/" element={<Content />} />
-			<Route path="/dashboards" element={<Dashboards />} />
+			{/* <Route path="/dashboards" element={<Dashboards />} /> */}
 			<Route path="/demands" element={<Demands />} />
 			<Route path="/documents" element={<Documents />} />
 			<Route path="/document" element={<TabContends />} />
+			<Route path="/document_product" element={<DocumentProduct />} />
 			<Route path="/supplies" element={<Supply />} />
 			<Route path="/supplyreturns" element={<Supplyreturns />} />
 			<Route path="/demandreturns" element={<Demandreturns />} />
 			<Route path="/products" element={<Products />} />
-			<Route path="/enter" element={<Enters />} />
+			<Route path="/enters" element={<Enters />} />
 			<Route path="/losses" element={<Losses />} />
 			<Route path="/moves" element={<Moves />} />
 			<Route path="/stockbalance" element={<Stockbalance />} />

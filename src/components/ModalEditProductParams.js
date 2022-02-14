@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import plus_img from "../img/document_pages_img/plus.svg";
 import minus_img from "../img/document_pages_img/minus.svg";
+import { ConvertFixedTable } from "../functions/indexs";
 
 const ModalEditProductParams = (props) => {
+    const [totalPrice, setTotalPrice] = useState();
+    useEffect(() => {
+        if (props.item) {
+            setTotalPrice(props.quantity * props.item.Price);
+        }
+    }, [props.quantity, props.item.Price]);
     return (
         <div className="set-data">
             <p className="product-name">
@@ -65,6 +72,46 @@ const ModalEditProductParams = (props) => {
                     >
                         <img src={plus_img} alt=""></img>
                     </button>
+                </div>
+
+                <div className="price">
+                    <label htmlFor="price">Qiymət</label>
+                    <input
+                        value={
+                            props.item
+                                ? ConvertFixedTable(Number(props.item.Price))
+                                : 0
+                        }
+                        onChange={(e) =>
+                            props.setItem({
+                                ...props.item,
+                                Price: e.target.value,
+                            })
+                        }
+                        id="price"
+                        type="number"
+                        placeholder="₼"
+                    ></input>
+                </div>
+                {/* <div className="discount">
+                    <label htmlFor="discount">Endirim:</label>
+                    <input
+                        value={props.discount}
+                        onChange={(e) => props.setDiscount(e.target.value)}
+                        id="discount"
+                        type="number"
+                        placeholder="%"
+                    ></input>
+                </div> */}
+                <div className="amount">
+                    <label htmlFor="amount">Məbləğ:</label>
+                    <input
+                        value={totalPrice}
+                        onChange={(e) => setTotalPrice(Number(e.target.value))}
+                        id="amount"
+                        type="number"
+                        placeholder="₼"
+                    ></input>
                 </div>
                 <button onClick={props.putQuantity}>Təsdiq et</button>
             </div>
