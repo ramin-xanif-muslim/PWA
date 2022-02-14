@@ -23,6 +23,7 @@ function BarcodeModal(props) {
     const [name, setName] = useState("");
     const [price, setPrice] = useState();
     const [barcode, setBarcode] = useState();
+    const [stockBalance, setStockBalance] = useState();
     const [totalPrice, setTotalPrice] = useState();
     const [isFocusOnRefInput, setIsFocusOnRefInput] = useState(true);
     const [isDisableBarcodeInput, setIsDisableBarcodeInput] = useState(false);
@@ -34,10 +35,12 @@ function BarcodeModal(props) {
             fast: searchTerm,
         });
         if (res.List[0]) {
+            console.log(res.List[0]);
             setData(res.List[0]);
             setPrice(ConvertFixedTable(Number(res.List[0].Price)));
             setName(res.List[0].Name);
             setBarcode(res.List[0].BarCode);
+            setStockBalance(res.List[0].StockBalance);
         } else {
             setName("Məhsul tapılmadı");
         }
@@ -108,7 +111,11 @@ function BarcodeModal(props) {
                 />
                 {name ? (
                     <p className="product-name">
-                        {name} - <span>{barcode}</span>
+                        {name} <span>- {barcode} (</span>
+                        <span className={stockBalance < 0 ? "red" : ""}>
+                            {stockBalance ? stockBalance : 0} əd
+                        </span>
+                        <span>)</span>
                     </p>
                 ) : (
                     ""

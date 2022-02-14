@@ -110,6 +110,7 @@ button:focus {
 .set-data-body .set-quantity {
     display: flex;
     justify-content: space-between;
+    margin: 1rem 0;
 }
 
 .set-data-body .set-quantity input {
@@ -205,6 +206,7 @@ button:focus {
     background-color: #e5e5e5;
 }
 .product-name {
+    margin: 0.5rem 0 0 0;
     font-weight: 600;
 }
 .product-name span {
