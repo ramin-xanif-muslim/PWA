@@ -5,7 +5,7 @@ function DocumentList({ list, from }) {
     return (
         <div className="demands_wrapper">
             {list
-                ? list.List.map((item, index) => {
+                ? list.map((item, index) => {
                       return (
                           <Document
                               key={item.Id}

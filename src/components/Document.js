@@ -77,7 +77,7 @@ const DocumentForProduct = ({ item, index, from, onClick }) => {
                     </div>
                     <div className="demand-price">
                         <p className="amount">
-                            {Price ? Price.toFixed(2) : 0}
+                            {Price ? ConvertFixedTable(Price) : 0}
                             <sub>₼</sub>
                         </p>
                     </div>

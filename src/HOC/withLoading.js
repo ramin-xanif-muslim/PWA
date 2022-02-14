@@ -14,6 +14,7 @@ function withLoading(Component, url) {
         const [data, setData] = useState(null)
       
         useEffect(() => {
+            console.log('withLoading')
           setIsLoading(true)
           async function fetchData() {
             const res = await sendRequest(`${url}/get.php`,{})

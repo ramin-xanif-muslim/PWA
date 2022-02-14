@@ -19,6 +19,7 @@ function withSerchByDate(Component, controller) {
 		} = useGlobalContext();
 
 		const [data, setData] = useState();
+		const [searchdata, setsearchdata] = useState();
 		const [isLoading, setLoading] = useState(false);
 		const [obj, setObj] = useState({
 			pg: 0,
@@ -27,31 +28,25 @@ function withSerchByDate(Component, controller) {
 			momb: "",
 			mome: "",
 		});
-		// const [isPermisionCreatNewDocument, setIsPermisionCreatNewDocument] = useState(false)
-		// const permisionCreatNewDocument = ['supplies','supplyreturns','demands','demandreturns','enters','losses']
-
-		// useEffect(() => {
-		//     let is = permisionCreatNewDocument.includes(controller)
-		//     setIsPermisionCreatNewDocument(is)
-		// },[controller])
-
 		const fetchData = async () => {
 			setLoading(true);
 			let res = await api.fetchData(controller, obj);
-			setData(res);
+			setData(res.List);
 			setLoading(false);
 		};
 		const fetchSearchTerm = async (searchTerm) => {
-			console.log("fetchSearchTerm");
-			// let searchObj = obj;
-			// searchObj.docNumber = searchTerm;
-			let res = await api.fetchData(controller, {fast: searchTerm});
-			setData(res);
+			let searchObj = obj;
+			searchObj.docNumber = searchTerm;
+			let res = await api.fetchData(controller, searchObj);
+			setData(res.List);
 		};
 
 		const getSearcObjByDate = (ob) => {
 			setObj(ob);
 			fetchData();
+		};
+		const getDataOnSearch = (dataOnSearch) => {
+			setData(dataOnSearch);
 		};
 
 		function handleClickOnPlusBtn() {
@@ -64,7 +59,9 @@ function withSerchByDate(Component, controller) {
 			setIsNewDocument(true);
 		}
 		useEffect(() => {
-			setData(props.data);
+			if (props.data?.List) {
+				setData(props.data.List);
+			}
 		}, []);
 		useEffect(() => {
 			if (!isSearch) {
@@ -78,13 +75,23 @@ function withSerchByDate(Component, controller) {
 
 		return (
 			<div>
-				<SearchByDate obj={obj} getSearcObjByDate={getSearcObjByDate} />
+				{controller === "products" || controller === "products" ? null : (
+					<SearchByDate
+						obj={obj}
+						getSearcObjByDate={getSearcObjByDate}
+					/>
+				)}
 
-				{isSearch && 
-				<MyFastSearch
-					url="products/getfast.php"
-					getDataOnSearch={fetchSearchTerm}
-				/>}
+				{controller === "products" ? (
+					<MyFastSearch
+						url={controller + "/getfast.php"}
+						getDataOnSearch={getDataOnSearch}
+					/>
+				) : null }
+
+				{controller !== "products" && isSearch ? (
+					<SearchInput fetchSearchTerm={fetchSearchTerm} />
+				) : null }
 				{/* {isSearch && <SearchInput fetchSearchTerm={fetchSearchTerm} />} */}
 
 				{isLoading ? (

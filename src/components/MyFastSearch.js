@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Input, Space } from "antd";
+import { Input, Space, Spin } from "antd";
 import sendRequest from "../config/sentRequest";
 
 const { Search } = Input;
@@ -7,6 +7,7 @@ const { Search } = Input;
 function MyFastSearch({ url, getDataOnSearch }) {
 	const [isPut, setIsPut] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
+    const [isLoading, setLoading] = useState(false);
 
 	useEffect(() => {
 		if (searchTerm !== "") {
@@ -21,12 +22,14 @@ function MyFastSearch({ url, getDataOnSearch }) {
 	}, [searchTerm]);
 
 	const searchFunc = async () => {
+        setLoading(true)
         let obj = {
             fast: searchTerm,
             dr: 1,
         }
 		let res = await sendRequest(url, obj)
         getDataOnSearch(res.List)
+        setLoading(false)
 	};
 
 	const onChange = (e) => {
@@ -42,6 +45,7 @@ function MyFastSearch({ url, getDataOnSearch }) {
                 placeholder="Axtarış..."
                 allowClear
             />
+            {isLoading && <Spin />}
         </Space>
 	);
 }
