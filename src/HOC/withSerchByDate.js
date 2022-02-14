@@ -5,6 +5,7 @@ import SearchByDate from "../components/SearchByDate";
 import MyLoading from "../components/UI/loading/MyLoading";
 import SearchInput from "../components/UI/searcinput/SearchInput";
 import { useGlobalContext } from "../config/context";
+import MyFastSearch from "../components/MyFastSearch";
 
 function withSerchByDate(Component, controller) {
 	return (props) => {
@@ -42,9 +43,9 @@ function withSerchByDate(Component, controller) {
 		};
 		const fetchSearchTerm = async (searchTerm) => {
 			console.log("fetchSearchTerm");
-			let searchObj = obj;
-			searchObj.docNumber = searchTerm;
-			let res = await api.fetchData(controller, searchObj);
+			// let searchObj = obj;
+			// searchObj.docNumber = searchTerm;
+			let res = await api.fetchData(controller, {fast: searchTerm});
 			setData(res);
 		};
 
@@ -79,7 +80,12 @@ function withSerchByDate(Component, controller) {
 			<div>
 				<SearchByDate obj={obj} getSearcObjByDate={getSearcObjByDate} />
 
-				{isSearch && <SearchInput fetchSearchTerm={fetchSearchTerm} />}
+				{isSearch && 
+				<MyFastSearch
+					url="products/getfast.php"
+					getDataOnSearch={fetchSearchTerm}
+				/>}
+				{/* {isSearch && <SearchInput fetchSearchTerm={fetchSearchTerm} />} */}
 
 				{isLoading ? (
 					<MyLoading />
