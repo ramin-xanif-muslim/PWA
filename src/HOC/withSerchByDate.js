@@ -9,6 +9,7 @@ import MyFastSearch from "../components/MyFastSearch";
 
 function withSerchByDate(Component, controller) {
 	return (props) => {
+        const { openSearchInput } = useGlobalContext()
 		let navigate = useNavigate();
 		const {
 			isSearch,
@@ -69,13 +70,14 @@ function withSerchByDate(Component, controller) {
 			}
 		}, [isSearch]);
 		useEffect(() => {
+            openSearchInput(false)
 			setIsNewDocument(false);
 			setCustomerId(null);
 		}, []);
 
 		return (
 			<div>
-				{controller === "products" || controller === "products" ? null : (
+				{controller === "products" || controller === "stockbalance" ? null : (
 					<SearchByDate
 						obj={obj}
 						getSearcObjByDate={getSearcObjByDate}
@@ -89,7 +91,14 @@ function withSerchByDate(Component, controller) {
 					/>
 				) : null }
 
-				{controller !== "products" && isSearch ? (
+				{controller === "stockbalance" ? (
+					<MyFastSearch
+						url={controller + "/get.php"}
+						getDataOnSearch={getDataOnSearch}
+					/>
+				) : null }
+
+				{controller !== "products" && controller !== "stockbalance" && isSearch ? (
 					<SearchInput fetchSearchTerm={fetchSearchTerm} />
 				) : null }
 				{/* {isSearch && <SearchInput fetchSearchTerm={fetchSearchTerm} />} */}
@@ -99,7 +108,9 @@ function withSerchByDate(Component, controller) {
 				) : (
 					<Component
 						{...props}
+                        fetchData={props.fetchData}
 						data={data}
+                        dataList={props.dataList}
 						from={controller}
 						handleClickOnPlusBtn={handleClickOnPlusBtn}
 					/>

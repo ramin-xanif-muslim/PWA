@@ -20,6 +20,7 @@ const LoginPage = () => {
 			);
 			if (res.data.Headers.ResponseStatus === "0") {
 				localStorage.setItem("Token", res.data.Body.Token);
+				localStorage.setItem("Login", res.data.Body.Login);
                 login(true)
 				setIsLogin(true);
 			} else setError(res.data.Body);

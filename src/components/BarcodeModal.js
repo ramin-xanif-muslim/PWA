@@ -3,7 +3,7 @@ import MyModal from "./UI/modal/MyModal";
 import plus_img from "../img/document_pages_img/plus.svg";
 import minus_img from "../img/document_pages_img/minus.svg";
 import sendRequest from "../config/sentRequest";
-import { ConvertFixedTable } from "../functions/indexs";
+import { ConvertFixedTable } from "../functions/index";
 import bc from "../audio/bc.mp3";
 
 const audio = new Audio(bc);

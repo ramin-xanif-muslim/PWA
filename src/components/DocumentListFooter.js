@@ -10,6 +10,9 @@ function DocumentListFooter(props) {
 	if (props.from === "transactions" || props.from === "credittransactions") {
 		return <DocumentListFooterForTransactions {...props} />;
 	}
+	if (props.from === "products") {
+		return <DocumentListFooterForProduct {...props} />;
+	}
 
 	return (
 		<div className="document-footer">
@@ -41,6 +44,34 @@ function DocumentListFooter(props) {
 
 export default DocumentListFooter;
 
+function DocumentListFooterForProduct(props) {
+	return (
+		<div className="document-footer">
+			<div className="text">
+				{/* <p className="amount">Məbləğ</p>
+
+				<p className="profit">Qazanc</p> */}
+			</div>
+			<div className="create-button">
+				<button onClick={props.handleClickOnPlusBtn}>
+					<p>+</p>
+				</button>
+			</div>
+			<div className="number">
+				{/* <p className="amount">
+					{props.data && props.data.AllSum
+						? props.data.AllSum.toFixed(2)
+						: 0}
+				</p>
+				<p className="profit">
+					{props.data && props.data.AllProfit
+						? props.data.AllProfit.toFixed(2)
+						: 0}
+				</p> */}
+			</div>
+		</div>
+	);
+}
 function DocumentListFooterForStockbalance(props) {
 	return (
 		<div className="document-footer">

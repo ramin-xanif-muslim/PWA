@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../config/context";
-import { ConvertFixedTable } from "../functions/indexs";
+import { ConvertFixedTable } from "../functions/index";
 
 function Document(props) {
     const { item, index, from } = props;
@@ -89,7 +89,7 @@ const DocumentForProduct = ({ item, index, from, onClick }) => {
 const DocumentForStockbalance = ({ item, index, from, onClick }) => {
     const { BarCode, ProductName, Quantity, Moment, OwnerId } = item;
     return (
-        <Link key={OwnerId} to="/document" style={{ color: "inherit" }}>
+        // <Link key={OwnerId} to="/document" style={{ color: "inherit" }}>
             <div className="demand" onClick={onClick}>
                 <div className="index">
                     <p>{index}</p>
@@ -108,7 +108,7 @@ const DocumentForStockbalance = ({ item, index, from, onClick }) => {
                     </div>
                 </div>
             </div>
-        </Link>
+        // </Link>
     );
 };
 const DocumentForCustomers = ({ item, index, from, onClick }) => {

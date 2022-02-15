@@ -3,7 +3,7 @@ import { useGlobalContext } from "../config/context";
 import sendRequest from "../config/sentRequest";
 import DocFooter from "../components/DocFooter";
 import { message } from "antd";
-import { keysToLowerCase } from "../functions/indexs";
+import { keysToLowerCase } from "../functions/index";
 import ok from "../audio/ok.mp3";
 import { useNavigate } from "react-router";
 import ProductForm from "../components/ProductForm";

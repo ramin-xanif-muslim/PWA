@@ -2,7 +2,7 @@ import { Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "../config/context";
 import sendRequest from "../config/sentRequest";
-import { ConvertFixedTable } from "../functions/indexs";
+import { ConvertFixedTable } from "../functions/index";
 
 const Debt = () => {
 	const { documentsItem, customerId, isNewDocument } = useGlobalContext();

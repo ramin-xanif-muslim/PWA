@@ -13,11 +13,12 @@ import MyModal from "./UI/modal/MyModal";
 import { useGlobalContext } from "../config/context";
 import Debt from "./Debt";
 import SelectPage from "./SelectPage";
+import { keysToLowerCase } from "../functions";
 
 function MyForm(props) {
 	const { setCustomerId, from } = useGlobalContext();
 	const [values, setValues] = useState(
-		props.initialValues ? props.initialValues : ""
+		props.initialValues ? keysToLowerCase(props.initialValues) : ""
 	);
 	const [isFetching, setFetching] = useState(false);
 	const [showMoreForm, setShowMoreForm] = useState(false);
@@ -26,7 +27,7 @@ function MyForm(props) {
 	const [modalGroupsListForSelect, setModalGroupsListForSelect] =
 		useState(false);
 	const [selectedCustomer, setSelectedCustomer] = useState();
-	const [selectedGroup, setSelectedGroup] = useState();
+	const [selectedStock, setSelectedStock] = useState();
 	const [isChecked, setIsChecked] = useState(false);
 
 	const handleOnChange = () => {
@@ -34,7 +35,7 @@ function MyForm(props) {
 	};
 
 	useEffect(() => {
-		if (values?.Status === 1) {
+		if (values?.status === 1) {
 			setIsChecked(true);
 		}
 		if (!props.initialValues) {
@@ -42,25 +43,24 @@ function MyForm(props) {
 		}
 	}, []);
 	useEffect(() => {
-		setValue("Status", isChecked);
+		setValue("status", isChecked);
 	}, [isChecked]);
 	useEffect(() => {
-		console.log(values);
 		props.getFormValues(values);
 	}, [values]);
 	useEffect(() => {
 		if (selectedCustomer) {
-			setValue("CustomerName", selectedCustomer.Name);
-			setValue("CustomerId", selectedCustomer.Id);
+			setValue("customername", selectedCustomer.Name);
+			setValue("customerid", selectedCustomer.Id);
 			setCustomerId(selectedCustomer.Id);
 		}
 	}, [selectedCustomer]);
 	useEffect(() => {
-		if (selectedCustomer) {
-			setValue("CustomerName", selectedCustomer.Name);
-			setValue("CustomerId", selectedCustomer.Id);
+		if (selectedStock) {
+			setValue("stockname", selectedStock.Name);
+			setValue("stockid", selectedStock.Id);
 		}
-	}, [selectedCustomer]);
+	}, [selectedStock]);
 
 	const submit = async (e) => {
 		e.preventDefault();
@@ -81,7 +81,7 @@ function MyForm(props) {
 	};
 
 	function onChange(value, dateString) {
-		setValue("Moment", dateString);
+		setValue("moment", dateString);
 	}
 
 	if (values === null) {
@@ -121,9 +121,9 @@ function MyForm(props) {
 									type="text"
 									name="name"
 									placeholder=""
-									value={values?.Name ?? ""}
+									value={values?.name ?? ""}
 									onChange={(e) =>
-										setValue("Name", e.target.value)
+										setValue("name", e.target.value)
 									}
 									required
 								/>
@@ -186,7 +186,7 @@ function MyForm(props) {
 									type="text"
 									name="description"
 									placeholder=""
-									value={values?.Description ?? ""}
+									value={values?.description ?? ""}
 									onChange={(e) =>
 										setValue("Description", e.target.value)
 									}
@@ -219,9 +219,9 @@ function MyForm(props) {
 							name="StockName"
 							placeholder=""
 							value={
-								selectedGroup
-									? selectedGroup.Name
-									: values.CustomerName
+								selectedStock
+									? selectedStock.Name
+									: values.stockname
 							}
 							readOnly
 						/>
@@ -230,7 +230,7 @@ function MyForm(props) {
 						<img src={miniArrow_img} />
 					</Col>
 				</Row>
-				{from === "enters" ? null : (
+				{from === "enters" || from === "losses" ? null : (
 					<>
 						<Row className="doc-form-row">
 							<Col className="form-icons" span={3}>
@@ -256,7 +256,7 @@ function MyForm(props) {
 									value={
 										selectedCustomer
 											? selectedCustomer.Name
-											: values.CustomerName
+											: values.customername
 									}
 									readOnly
 									required
@@ -294,8 +294,8 @@ function MyForm(props) {
 					// isSearchInput={false}
 					// searchURL={"URL"}
 					url="stocks/get.php"
-					title="Qruplar"
-					select={setSelectedGroup}
+					title="Anbarlar"
+					select={setSelectedStock}
 					visible={setModalGroupsListForSelect}
 				/>
 			</MyModal>

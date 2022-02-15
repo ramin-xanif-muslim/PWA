@@ -65,8 +65,11 @@ function Content(props) {
 			<Row>
 				{showIcons.map((item) => {
 					const { id, url, text, icon } = item;
+                    const onClick = () => {
+                        document.title = text
+                    }
 					return (
-						<Col span={8} key={id} >
+						<Col span={8} key={id} onClick={onClick} >
 							<Link to={url} >
 								<div className="content_blok">
 									<div className="img_block">

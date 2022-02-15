@@ -26,42 +26,37 @@ function Header({ openSidebar }) {
 	const [icon, setIcon] = useState("");
 	const [text, setText] = useState("");
 
+    useEffect(() => {
+        setText(document.title)
+    },[document.title])
+
 	const fucShowIcons = () => {
 		if (checkedFooterNavItem === "") {
 			setIcon(home);
-			setText("Göstərici");
 		}
 		if (checkedFooterNavItem === 1) {
 			setIcon(home);
-			setText("Göstərici");
 		}
 		if (checkedFooterNavItem === 2) {
 			setIcon(products);
-			setText("Məhsullar");
 		}
 		if (checkedFooterNavItem === 3) {
 			setIcon(buy);
-			setText("Alışlar");
 		}
 		if (checkedFooterNavItem === 4) {
 			setIcon(checkout);
-			setText("Satışlar");
 		}
 		if (checkedFooterNavItem === 5) {
 			setIcon(customers);
-			setText("qarşı-tərəf");
 		}
 		if (checkedFooterNavItem === 6) {
 			setIcon(finance);
-			setText("Maliyyə");
 		}
 		if (checkedFooterNavItem === 7) {
 			setIcon(relate);
-			setText("Pərakəndə");
 		}
 		if (checkedFooterNavItem === 8) {
 			setIcon(reports);
-			setText("Hesabatlar");
 		}
 	};
 	useEffect(() => {

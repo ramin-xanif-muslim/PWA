@@ -8,7 +8,7 @@ import sendRequest from "../config/sentRequest";
 import Checkbox from "antd/lib/checkbox/Checkbox";
 import MyModal from "./UI/modal/MyModal";
 import SelectPage from "./SelectPage";
-import { ConvertFixedTable } from "../functions/indexs";
+import { ConvertFixedTable } from "../functions/index";
 
 function ProductForm(props) {
     const [values, setValues] = useState(

@@ -21,11 +21,11 @@ export default function useRequest(url,obj) {
                     res.data.Headers?.ResponseStatus === "103"
                 ) {
                     localStorage.removeItem("Token");
-                    alert(res.data.Body);
+                    setError(res.data.Body);
                     return null;
                 }
                 if (res.data.Headers?.ResponseStatus !== "0") {
-                    alert(res.data.Body);
+                    setError(res.data.Body);
                     return null;
                 }
                 return res

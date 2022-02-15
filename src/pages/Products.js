@@ -12,7 +12,7 @@ function Supply(props) {
     },[])
 	return (
 		<div>
-			<DocumentList list={props.data} from={props.from} />
+			<DocumentList list={props.data} from={props.from} fetchData={props.fetchData} />
 
 			<DocumentListFooter {...props} />
 		</div>

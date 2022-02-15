@@ -5,7 +5,7 @@ import other_img from "../img/document_pages_img/other.svg";
 import addProduct_img from "../img/document_pages_img/add-product.png";
 import barcode_img from "../img/document_pages_img/barcode.png";
 import BarcodeModal from "./BarcodeModal";
-import { ConvertFixedTable } from "../functions/indexs";
+import { ConvertFixedTable } from "../functions";
 import ModalEditProductParams from "./ModalEditProductParams";
 import MyModal from "./UI/modal/MyModal";
 

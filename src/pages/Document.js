@@ -4,16 +4,20 @@ import ProductListForSelect from "../components/ProductListForSelect";
 import MyLoading from "../components/UI/loading/MyLoading";
 import MyModal from "../components/UI/modal/MyModal";
 import { useGlobalContext } from "../config/context";
-import sendRequest from "../config/sentRequest";
 import DocFooter from "../components/DocFooter";
 import ProductList from "../components/ProductList";
-import { message } from "antd";
-import { keysToLowerCase } from "../functions/indexs";
-import ok from "../audio/ok.mp3";
 import { useNavigate } from "react-router";
 import useRequest from "../hooks/useRequest";
+import { message } from "antd";
+import { Navigate } from "react-router";
+import sendRequest from "../config/sentRequest";
+import ok from "../audio/ok.mp3";
+import { keysToLowerCase } from "../functions";
+import { conditionHandlingSaveButton } from "../functions/conditionHandlingSaveButton";
 
 const audio = new Audio(ok);
+
+const key = "updatable";
 
 function Document() {
 	let navigate = useNavigate();
@@ -82,67 +86,49 @@ function Document() {
 		}
 	};
 	const getFormValues = (v) => {
-		// setIsChangeDocument(true);
+		setIsChangeDocument(true);
 		setFormValues(v);
 	};
-	const key = "updatable";
 
 	const saveButton = async () => {
-		if (!formValues.StockName) {
-			message.warning({
-				content: "Zəhmət olmasa, anbarı seçin!",
-				key,
-				duration: 2,
-			});
-		}
-		if (from !== "enters") {
-			if (!formValues.CustomerName) {
-				message.warning({
-					content: "Zəhmət olmasa, qarşı tərəfi seçin",
-					key,
-					duration: 2,
-				});
-			}
-		}
-		if (formValues.StockName && formValues.CustomerName) {
-			message.loading({ content: "Loading...", key });
-			let newArr = [];
-			if (products[0]) {
-				newArr = products.map((item) => {
-					return {
-						ProductId: item.ProductId ? item.ProductId : item.Id,
-						Quantity: item.Quantity,
-						Price: item.Price,
-					};
-				});
-			}
-			formValues.positions = newArr;
-			let controller = from;
-			if (isNewDocument) {
-				let responseName = await sendRequest(
-					controller + "/newname.php",
-					{ name: formValues.Name ? formValues.Name : "" }
-				);
-				formValues.Name = responseName.ResponseService;
-			}
-			let res = await sendRequest(
-				controller + "/put.php",
-				keysToLowerCase(formValues)
-			);
-			if (res.ResponseStatus === "0") {
-				message.success({
-					content: "Dəyişikliklər yadda saxlanıldı!",
-					key,
-					duration: 2,
-				});
-				audio.play();
-				setIsChangeDocument(false);
-				if (isNewDocument) {
-					navigate(`/${from}`);
-					setIsNewDocument(false);
-				}
-			}
-		}
+        let isOk = conditionHandlingSaveButton(formValues,from)
+        if (isOk) {
+            message.loading({ content: "Loading...", key });
+            let newArr = [];
+            if (products[0]) {
+            	newArr = products.map((item) => {
+            		return {
+            			ProductId: item.ProductId ? item.ProductId : item.Id,
+            			Quantity: item.Quantity,
+            			Price: item.Price,
+            		};
+            	});
+            }
+            formValues.positions = newArr;
+            if (isNewDocument) {
+            	let responseName = await sendRequest(from + "/newname.php", {
+            		name: formValues.name ? formValues.name : "",
+            	});
+            	formValues.name = responseName.ResponseService;
+            }
+            let res = await sendRequest(
+            	from + "/put.php",
+            	keysToLowerCase(formValues)
+            );
+            if (res.ResponseStatus === "0") {
+            	message.success({
+            		content: "Dəyişikliklər yadda saxlanıldı!",
+            		key,
+            		duration: 2,
+            	});
+            	audio.play();
+            	setIsChangeDocument(false);
+            	if (isNewDocument) {
+            		Navigate(`/${from}`);
+            		setIsNewDocument(false);
+            	}
+            }
+        }
 	};
 	if (!from) {
 		navigate(`/`);
