@@ -10,7 +10,6 @@ function withLoading(Component, url) {
 
 		const [isLoading, setIsLoading] = useState(false);
 		const [data, setData] = useState();
-		const [dataList, setDataList] = useState([]);
 
 		async function fetchData(page) {
 			const res = await sendRequest(`${url}/get.php`, { pg: page });
@@ -18,8 +17,6 @@ function withLoading(Component, url) {
 				logout();
 			} else {
 				setData(res);
-				setDataList((prev) => [...prev, ...res.List]);
-                console.log(res)
 			}
 			setIsLoading(false);
 		}
@@ -44,8 +41,6 @@ function withLoading(Component, url) {
 			<Component
 				{...props}
 				data={data}
-				fetchData={fetchData}
-				dataList={dataList}
 			/>
 		);
 	};

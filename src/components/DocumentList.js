@@ -1,31 +1,42 @@
-import React, { useEffect, useState } from "react";
+import { Button } from "antd";
+import React, { useState } from "react";
 import Document from "./Document";
 
-function DocumentList({ list, from, fetchData }) {
-    const [isShowButton, setIsShowButton] = useState(true)
-    const [page, setPage] = useState(1)
-    const getMore = () => {
-        fetchData(page)
-        setPage(page + 1)
-    }
-    console.log(list)
-    return (
-        <div className="demands_wrapper">
-            {list
-                ? list.map((item, index) => {
-                      return (
-                          <Document
-                              key={item.Id}
-                              item={item}
-                              index={index + 1}
-                              from={from}
-                          />
-                      );
-                  })
-                : ""}
-                {isShowButton && <button onClick={getMore}>Daha çox məhsul</button>}
-        </div>
-    );
+function DocumentList({ list, from, getMoreData }) {
+	const [isLoading, setIsLoading] = useState(false);
+	const [count, setCount] = useState(99);
+	const [page, setPage] = useState(1);
+    
+	const getMore = async () => {
+		setIsLoading(true);
+		await getMoreData(page);
+		setPage(page + 1);
+        setCount(count + 100)
+		setIsLoading(false);
+	};
+	return (
+		<div className="demands_wrapper">
+			{list
+				? list.map((item, index) => {
+						return (
+							<>
+								<Document
+									key={item.Id}
+									item={item}
+									index={index + 1}
+									from={from}
+								/>
+								{index === count && (
+									<Button loading={isLoading} className="doc-load-more-btn" onClick={getMore}>
+										Daha çox məhsul
+									</Button>
+								)}
+							</>
+						);
+				  })
+				: ""}
+		</div>
+	);
 }
 
 export default DocumentList;

@@ -22,6 +22,7 @@ function withSerchByDate(Component, controller) {
 		const [data, setData] = useState();
 		const [searchdata, setsearchdata] = useState();
 		const [isLoading, setLoading] = useState(false);
+
 		const [obj, setObj] = useState({
 			pg: 0,
 			dr: 1,
@@ -41,6 +42,10 @@ function withSerchByDate(Component, controller) {
 			let res = await api.fetchData(controller, searchObj);
 			setData(res.List);
 		};
+        const getMoreData =async (page) => {
+			let res = await api.fetchData(controller, {pg: page});
+			setData((prev) => [...prev, ...res.List]);
+        }
 
 		const getSearcObjByDate = (ob) => {
 			setObj(ob);
@@ -108,9 +113,8 @@ function withSerchByDate(Component, controller) {
 				) : (
 					<Component
 						{...props}
-                        fetchData={props.fetchData}
+                        getMoreData={getMoreData}
 						data={data}
-                        dataList={props.dataList}
 						from={controller}
 						handleClickOnPlusBtn={handleClickOnPlusBtn}
 					/>

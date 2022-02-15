@@ -14,9 +14,9 @@ const Sidebar = () => {
 	const [balance, setBalance] = useState('');
 
     const onLogout = () => {
-		localStorage.clear();
-        logout()
-    }
+        localStorage.clear();
+        logout();
+    };
 
     const company = useRequest('company/get.php',{})
     const fetchBalance = async () => {
@@ -48,29 +48,29 @@ const Sidebar = () => {
 				{sidebarProfileLinks.map((item) => {
 					const { id, url, text, icon, icon_h } = item;
 
-					const onClick = () => {
-						setIsChecked(id);
-					};
-					return (
-						<li key={id} onClick={onClick}>
-							<Link to={url}>
-								<img src={isChecked === id ? icon_h : icon} />
-								<div
-									className={
-										isChecked === id
-											? "links_text_h"
-											: "links_text"
-									}
-								>
-									{text}
-								</div>
-							</Link>
-						</li>
-					);
-				})}
-				<div className="sidebar_title">Ayarlar</div>
-				{sidebarSettingsLinks.map((item) => {
-					const { id, url, text, icon, icon_h } = item;
+                    const onClick = () => {
+                        setIsChecked(id);
+                    };
+                    return (
+                        <li key={id} onClick={onClick}>
+                            <Link to={url}>
+                                <img src={isChecked === id ? icon_h : icon} />
+                                <div
+                                    className={
+                                        isChecked === id
+                                            ? "links_text_h"
+                                            : "links_text"
+                                    }
+                                >
+                                    {text}
+                                </div>
+                            </Link>
+                        </li>
+                    );
+                })}
+                <div className="sidebar_title">Ayarlar</div>
+                {sidebarSettingsLinks.map((item) => {
+                    const { id, url, text, icon, icon_h } = item;
 
 					const onClick = () => {
 						setIsChecked(id);

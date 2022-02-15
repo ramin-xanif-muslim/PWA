@@ -12,7 +12,7 @@ function Enters(props) {
     },[])
 	return (
 		<div>
-			<DocumentList list={props.data} from={props.from} fetchData={props.fetchData} />
+			<DocumentList list={props.data} from={props.from} getMoreData={props.getMoreData} />
 
 			<DocumentListFooter {...props} />
 		</div>
