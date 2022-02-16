@@ -188,7 +188,7 @@ function MyForm(props) {
 									placeholder=""
 									value={values?.description ?? ""}
 									onChange={(e) =>
-										setValue("Description", e.target.value)
+										setValue("description", e.target.value)
 									}
 									required
 								/>

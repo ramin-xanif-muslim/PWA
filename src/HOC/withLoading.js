@@ -11,8 +11,11 @@ function withLoading(Component, url) {
 		const [isLoading, setIsLoading] = useState(false);
 		const [data, setData] = useState();
 
+        let sendObj = {}
+        if(url === 'enters') {sendObj = {dr: 1, sr: "Moment"}}
+
 		async function fetchData(page) {
-			const res = await sendRequest(`${url}/get.php`, { pg: page });
+			const res = await sendRequest(`${url}/get.php`, sendObj);
 			if (res === null) {
 				logout();
 			} else {

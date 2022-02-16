@@ -13,7 +13,7 @@ import { Navigate } from "react-router";
 import sendRequest from "../config/sentRequest";
 import ok from "../audio/ok.mp3";
 import { keysToLowerCase } from "../functions";
-import { conditionHandlingSaveButton } from "../functions/conditionHandlingSaveButton";
+import { useConditionHandlingOnSave } from "../hooks/useConditionHandlingOnSave";
 
 const audio = new Audio(ok);
 
@@ -54,10 +54,11 @@ function Document() {
 	};
 
 	const selectPrd = (arr) => {
+        let filterArr = arr.filter((item) => item.Quantity) 
 		setIsChangeDocument(true);
 		let isNewBarcodeProductInProducts = false;
 		let newarr = [];
-		arr.map((a) => {
+		filterArr.map((a) => {
 			products.forEach((p) => {
 				if (p.BarCode === a.BarCode) {
 					p.Quantity += a.Quantity;
@@ -90,8 +91,14 @@ function Document() {
 		setFormValues(v);
 	};
 
+    const [conditionHandlingOnSave, conditionHandlingOnSaveEnterAndLossDocument] = useConditionHandlingOnSave(formValues)
+
 	const saveButton = async () => {
-        let isOk = conditionHandlingSaveButton(formValues,from)
+        console.log(from)
+        let isOk = false
+        if(from === 'losses') { isOk = conditionHandlingOnSaveEnterAndLossDocument()}
+        else if(from === 'enters') { isOk = conditionHandlingOnSaveEnterAndLossDocument()}
+        else {isOk = conditionHandlingOnSave()}
         if (isOk) {
             message.loading({ content: "Loading...", key });
             let newArr = [];

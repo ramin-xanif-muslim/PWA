@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import { useGlobalContext } from "../config/context";
 import { Button, Modal } from "antd";
 import { WarningOutlined } from "@ant-design/icons";
+import { ConvertFixedTable } from "../functions";
 
 const DocFooter = ({
 	products,
@@ -21,7 +22,6 @@ const DocFooter = ({
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [totalQuantity, setTotalQuantity] = useState(0);
 	const [showWarningModal, setShowWarningModal] = useState(false);
-	const [isCloseDocument, setIsCloseDocument] = useState(false);
 
 	const computationPriceAndQuantity = () => {
 		if (products && products[0]) {
@@ -29,8 +29,8 @@ const DocFooter = ({
 			let tp = 0;
 			for (let i = 0; i < products.length; i++) {
 				if (products && products[i]) {
-					tq += products[i].Quantity;
-					tp += products[i].Price * products[i].Quantity;
+					tq += Number(products[i].Quantity);
+					tp += Number(products[i].Price) * Number(products[i].Quantity);
 				}
 			}
 			setTotalQuantity(tq);
@@ -41,11 +41,6 @@ const DocFooter = ({
 	useEffect(() => {
 		computationPriceAndQuantity();
 	}, [products]);
-	// useEffect(() => {
-	// 	if (isChangeDocument) {
-	// 		setIsCloseDocument(true);
-	// 	}
-	// }, [isChangeDocument]);
 
 	const closeDocument = () => {
 		navigate(`/${from}`);
@@ -63,8 +58,8 @@ const DocFooter = ({
 
 	return (
 		<div
-			style={from === "products" ? { bottom: 0 } : null}
-			onClick={() => setIsFoterOpen(!isFooterOpen)}
+			style={from !== "demands" ? { bottom: 0 } : null}
+			onClick={from === "demands" ? () => setIsFoterOpen(!isFooterOpen) : null}
 			className={
 				isFooterOpen ? "doc-footer doc-footer-open" : "doc-footer"
 			}
@@ -105,7 +100,7 @@ const DocFooter = ({
 					</button>
 				)}
 			</div>
-			{from === "products" ? null : (
+			{from === "demands" ? (
 				<div className="texts">
 					<div className="text-block">
 						<p className="text">Ümumi məbləğ:</p>
@@ -121,7 +116,7 @@ const DocFooter = ({
 					</div>
 					<div className="text-block">
 						<p className="text">Miqdar</p>
-						<p className="number">{totalQuantity}</p>
+						<p className="number">{ConvertFixedTable(totalQuantity)}</p>
 					</div>
 					<div className="text-block">
 						<p className="text">Mayası:</p>
@@ -130,6 +125,17 @@ const DocFooter = ({
 					<div className="text-block">
 						<p className="text">Qazanc:</p>
 						<p className="number"></p>
+					</div>
+				</div>
+			) : (
+				<div className="texts">
+					<div className="text-block-important">
+						<p className="text">Yekun məbləğ:</p>
+						<p className="number">{totalPrice.toFixed(2)}</p>
+					</div>
+					<div className="text-block">
+						<p className="text">Miqdar</p>
+						<p className="number">{ConvertFixedTable(totalQuantity)}</p>
 					</div>
 				</div>
 			)}

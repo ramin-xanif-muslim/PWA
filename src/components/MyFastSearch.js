@@ -4,7 +4,7 @@ import sendRequest from "../config/sentRequest";
 
 const { Search } = Input;
 
-function MyFastSearch({ url, getDataOnSearch }) {
+function MyFastSearch({ url, getDataOnSearch, from }) {
 	const [isPut, setIsPut] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
     const [isLoading, setLoading] = useState(false);
@@ -23,10 +23,11 @@ function MyFastSearch({ url, getDataOnSearch }) {
 
 	const searchFunc = async () => {
         setLoading(true)
-        let obj = {
-            fast: searchTerm,
-            dr: 1,
+        let obj = {lm : 100, dr: 1}
+        if(from === 'stockbalance') {
+            obj.quick = searchTerm
         }
+        else { obj.fast = searchTerm }
 		let res = await sendRequest(url, obj)
         getDataOnSearch(res.List)
         setLoading(false)

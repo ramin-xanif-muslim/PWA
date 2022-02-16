@@ -4,20 +4,17 @@ import stock_img from "../img/document_pages_img/stock.png";
 import miniArrow_img from "../img/document_pages_img/mini-arrow.svg";
 import { Col, DatePicker, Row, Space } from "antd";
 import "../styles/Documents.css";
-import sendRequest from "../config/sentRequest";
 import Checkbox from "antd/lib/checkbox/Checkbox";
 import MyModal from "./UI/modal/MyModal";
 import SelectPage from "./SelectPage";
-import { ConvertFixedTable } from "../functions/index";
+import { ConvertFixedTable, keysToLowerCase } from "../functions/index";
 
 function ProductForm(props) {
     const [values, setValues] = useState(
-        props.initialValues ? props.initialValues : ""
+        props.initialValues ? keysToLowerCase(props.initialValues) : ""
     );
     const [isFetching, setFetching] = useState(false);
     const [selectedGroup, setSelectedGroup] = useState();
-    const [barcode, setBarcode] = useState();
-    const [isOpenPage, setIsOpenPage] = useState(false);
 
     const [isChecked, setIsChecked] = useState(false);
     const handleOnChange = () => {
@@ -26,17 +23,11 @@ function ProductForm(props) {
     const [modalGroupListForSelect, setModalGroupListForSelect] =
         useState(false);
 
-    const getBarcode = async () => {
-        let res = await sendRequest("barcode/get.php", {
-            w: isChecked ? 1 : 0,
-        });
-        setBarcode(res);
-    };
     useEffect(() => {
-        if (!props.initialValues) {
-            getBarcode();
+        if(props.barcode) {
+            setValue('barcode',props.barcode);
         }
-    }, []);
+    },[props.barcode])
 
     useEffect(() => {
         if (values?.isweight === 1) {
@@ -45,25 +36,17 @@ function ProductForm(props) {
     }, []);
     useEffect(() => {
         setValue("isweight", isChecked);
-        if (isOpenPage) {
-            getBarcode();
-        }
-        setIsOpenPage(true);
     }, [isChecked]);
-    useEffect(() => {
-        setValue("barcode", barcode);
-    }, [barcode]);
 
     useEffect(() => {
         props.setIsChangeDocument(true);
-        setIsOpenPage(true);
         props.getFormValues(values);
     }, [values]);
 
     useEffect(() => {
         if (selectedGroup) {
-            setValue("GroupName", selectedGroup.Name);
-            setValue("GroupId", selectedGroup.Id);
+            setValue("groupname", selectedGroup.Name);
+            setValue("groupid", selectedGroup.Id);
         }
     }, [selectedGroup]);
 
@@ -81,12 +64,12 @@ function ProductForm(props) {
         }
     };
     const setValue = (field, value) => {
-        // props.setIsChangeDocument(true);
+        props.setIsChangeDocument(true);
         setValues((old) => ({ ...old, [field]: value }));
     };
 
     function onChange(value, dateString) {
-        setValue("Moment", dateString);
+        setValue("moment", dateString);
     }
 
     if (values === null) {
@@ -96,9 +79,6 @@ function ProductForm(props) {
         <form className="doc-form" onSubmit={submit}>
             <fieldset disabled={isFetching}>
                 <Row className="doc-form-row">
-                    {/* <Col className="form-icons" span={3}>
-						<img src={stock_img} />
-					</Col> */}
                     <Col className="form-label" span={9}>
                         <label>Məhsulun adı:</label>
                     </Col>
@@ -118,9 +98,6 @@ function ProductForm(props) {
                 </Row>
 
                 <Row className="doc-form-row">
-                    {/* <Col className="form-icons" span={3}>
-						<img src={stock_img} />
-					</Col> */}
                     <Col className="form-label" span={9}>
                         <label>Barkod:</label>
                     </Col>
@@ -130,9 +107,8 @@ function ProductForm(props) {
                             type="text"
                             name="productname"
                             placeholder=""
-                            value={barcode ? barcode : values.barcode}
-                            onChange={(e) => setBarcode(e.target.value)}
-                            readOnly
+                            value={values?.barcode ?? ""}
+                            onChange={(e) => setValue('barcode',e.target.value)}
                         />
                     </Col>
                     <Col className="form-icons" span={3}>
@@ -141,9 +117,6 @@ function ProductForm(props) {
                 </Row>
 
                 <Row className="doc-form-row">
-                    {/* <Col className="form-icons" span={3}>
-						<img src={stock_img} />
-					</Col> */}
                     <Col className="form-label" span={9}>
                         <label>Qrup:</label>
                     </Col>
@@ -161,7 +134,7 @@ function ProductForm(props) {
                             value={
                                 selectedGroup
                                     ? selectedGroup.Name
-                                    : values.GroupName
+                                    : values.groupname
                             }
                             readOnly
                             required
@@ -173,9 +146,6 @@ function ProductForm(props) {
                 </Row>
 
                 <Row className="doc-form-row">
-                    {/* <Col className="form-icons" span={3}>
-						<img src={stock_img} />
-					</Col> */}
                     <Col className="form-label" span={9}>
                         <label>Artkod:</label>
                     </Col>
@@ -197,9 +167,6 @@ function ProductForm(props) {
                 </Row>
 
                 <Row className="doc-form-row">
-                    {/* <Col className="form-icons" span={3}>
-						<img src={stock_img} />
-					</Col> */}
                     <Col className="form-label" span={9}>
                         <label htmlFor="name">Şərh:</label>
                     </Col>
@@ -222,14 +189,12 @@ function ProductForm(props) {
                 </Row>
 
                 <Row className="doc-form-row">
-                    {/* <Col className="form-icons" span={3}>
-						<img src={stock_img} />
-					</Col> */}
                     <Col className="form-label" span={9}>
                         <label>Çəki:</label>
                     </Col>
                     <Col className="form-input" span={12}>
                         <Checkbox
+                            disabled={props.initialValues ? true : false}
                             checked={isChecked}
                             onChange={handleOnChange}
                         />
@@ -240,9 +205,6 @@ function ProductForm(props) {
                 </Row>
 
                 <Row className="doc-form-row">
-                    {/* <Col className="form-icons" span={3}>
-						<img src={stock_img} />
-					</Col> */}
                     <Col className="form-label" span={9}>
                         <label htmlFor="name">Alış qiyməti:</label>
                     </Col>
@@ -265,9 +227,6 @@ function ProductForm(props) {
                 </Row>
 
                 <Row className="doc-form-row">
-                    {/* <Col className="form-icons" span={3}>
-						<img src={stock_img} />
-					</Col> */}
                     <Col className="form-label" span={9}>
                         <label htmlFor="name">Minimal qiyməti:</label>
                     </Col>
@@ -290,9 +249,6 @@ function ProductForm(props) {
                 </Row>
 
                 <Row className="doc-form-row">
-                    {/* <Col className="form-icons" span={3}>
-						<img src={stock_img} />
-					</Col> */}
                     <Col className="form-label" span={9}>
                         <label htmlFor="name">Satış qiyməti:</label>
                     </Col>

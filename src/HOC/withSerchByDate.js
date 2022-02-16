@@ -9,7 +9,7 @@ import MyFastSearch from "../components/MyFastSearch";
 
 function withSerchByDate(Component, controller) {
 	return (props) => {
-        const { openSearchInput } = useGlobalContext()
+		const { openSearchInput } = useGlobalContext();
 		let navigate = useNavigate();
 		const {
 			isSearch,
@@ -42,10 +42,10 @@ function withSerchByDate(Component, controller) {
 			let res = await api.fetchData(controller, searchObj);
 			setData(res.List);
 		};
-        const getMoreData =async (page) => {
-			let res = await api.fetchData(controller, {pg: page});
+		const getMoreData = async (page) => {
+			let res = await api.fetchData(controller, { pg: page });
 			setData((prev) => [...prev, ...res.List]);
-        }
+		};
 
 		const getSearcObjByDate = (ob) => {
 			setObj(ob);
@@ -75,14 +75,15 @@ function withSerchByDate(Component, controller) {
 			}
 		}, [isSearch]);
 		useEffect(() => {
-            openSearchInput(false)
+			openSearchInput(false);
 			setIsNewDocument(false);
 			setCustomerId(null);
 		}, []);
 
 		return (
 			<div>
-				{controller === "products" || controller === "stockbalance" ? null : (
+				{controller === "products" ||
+				controller === "stockbalance" ? null : (
 					<SearchByDate
 						obj={obj}
 						getSearcObjByDate={getSearcObjByDate}
@@ -91,21 +92,25 @@ function withSerchByDate(Component, controller) {
 
 				{controller === "products" ? (
 					<MyFastSearch
+						from="products"
 						url={controller + "/getfast.php"}
 						getDataOnSearch={getDataOnSearch}
 					/>
-				) : null }
+				) : null}
 
 				{controller === "stockbalance" ? (
 					<MyFastSearch
+						from="stockbalance"
 						url={controller + "/get.php"}
 						getDataOnSearch={getDataOnSearch}
 					/>
-				) : null }
+				) : null}
 
-				{controller !== "products" && controller !== "stockbalance" && isSearch ? (
+				{controller !== "products" &&
+				controller !== "stockbalance" &&
+				isSearch ? (
 					<SearchInput fetchSearchTerm={fetchSearchTerm} />
-				) : null }
+				) : null}
 				{/* {isSearch && <SearchInput fetchSearchTerm={fetchSearchTerm} />} */}
 
 				{isLoading ? (
@@ -113,7 +118,7 @@ function withSerchByDate(Component, controller) {
 				) : (
 					<Component
 						{...props}
-                        getMoreData={getMoreData}
+						getMoreData={getMoreData}
 						data={data}
 						from={controller}
 						handleClickOnPlusBtn={handleClickOnPlusBtn}
