@@ -11,8 +11,12 @@ function withLoading(Component, url) {
 		const [isLoading, setIsLoading] = useState(false);
 		const [data, setData] = useState();
 
-        let sendObj = {}
-        if(url === 'enters') {sendObj = {dr: 1, sr: "Moment"}}
+        let sendObj = {dr: 1, sr: "Moment"}
+        if(url === 'products') {sendObj = {}}
+        if(url === 'stockbalance') {sendObj = {}}
+        if(url === 'salepoints') {sendObj = {}}
+        if(url === 'customers') {sendObj = {}}
+        if(url === 'settlements') {sendObj = {}}
 
 		async function fetchData(page) {
 			const res = await sendRequest(`${url}/get.php`, sendObj);
