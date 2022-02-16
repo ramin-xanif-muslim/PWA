@@ -28,7 +28,7 @@ function DocumentList({ list, from, getMoreData }) {
 								/>
 								{index === count && (
 									<Button loading={isLoading} className="doc-load-more-btn" onClick={getMore}>
-										Daha çox məhsul
+										Daha çox ...
 									</Button>
 								)}
 							</>

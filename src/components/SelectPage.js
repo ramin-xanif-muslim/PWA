@@ -53,15 +53,11 @@ function SelectPage(props) {
 export default SelectPage;
 
 const List = ({ listItems, select, visable, getData, title }) => {
-	const [isVisibleButton, setIsVisibleButton] = useState(false);
 	return (
 		<div className={style.selectCustomerBody}>
 			{listItems ? (
 				listItems.map((item, index) => {
 					const { Id, Name } = item;
-					if (index === 99) {
-						setIsVisibleButton(true);
-					}
 					const onClick = () => {
 						select(item);
 						visable(false);
@@ -82,14 +78,12 @@ const List = ({ listItems, select, visable, getData, title }) => {
 			) : (
 				<p></p>
 			)}
-			{isVisibleButton && (
-				<button
-					className="button-get-all-products"
-					onClick={() => getData()}
-				>
-					<p>Bütün {title}</p>
-				</button>
-			)}
+			<button
+				className="button-get-all-products"
+				onClick={() => getData()}
+			>
+				<p>Bütün {title}</p>
+			</button>
 		</div>
 	);
 };
