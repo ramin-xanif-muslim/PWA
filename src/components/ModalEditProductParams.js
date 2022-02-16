@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import plus_img from "../img/document_pages_img/plus.svg";
 import minus_img from "../img/document_pages_img/minus.svg";
 import { ConvertFixedTable } from "../functions";
+import "../styles/SelectProducts.css";
 
 const ModalEditProductParams = (props) => {
 	const [totalPrice, setTotalPrice] = useState();

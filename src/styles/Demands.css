@@ -34,6 +34,10 @@
     border-width: 1px 0 0;
 }
 
+.demand-deactive p {
+    opacity: 0.7;
+}
+
 .demands_wrapper {
     overflow: auto;
     height: calc(100vh - 232px);
@@ -104,7 +108,6 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 1rem;
     background: #f3f3f3;
 }
 

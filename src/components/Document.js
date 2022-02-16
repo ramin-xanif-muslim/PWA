@@ -7,13 +7,20 @@ function Document(props) {
     const { item, index, from } = props;
     const { getDocumentsItem, putFrom } = useGlobalContext();
     const { CustomerName, Name, Amount, Moment, Id } = item;
-    const [isPermmision, setIPermision] = useState(false)
-    const permission = ['supplies','supplyreturns','demands','demandreturns','enters','losses']
+    const [isPermmision, setIPermision] = useState(false);
+    const permission = [
+        "supplies",
+        "supplyreturns",
+        "demands",
+        "demandreturns",
+        "enters",
+        "losses",
+    ];
 
     useEffect(() => {
-        let isLink = permission.includes(from)
-        setIPermision(isLink)
-    },[from])
+        let isLink = permission.includes(from);
+        setIPermision(isLink);
+    }, [from]);
 
     const onClick = () => {
         getDocumentsItem(item);
@@ -31,7 +38,11 @@ function Document(props) {
     }
 
     return (
-        <Link key={Id} to={isPermmision ? "/document" : `/${from}`} style={{ color: "inherit" }}>
+        <Link
+            key={Id}
+            to={isPermmision ? "/document" : `/${from}`}
+            style={{ color: "inherit" }}
+        >
             <div className="demand" onClick={onClick}>
                 <div className="index">
                     <p>{index}</p>
@@ -90,24 +101,24 @@ const DocumentForStockbalance = ({ item, index, from, onClick }) => {
     const { BarCode, ProductName, Quantity, Moment, OwnerId } = item;
     return (
         // <Link key={OwnerId} to="/document" style={{ color: "inherit" }}>
-            <div className="demand" onClick={onClick}>
-                <div className="index">
-                    <p>{index}</p>
+        <div className="demand" onClick={onClick}>
+            <div className="index">
+                <p>{index}</p>
+            </div>
+            <hr></hr>
+            <div className="demand-inner">
+                <div className="demand-text">
+                    <p className="name">{ProductName}</p>
+                    <div>
+                        <p className="no">№{BarCode}</p>
+                    </div>
                 </div>
-                <hr></hr>
-                <div className="demand-inner">
-                    <div className="demand-text">
-                        <p className="name">{ProductName}</p>
-                        <div>
-                            <p className="no">№{BarCode}</p>
-                        </div>
-                    </div>
-                    <div className="demand-price">
-                        <p className="amount">Qalıq </p>
-                        <p className="amount">{ConvertFixedTable(Quantity)}</p>
-                    </div>
+                <div className="demand-price">
+                    <p className="amount">Qalıq </p>
+                    <p className="amount">{ConvertFixedTable(Quantity)}</p>
                 </div>
             </div>
+        </div>
         // </Link>
     );
 };
