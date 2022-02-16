@@ -7,7 +7,7 @@ import withSerchByDate from "../HOC/withSerchByDate";
 function Stockbalance(props) {
 	return (
 		<div>
-			<DocumentList list={props.data} from={props.from} />
+			<DocumentList list={props.data} from={props.from} {...props} />
 
 			{/* <DocumentListFooter {...props} /> */}
 		</div>

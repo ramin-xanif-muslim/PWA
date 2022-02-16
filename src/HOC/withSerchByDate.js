@@ -20,6 +20,7 @@ function withSerchByDate(Component, controller) {
 		} = useGlobalContext();
 
 		const [data, setData] = useState();
+		const [allData, setAllData] = useState();
 		const [searchdata, setsearchdata] = useState();
 		const [isLoading, setLoading] = useState(false);
 
@@ -67,6 +68,7 @@ function withSerchByDate(Component, controller) {
 		useEffect(() => {
 			if (props.data?.List) {
 				setData(props.data.List);
+				setAllData(props.data);
 			}
 		}, []);
 		useEffect(() => {
@@ -111,7 +113,6 @@ function withSerchByDate(Component, controller) {
 				isSearch ? (
 					<SearchInput fetchSearchTerm={fetchSearchTerm} />
 				) : null}
-				{/* {isSearch && <SearchInput fetchSearchTerm={fetchSearchTerm} />} */}
 
 				{isLoading ? (
 					<MyLoading />
@@ -120,6 +121,7 @@ function withSerchByDate(Component, controller) {
 						{...props}
 						getMoreData={getMoreData}
 						data={data}
+						allData={allData}
 						from={controller}
 						handleClickOnPlusBtn={handleClickOnPlusBtn}
 					/>

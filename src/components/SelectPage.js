@@ -63,7 +63,6 @@ const List = ({ listItems, select, visable, getData, title }) => {
 						setIsVisibleButton(true);
 					}
 					const onClick = () => {
-						console.log(item);
 						select(item);
 						visable(false);
 					};

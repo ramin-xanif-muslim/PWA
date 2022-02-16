@@ -5,24 +5,26 @@ import sendRequest from "../config/sentRequest";
 import { ConvertFixedTable } from "../functions/index";
 
 const Debt = () => {
-	const { documentsItem, customerId, isNewDocument } = useGlobalContext();
+	const { documentsItem, customerId } = useGlobalContext();
 
 	const [debt, setDebt] = useState();
 	const [isLoading, setIsLoading] = useState(false);
-	useEffect(async () => {
-		if (!isNewDocument) {
-			let obj = { id: documentsItem && documentsItem.CustomerId };
-			let res = await sendRequest("customers/getdata.php", obj);
-			setDebt(res.Debt);
-		}
+
+    const fetchDebt = async (cusId) => {
+        setIsLoading(true);
+        let obj = { id: cusId };
+        let res = await sendRequest("customers/getdata.php", obj);
+        setDebt(res.Debt);
+        setIsLoading(false);
+    }
+	useEffect(() => {
+		if (documentsItem) {
+            fetchDebt(documentsItem.customerid)
+        }
 	}, []);
-	useEffect(async () => {
+	useEffect(() => {
 		if (customerId) {
-			setIsLoading(true);
-			let obj = { id: customerId };
-			let res = await sendRequest("customers/getdata.php", obj);
-			setDebt(res.Debt);
-			setIsLoading(false);
+            fetchDebt(customerId)
 		}
 	}, [customerId]);
 

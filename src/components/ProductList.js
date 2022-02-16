@@ -29,6 +29,7 @@ const ProductList = ({
 		if (quantity < 0) {
 			setQuantity(0);
 		}
+        console.log(products)
 	}, [quantity]);
 
 	const putQuantity = () => {
@@ -54,6 +55,7 @@ const ProductList = ({
 					const {
 						Name,
 						StockQuantity,
+                        StockBalance,
 						Quantity,
 						Id,
 						Price,
@@ -82,8 +84,8 @@ const ProductList = ({
 											<img src={product_img} alt="" />
 											<p className="stock-quantity">
 												{StockQuantity
-													? StockQuantity
-													: 0}
+													? StockQuantity : StockBalance ? StockBalance 
+													: ''}
 											</p>
 										</div>
 									</div>

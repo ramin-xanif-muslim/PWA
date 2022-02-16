@@ -13,9 +13,7 @@ function Document(props) {
     useEffect(() => {
         let isLink = permission.includes(from)
         setIPermision(isLink)
-        console.log(item)
     },[from])
-
     const onClick = () => {
         getDocumentsItem(item);
         putFrom(from);
@@ -33,8 +31,7 @@ function Document(props) {
 
     return (
         <Link key={Id} to={isPermmision ? "/document" : `/${from}`} style={{ color: "inherit" }}>
-            <div className={Status === 1 ? 'demand' : 'demand'} onClick={onClick}>
-            {/* <div className="demand" onClick={onClick}> */}
+            <div className={Status === 1 ? 'demand' : 'demand demand-deactive'} onClick={onClick}>
                 <div className="index">
                     <p>{index}</p>
                 </div>
@@ -92,24 +89,24 @@ const DocumentForStockbalance = ({ item, index, from, onClick }) => {
     const { BarCode, ProductName, Quantity, Moment, OwnerId } = item;
     return (
         // <Link key={OwnerId} to="/document" style={{ color: "inherit" }}>
-            <div className="demand" onClick={onClick}>
-                <div className="index">
-                    <p>{index}</p>
+        <div className="demand" onClick={onClick}>
+            <div className="index">
+                <p>{index}</p>
+            </div>
+            <hr></hr>
+            <div className="demand-inner">
+                <div className="demand-text">
+                    <p className="name">{ProductName}</p>
+                    <div>
+                        <p className="no">№{BarCode}</p>
+                    </div>
                 </div>
-                <hr></hr>
-                <div className="demand-inner">
-                    <div className="demand-text">
-                        <p className="name">{ProductName}</p>
-                        <div>
-                            <p className="no">№{BarCode}</p>
-                        </div>
-                    </div>
-                    <div className="demand-price">
-                        <p className="amount">Qalıq </p>
-                        <p className="amount">{ConvertFixedTable(Quantity)}</p>
-                    </div>
+                <div className="demand-price">
+                    <p className="amount">Qalıq </p>
+                    <p className="amount">{ConvertFixedTable(Quantity)}</p>
                 </div>
             </div>
+        </div>
         // </Link>
     );
 };

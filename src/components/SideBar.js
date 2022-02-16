@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { sidebarProfileLinks, sidebarSettingsLinks } from "../config/data";
 import ProfilSidebarHeader from "../img/ProfilSidebarHeader.png";
-import chat from "../img/Chat.png";
+import img_logout from "../img/Logout.png";
 import "../styles/SideBar.css";
 import { useGlobalContext } from "../config/context";
 import sendRequest from "../config/sentRequest";
@@ -33,7 +33,7 @@ const Sidebar = () => {
 				<div className="sidebar-header-top">
 					<img src={ProfilSidebarHeader} />
 					<p>BALANS: {balance}<sub>₼</sub></p>
-					<img src={chat} />
+					<img onClick={onLogout} src={img_logout} />
 				</div>
 				<div className="sidebar-header-top">
 					<p>{company?.data?.CompanyName}</p>
@@ -41,9 +41,6 @@ const Sidebar = () => {
 				</div>
 			</div>
 			<ul className="links">
-						<li onClick={onLogout}>
-									Çıxış
-						</li>
 				<div className="sidebar_title">Profil ayarları</div>
 				{sidebarProfileLinks.map((item) => {
 					const { id, url, text, icon, icon_h } = item;

@@ -8,6 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import Notification from "./components/Notification";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ ReactDOM.render(
 		<BrowserRouter>
 			<QueryClientProvider client={queryClient}>
 				<AppProvider>
+					<Notification />
 					<App />
 				</AppProvider>
 				{/* <ReactQueryDevtools initialIsOpen={false} /> */}

@@ -22,8 +22,8 @@ function Header({ openSidebar }) {
 	const { checkedFooterNavItem, openSearchInput, isSearch } =
 		useGlobalContext();
 
-	// const { getNotification, notificationsCount, fetchNotificationCount } =
-	// 	useNotification();
+	const { getNotification, notificationsCount } =
+		useNotification();
 
 	const [icon, setIcon] = useState("");
 	const [text, setText] = useState("");
@@ -78,8 +78,9 @@ function Header({ openSidebar }) {
 						</Link>
 					</div>
 					<div>
-						<Badge count={5} size="small">
+						<Badge count={notificationsCount} size="small">
 							<img
+								onClick={getNotification}
 								src={notification}
 								alt="notification"
 								className="img-notification"

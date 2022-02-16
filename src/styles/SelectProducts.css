@@ -98,22 +98,22 @@ button:focus {
 	text-align: center;
 }
 
-.set-data-body {
+.set-data {
 	padding: 0 2rem;
 }
 
-.set-data-body .quantity {
+.set-data .quantity {
 	opacity: 0.7;
 	margin: 0;
 }
 
-.set-data-body .set-quantity {
+.set-data .set-quantity {
 	display: flex;
 	justify-content: space-between;
 	margin: 1rem 0;
 }
 
-.set-data-body .set-quantity input {
+.set-data .set-quantity input {
 	border: none;
 	text-align: center;
 	font-size: 1.3em;
@@ -122,34 +122,34 @@ button:focus {
 	width: 100%;
 }
 
-.set-data-body .set-quantity button {
+.set-data .set-quantity button {
 	border: none;
 	background: none;
 }
 
-.set-data-body .set-quantity button img {
+.set-data .set-quantity button img {
 	width: 50px;
 }
 
-.set-data-body label {
+.set-data label {
 	margin: 0;
 }
 
-.set-data-body .amount,
-.set-data-body .price {
+.set-data .amount,
+.set-data .price {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	margin: 1rem;
 }
 
-.set-data-body .amount label,
-.set-data-body .price label {
+.set-data .amount label,
+.set-data .price label {
 	font-weight: 400;
 }
 
-.set-data-body .amount input,
-.set-data-body .price input {
+.set-data .amount input,
+.set-data .price input {
 	border: none;
 	border-bottom: 1px solid var(--dark-blue);
 	width: 100%;
