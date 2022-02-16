@@ -10,7 +10,7 @@ function Documents(props) {
     return (
         <div>
 		<div>
-			<DocumentList list={props.data} from={props.from} />
+			<DocumentList list={props.data} from={props.from} {...props} />
 
 			<DocumentListFooter {...props} />
 		</div>

@@ -22,6 +22,7 @@
     "react-scripts": "4.0.3",
     "react-webcam-barcode-scanner": "0.0.2-rc2",
     "semantic-ui-react": "^2.0.4",
+    "toast": "^0.3.47",
     "web-vitals": "^0.2.4",
     "workbox-background-sync": "^5.1.3",
     "workbox-broadcast-update": "^5.1.3",

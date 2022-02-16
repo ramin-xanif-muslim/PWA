@@ -6,13 +6,14 @@ import { ConvertFixedTable } from "../functions/index";
 function Document(props) {
     const { item, index, from } = props;
     const { getDocumentsItem, putFrom } = useGlobalContext();
-    const { CustomerName, Name, Amount, Moment, Id } = item;
+    const { CustomerName, Name, Amount, Moment, Id, Status } = item;
     const [isPermmision, setIPermision] = useState(false)
     const permission = ['supplies','supplyreturns','demands','demandreturns','enters','losses']
 
     useEffect(() => {
         let isLink = permission.includes(from)
         setIPermision(isLink)
+        console.log(item)
     },[from])
 
     const onClick = () => {
@@ -32,7 +33,8 @@ function Document(props) {
 
     return (
         <Link key={Id} to={isPermmision ? "/document" : `/${from}`} style={{ color: "inherit" }}>
-            <div className="demand" onClick={onClick}>
+            <div className={Status === 1 ? 'demand' : 'demand'} onClick={onClick}>
+            {/* <div className="demand" onClick={onClick}> */}
                 <div className="index">
                     <p>{index}</p>
                 </div>

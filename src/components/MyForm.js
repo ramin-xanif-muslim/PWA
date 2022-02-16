@@ -161,7 +161,7 @@ function MyForm(props) {
 								<img src={status_img} />
 							</Col>
 							<Col className="form-label" span={6}>
-								<label>Status:</label>
+								<label>Keçirilib:</label>
 							</Col>
 							<Col className="form-input" span={12}>
 								<Checkbox

@@ -15,20 +15,22 @@ import slider from "../img/Slider.png";
 import "../styles/Header.css";
 import { useGlobalContext } from "../config/context";
 import { Link } from "react-router-dom";
+import { Badge } from "antd";
+import { useNotification } from "../hooks/useNotification";
 
 function Header({ openSidebar }) {
-	const {
-		checkedFooterNavItem,
-		openSearchInput,
-		isSearch,
-	} = useGlobalContext();
+	const { checkedFooterNavItem, openSearchInput, isSearch } =
+		useGlobalContext();
+
+	// const { getNotification, notificationsCount, fetchNotificationCount } =
+	// 	useNotification();
 
 	const [icon, setIcon] = useState("");
 	const [text, setText] = useState("");
 
-    useEffect(() => {
-        setText(document.title)
-    },[document.title])
+	useEffect(() => {
+		setText(document.title);
+	}, [document.title]);
 
 	const fucShowIcons = () => {
 		if (checkedFooterNavItem === "") {
@@ -76,11 +78,13 @@ function Header({ openSidebar }) {
 						</Link>
 					</div>
 					<div>
-						<img
-							src={notification}
-							alt="notification"
-							className="img-notification"
-						/>
+						<Badge count={5} size="small">
+							<img
+								src={notification}
+								alt="notification"
+								className="img-notification"
+							/>
+						</Badge>
 					</div>
 				</div>
 			</div>
