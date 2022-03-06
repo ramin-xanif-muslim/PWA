@@ -87,7 +87,6 @@ function Document() {
 		}
 	};
 	const getFormValues = (v) => {
-		setIsChangeDocument(true);
 		setFormValues(v);
 	};
 

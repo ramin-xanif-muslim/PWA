@@ -4,18 +4,18 @@ import { Link } from "react-router-dom";
 import img_goback from "../img/GoBack.png";
 
 function DocumentListFooter(props) {
-	// if (props.from === "stockbalance") {
-	// 	return <DocumentListFooterForStockbalance {...props} />;
-	// }
-	// if (props.from === "settlements") {
-	// 	return <DocumentListFooterForSettlements {...props} />;
-	// }
-	// if (props.from === "transactions" || props.from === "credittransactions") {
-	// 	return <DocumentListFooterForTransactions {...props} />;
-	// }
-	// if (props.from === "products") {
-	// 	return <DocumentListFooterForProduct {...props} />;
-	// }
+	if (props.from === "stockbalance") {
+		return <DocumentListFooterForStockbalance {...props} />;
+	}
+	if (props.from === "settlements") {
+		return <DocumentListFooterForSettlements {...props} />;
+	}
+	if (props.from === "transactions" || props.from === "credittransactions") {
+		return <DocumentListFooterForTransactions {...props} />;
+	}
+	if (props.from === "products") {
+		return <DocumentListFooterForProduct {...props} />;
+	}
 	console.log(props);
 
 	return (

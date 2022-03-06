@@ -57,7 +57,9 @@ function withSerchByDate(Component, controller) {
 		};
 
 		function handleClickOnPlusBtn() {
-			if (controller === "products") {
+			if (controller === "transactions") {
+				navigate(`/document_transactions`);
+            } else if (controller === "products") {
 				navigate(`/document_product`);
 			} else {
 				navigate(`/document`);

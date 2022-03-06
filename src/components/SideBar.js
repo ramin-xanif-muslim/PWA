@@ -21,7 +21,7 @@ const Sidebar = () => {
     const company = useRequest('company/get.php',{})
     const fetchBalance = async () => {
         let res = await sendRequest('notifications/get.php',{})
-		setBalance(res.AccountBalance);
+        if(res) setBalance(res.AccountBalance);
     }
     useEffect(() => {
         fetchBalance()

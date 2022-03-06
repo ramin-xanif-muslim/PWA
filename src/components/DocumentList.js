@@ -21,7 +21,7 @@ function DocumentList({ list, from, getMoreData }) {
 						return (
 							<>
 								<Document
-									key={item.Id}
+									key={index}
 									item={item}
 									index={index + 1}
 									from={from}

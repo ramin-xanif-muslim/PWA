@@ -3,7 +3,6 @@ import style from "./CustomersListForSelect.module.css";
 import sendRequest from "../config/sentRequest";
 import MyLoading from "./UI/loading/MyLoading";
 import MyFastSearch from "./MyFastSearch";
-import { Button } from "antd";
 
 function SelectPage(props) {
 	const [listItems, setListItems] = useState([]);
@@ -45,7 +44,6 @@ function SelectPage(props) {
 				select={props.select}
 				visable={props.visible}
 				getData={getData}
-				isLoading={isLoading}
 			/>
 			<button onClick={() => props.visible(false)}>SƏNƏDƏ QAYIT</button>
 		</div>
@@ -54,19 +52,12 @@ function SelectPage(props) {
 
 export default SelectPage;
 
-const List = ({ listItems, select, visable, getData, title, isLoading }) => {
-	let n = 98;
-	let indx = 0;
-	const onClickButton = () => {
-		getData();
-		n = n + 100;
-	};
+const List = ({ listItems, select, visable, getData, title }) => {
 	return (
 		<div className={style.selectCustomerBody}>
 			{listItems ? (
 				listItems.map((item, index) => {
 					const { Id, Name } = item;
-					if (index === n) indx = index;
 					const onClick = () => {
 						select(item);
 						visable(false);
@@ -87,17 +78,12 @@ const List = ({ listItems, select, visable, getData, title, isLoading }) => {
 			) : (
 				<p></p>
 			)}
-			{indx > n ? (
-				<Button
-					loading={isLoading}
-					className="doc-load-more-btn"
-					onClick={onClickButton}
-				>
-					Daha çox {title}...
-				</Button>
-			) : (
-				""
-			)}
+			<button
+				className="button-get-all-products"
+				onClick={() => getData()}
+			>
+				<p>Bütün {title}</p>
+			</button>
 		</div>
 	);
 };

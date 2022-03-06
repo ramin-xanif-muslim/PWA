@@ -14,6 +14,7 @@ import { useGlobalContext } from "../config/context";
 import Debt from "./Debt";
 import SelectPage from "./SelectPage";
 import { keysToLowerCase } from "../functions";
+import moment from "moment";
 
 function MyForm(props) {
 	const { setCustomerId, from } = useGlobalContext();
@@ -135,7 +136,7 @@ function MyForm(props) {
 
 						{/* // datePicer don't worck is true */}
 
-						{/* <Row className="doc-form-row">
+						<Row className="doc-form-row">
 							<Col className="form-icons" span={3}>
 								<img src={moment_img} />
 							</Col>
@@ -145,7 +146,15 @@ function MyForm(props) {
 							<Col className="form-input" span={12}>
 								<Space direction="vertical">
 									<DatePicker
-										onChange={onChange}
+										format="YYYY-MM-DD HH:mm:ss"
+										value={
+											values.moment
+												? moment(values.moment)
+												: null
+										}
+										onChange={(value, dateString) =>
+											setValue("moment", dateString)
+										}
 										className="date-picker"
 										placeholder="tarix"
 									/>
@@ -154,7 +163,7 @@ function MyForm(props) {
 							<Col className="form-icons" span={3}>
 								<img src={miniArrow_img} />
 							</Col>
-						</Row> */}
+						</Row>
 
 						<Row className="doc-form-row">
 							<Col className="form-icons" span={3}>

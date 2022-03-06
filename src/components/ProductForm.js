@@ -8,20 +8,18 @@ import Checkbox from "antd/lib/checkbox/Checkbox";
 import MyModal from "./UI/modal/MyModal";
 import SelectPage from "./SelectPage";
 import { ConvertFixedTable, keysToLowerCase } from "../functions/index";
+import { useSelectModalInput } from "../hooks/useSelectModalInput";
 
 function ProductForm(props) {
     const [values, setValues] = useState(
         props.initialValues ? keysToLowerCase(props.initialValues) : ""
     );
     const [isFetching, setFetching] = useState(false);
-    const [selectedGroup, setSelectedGroup] = useState();
 
     const [isChecked, setIsChecked] = useState(false);
     const handleOnChange = () => {
         setIsChecked(!isChecked);
     };
-    const [modalGroupListForSelect, setModalGroupListForSelect] =
-        useState(false);
 
     useEffect(() => {
         if(props.barcode) {
@@ -42,13 +40,6 @@ function ProductForm(props) {
         props.setIsChangeDocument(true);
         props.getFormValues(values);
     }, [values]);
-
-    useEffect(() => {
-        if (selectedGroup) {
-            setValue("groupname", selectedGroup.Name);
-            setValue("groupid", selectedGroup.Id);
-        }
-    }, [selectedGroup]);
 
     const submit = async (e) => {
         e.preventDefault();
@@ -71,6 +62,7 @@ function ProductForm(props) {
     function onChange(value, dateString) {
         setValue("moment", dateString);
     }
+    const customerInput = useSelectModalInput("productfolders/get.php","Qrup",values,'groupname',setValue)
 
     if (values === null) {
         return null;
@@ -116,34 +108,7 @@ function ProductForm(props) {
                     </Col>
                 </Row>
 
-                <Row className="doc-form-row">
-                    <Col className="form-label" span={9}>
-                        <label>Qrup:</label>
-                    </Col>
-                    <Col
-                        className="form-input"
-                        span={12}
-                        onClick={() => setModalGroupListForSelect(true)}
-                    >
-                        <input
-                            style={{ width: "100%" }}
-                            autoComplete="off"
-                            type="text"
-                            name="CustomerName"
-                            placeholder=""
-                            value={
-                                selectedGroup
-                                    ? selectedGroup.Name
-                                    : values.groupname
-                            }
-                            readOnly
-                            required
-                        />
-                    </Col>
-                    <Col className="form-icons" span={3}>
-                        <img src={miniArrow_img} />
-                    </Col>
-                </Row>
+                {customerInput}
 
                 <Row className="doc-form-row">
                     <Col className="form-label" span={9}>
@@ -268,19 +233,6 @@ function ProductForm(props) {
                     </Col>
                 </Row>
             </fieldset>
-
-            <MyModal
-                style={{ width: "100%" }}
-                visible={modalGroupListForSelect}
-                setVisible={setModalGroupListForSelect}
-            >
-                <SelectPage
-                    url="productfolders/get.php"
-                    title="Qrup"
-                    select={setSelectedGroup}
-                    visible={setModalGroupListForSelect}
-                />
-            </MyModal>
         </form>
     );
 }

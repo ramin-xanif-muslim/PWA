@@ -22,6 +22,9 @@ function Document(props) {
     if (from === "products") {
         return <DocumentForProduct {...props} onClick={onClick} />;
     }
+    if (from === "transactions") {
+        return <DocumentForTransactions {...props} onClick={onClick} />;
+    }
     if (from === "stockbalance") {
         return <DocumentForStockbalance {...props} onClick={onClick} />;
     }
@@ -30,7 +33,7 @@ function Document(props) {
     }
 
     return (
-        <Link key={Id} to={isPermmision ? "/document" : `/${from}`} style={{ color: "inherit" }}>
+        <Link to={isPermmision ? "/document" : `/${from}`} style={{ color: "inherit" }}>
             <div className={Status === 1 ? 'demand' : 'demand demand-deactive'} onClick={onClick}>
                 <div className="index">
                     <p>{index}</p>
@@ -58,10 +61,38 @@ function Document(props) {
 
 export default Document;
 
+const DocumentForTransactions = ({ item, index, from, onClick }) => {
+    const { CustomerName, Name, Amount, Moment, Id, Status } = item;
+    return (
+        <Link to="/document_transactions" style={{ color: "inherit" }}>
+            <div className={Status === 1 ? 'demand' : 'demand demand-deactive'} onClick={onClick}>
+                <div className="index">
+                    <p>{index}</p>
+                </div>
+                <hr></hr>
+                <div className="demand-inner">
+                    <div className="demand-text">
+                        <p className="name">{CustomerName}</p>
+                        <div>
+                            <p className="moment">{Moment}</p>
+                            <p className="no">№{Name}</p>
+                        </div>
+                    </div>
+                    <div className="demand-price">
+                        <p className="amount">
+                            {Math.round(Amount * 100) / 100}
+                            <sub>₼</sub>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </Link>
+    );
+};
 const DocumentForProduct = ({ item, index, from, onClick }) => {
     const { BarCode, Name, Price, Moment, OwnerId } = item;
     return (
-        <Link key={OwnerId} to="/document_product" style={{ color: "inherit" }}>
+        <Link to="/document_product" style={{ color: "inherit" }}>
             <div className="demand" onClick={onClick}>
                 <div className="index">
                     <p>{index}</p>
@@ -88,7 +119,7 @@ const DocumentForProduct = ({ item, index, from, onClick }) => {
 const DocumentForStockbalance = ({ item, index, from, onClick }) => {
     const { BarCode, ProductName, Quantity, Moment, OwnerId } = item;
     return (
-        // <Link key={OwnerId} to="/document" style={{ color: "inherit" }}>
+        // <Link to="/document" style={{ color: "inherit" }}>
         <div className="demand" onClick={onClick}>
             <div className="index">
                 <p>{index}</p>
@@ -113,7 +144,7 @@ const DocumentForStockbalance = ({ item, index, from, onClick }) => {
 const DocumentForCustomers = ({ item, index, from, onClick }) => {
     const { BarCode, Name, Price, Moment, OwnerId } = item;
     return (
-        <Link key={OwnerId} to="/document" style={{ color: "inherit" }}>
+        <Link to="/document" style={{ color: "inherit" }}>
             <div className="demand" onClick={onClick}>
                 <div className="index">
                     <p>{index}</p>

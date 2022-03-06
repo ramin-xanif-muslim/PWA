@@ -8,6 +8,7 @@ import Dashboards from "../pages/Dashboards";
 import Demandreturns from "../pages/Demandreturns";
 import Demands from "../pages/Demands";
 import DocumentProduct from "../pages/DocumentProduct";
+import DocumentTransaction from "../pages/DocumentTransaction";
 import Documents from "../pages/Documents";
 import Enters from "../pages/Enters";
 import LoginPage from "../pages/LoginPage";
@@ -36,6 +37,7 @@ function RouteComponent(props) {
 			<Route path="/documents" element={<Documents />} />
 			<Route path="/document" element={<TabContends />} />
 			<Route path="/document_product" element={<DocumentProduct />} />
+			<Route path="/document_transactions" element={<DocumentTransaction />} />
 			<Route path="/supplies" element={<Supply />} />
 			<Route path="/supplyreturns" element={<Supplyreturns />} />
 			<Route path="/demandreturns" element={<Demandreturns />} />
