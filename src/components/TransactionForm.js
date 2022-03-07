@@ -75,7 +75,7 @@ function TransactionForm(props) {
 		return null;
 	}
 	if (!values.name) {
-		console.log('aaa')
+		return <SelectDocumentType />
 	}
 	return (
 		<form className="doc-form" onSubmit={submit}>
@@ -98,3 +98,9 @@ function TransactionForm(props) {
 }
 
 export default TransactionForm;
+
+const SelectDocumentType = () => {
+    return (
+        <div></div>
+    )
+}
