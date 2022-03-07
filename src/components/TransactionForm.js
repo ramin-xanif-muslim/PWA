@@ -74,8 +74,8 @@ function TransactionForm(props) {
 	if (values === null) {
 		return null;
 	}
-	if (!values.name) {
-		return <SelectDocumentType />
+	if (!values.typename) {
+		return <SelectDocumentType setValue={setValue} setIsChangeDocument={props.setIsChangeDocument} />
 	}
 	return (
 		<form className="doc-form" onSubmit={submit}>
@@ -99,8 +99,17 @@ function TransactionForm(props) {
 
 export default TransactionForm;
 
-const SelectDocumentType = () => {
+const SelectDocumentType = (props) => {
+    const onClick = async (event) => {
+        await props.setValue('typename',event)
+        props.setIsChangeDocument(false)
+    }
     return (
-        <div></div>
+        <div>
+            <h2 onClick={() => onClick('typename','Nağd mədaxil')}>Nağd mədaxil</h2>
+            <h2 onClick={() => onClick('typename','Nağdsız mədaxil')}>Nağdsız mədaxil</h2>
+            <h2 onClick={() => onClick('typename','Nağd məxaric')}>Nağd məxaric</h2>
+            <h2 onClick={() => onClick('typename','Nağdsız məxaric')}>Nağdsız məxaric</h2>
+        </div>
     )
 }

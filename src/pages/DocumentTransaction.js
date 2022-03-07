@@ -46,6 +46,7 @@ function DocumentTransaction() {
 				duration: 2,
 			});
 		} else {
+            message.loading({ content: "Loading...", key });
 			let endPoint = "";
             if (formValues.typename === "Nağd mədaxil")
                 endPoint = "paymentins";
