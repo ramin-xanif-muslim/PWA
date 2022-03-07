@@ -74,6 +74,9 @@ function TransactionForm(props) {
 	if (values === null) {
 		return null;
 	}
+	if (!values.name) {
+		console.log('aaa')
+	}
 	return (
 		<form className="doc-form" onSubmit={submit}>
 			<fieldset disabled={isFetching}>
