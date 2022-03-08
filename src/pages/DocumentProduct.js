@@ -97,7 +97,6 @@ function DocumentProduct() {
 				setIsFoterOpen={setIsFoterOpen}
 				saveButton={saveButton}
 				isChangeDocument={isChangeDocument}
-				setIsChangeDocument={setIsChangeDocument}
 			/>
 		</div>
 	);

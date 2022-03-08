@@ -23,6 +23,7 @@ function TransactionForm(props) {
 		}
 	};
 	const setValue = (field, value) => {
+        console.log(field, value)
 		props.setIsChangeDocument(true);
 		setValues((old) => ({ ...old, [field]: value }));
 	};
@@ -106,10 +107,10 @@ const SelectDocumentType = (props) => {
     }
     return (
         <div>
-            <h2 onClick={() => onClick('typename','Nağd mədaxil')}>Nağd mədaxil</h2>
-            <h2 onClick={() => onClick('typename','Nağdsız mədaxil')}>Nağdsız mədaxil</h2>
-            <h2 onClick={() => onClick('typename','Nağd məxaric')}>Nağd məxaric</h2>
-            <h2 onClick={() => onClick('typename','Nağdsız məxaric')}>Nağdsız məxaric</h2>
+            <h2 onClick={() => onClick('Nağd mədaxil')}>Nağd mədaxil</h2>
+            <h2 onClick={() => onClick('Nağdsız mədaxil')}>Nağdsız mədaxil</h2>
+            <h2 onClick={() => onClick('Nağd məxaric')}>Nağd məxaric</h2>
+            <h2 onClick={() => onClick('Nağdsız məxaric')}>Nağdsız məxaric</h2>
         </div>
     )
 }

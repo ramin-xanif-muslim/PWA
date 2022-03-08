@@ -24,6 +24,7 @@ import Stockbalance from "../pages/Stockbalance";
 import Supply from "../pages/Supply";
 import Supplyreturns from "../pages/Supplyreturns";
 import Transactions from "../pages/Transactions";
+import Document from "../pages/Document";
 import Content from "./Content";
 import TabContends from "./TabContends";
 
@@ -35,7 +36,7 @@ function RouteComponent(props) {
 			{/* <Route path="/dashboards" element={<Dashboards />} /> */}
 			<Route path="/demands" element={<Demands />} />
 			<Route path="/documents" element={<Documents />} />
-			<Route path="/document" element={<TabContends />} />
+			<Route path="/document" element={<Document />} />
 			<Route path="/document_product" element={<DocumentProduct />} />
 			<Route path="/document_transactions" element={<DocumentTransaction />} />
 			<Route path="/supplies" element={<Supply />} />

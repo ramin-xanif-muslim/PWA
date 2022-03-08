@@ -19,9 +19,8 @@ function DocumentList({ list, from, getMoreData }) {
 			{list
 				? list.map((item, index) => {
 						return (
-							<>
+							<div key={index}>
 								<Document
-									key={index}
 									item={item}
 									index={index + 1}
 									from={from}
@@ -31,7 +30,7 @@ function DocumentList({ list, from, getMoreData }) {
 										Daha çox ...
 									</Button>
 								)}
-							</>
+							</div>
 						);
 				  })
 				: ""}

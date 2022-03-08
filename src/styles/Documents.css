@@ -211,6 +211,9 @@ input:-webkit-autofill:active {
 	height: calc(100vh - 384px);
 	transition: 300ms;
 }
+.product-list-2 {
+	height: calc(100vh - 260px);
+}
 
 .product-list-small {
 	height: calc(100vh - 502px);

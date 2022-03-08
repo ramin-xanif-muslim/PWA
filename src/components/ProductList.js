@@ -10,6 +10,7 @@ import ModalEditProductParams from "./ModalEditProductParams";
 import MyModal from "./UI/modal/MyModal";
 
 const ProductList = ({
+    keyTabs,
 	setModalProductListForSelect,
 	products,
 	isFooterOpen,
@@ -29,7 +30,6 @@ const ProductList = ({
 		if (quantity < 0) {
 			setQuantity(0);
 		}
-        console.log(products)
 	}, [quantity]);
 
 	const putQuantity = () => {
@@ -44,11 +44,7 @@ const ProductList = ({
 	};
 	return (
 		<div
-			className={
-				isFooterOpen
-					? "product-list product-list-small"
-					: "product-list"
-			}
+			className={keyTabs === '2' ? "product-list product-list-2" : 'product-list'}
 		>
 			{products[0] ? (
 				products.map((item, index) => {

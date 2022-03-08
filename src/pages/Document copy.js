@@ -14,21 +14,12 @@ import sendRequest from "../config/sentRequest";
 import ok from "../audio/ok.mp3";
 import { keysToLowerCase } from "../functions";
 import { useConditionHandlingOnSave } from "../hooks/useConditionHandlingOnSave";
-import miniArrow_img from "../img/document_pages_img/mini-arrow.svg";
-
-import { Col, Row, Tabs } from "antd";
-
-const { TabPane } = Tabs;
-
-// function callback(key) {
-// 	console.log(key);
-// }
 
 const audio = new Audio(ok);
 
 const key = "updatable";
 
-function Document() {
+function Document(props) {
 	let navigate = useNavigate();
 	const { documentsItem, hideFooter, isNewDocument, from, setIsNewDocument } =
 		useGlobalContext();
@@ -38,12 +29,6 @@ function Document() {
 		useState(false);
 	const [formValues, setFormValues] = useState();
 	const [isChangeDocument, setIsChangeDocument] = useState(false);
-	const [payment, setPayment] = useState();
-	const [keyTabs, setKeyTabs] = useState();
-
-	const callbackTabs = (key) => {
-		setKeyTabs(key);
-	};
 
 	useEffect(() => {
 		if (isNewDocument) {
@@ -52,13 +37,7 @@ function Document() {
 		}
 		setIsChangeDocument(false);
 	}, []);
-	useEffect(() => {
-		if (payment) {
-			console.log(from);
-			setIsChangeDocument(true);
-		}
-		return () => setIsChangeDocument(false);
-	}, [payment]);
+
 	const responsePositions = useRequest(
 		!isNewDocument ? from + "/get.php" : null,
 		{ id: documentsItem.Id }
@@ -75,7 +54,7 @@ function Document() {
 	};
 
 	const selectPrd = (arr) => {
-		let filterArr = arr.filter((item) => item.Quantity);
+        let filterArr = arr.filter((item) => item.Quantity) 
 		setIsChangeDocument(true);
 		let isNewBarcodeProductInProducts = false;
 		let newarr = [];
@@ -111,71 +90,51 @@ function Document() {
 		setFormValues(v);
 	};
 
-	const [
-		conditionHandlingOnSave,
-		conditionHandlingOnSaveEnterAndLossDocument,
-	] = useConditionHandlingOnSave(formValues);
-
+    const [conditionHandlingOnSave, conditionHandlingOnSaveEnterAndLossDocument] = useConditionHandlingOnSave(formValues)
+    
 	const saveButton = async () => {
-		console.log(from);
-		let isOk = false;
-		if (from === "losses") {
-			isOk = conditionHandlingOnSaveEnterAndLossDocument();
-		} else if (from === "enters") {
-			isOk = conditionHandlingOnSaveEnterAndLossDocument();
-		} else {
-			isOk = conditionHandlingOnSave();
-		}
-		if (isOk) {
-			message.loading({ content: "Loading...", key });
-			let newArr = [];
-			if (products[0]) {
-				newArr = products.map((item) => {
-					return {
-						ProductId: item.ProductId ? item.ProductId : item.Id,
-						Quantity: item.Quantity,
-						Price: item.Price,
-					};
-				});
-			}
-			formValues.positions = newArr;
-			if (isNewDocument) {
-				let responseName = await sendRequest(from + "/newname.php", {
-					name: formValues.name ? formValues.name : "",
-				});
-				formValues.name = responseName.ResponseService;
-			}
-			let res = await sendRequest(
-				from + "/put.php",
-				keysToLowerCase(formValues)
-			);
-			if (res.ResponseStatus === "0") {
-				try {
-					if (payment) {
-						let { ResponseService } = await sendRequest(
-							"paymentins/newname.php",
-							{}
-						);
-						sendRequest("paymentins/put.php", {
-							link: documentsItem.id,
-							name: ResponseService,
-						});
-					}
-				} finally {
-					message.success({
-						content: "Dəyişikliklər yadda saxlanıldı!",
-						key,
-						duration: 2,
-					});
-					audio.play();
-					setIsChangeDocument(false);
-					if (isNewDocument) {
-						Navigate(`/${from}`);
-						setIsNewDocument(false);
-					}
-				}
-			}
-		}
+        console.log(from)
+        let isOk = false
+        if(from === 'losses') { isOk = conditionHandlingOnSaveEnterAndLossDocument()}
+        else if(from === 'enters') { isOk = conditionHandlingOnSaveEnterAndLossDocument()}
+        else {isOk = conditionHandlingOnSave()}
+        if (isOk) {
+            message.loading({ content: "Loading...", key });
+            let newArr = [];
+            if (products[0]) {
+            	newArr = products.map((item) => {
+            		return {
+            			ProductId: item.ProductId ? item.ProductId : item.Id,
+            			Quantity: item.Quantity,
+            			Price: item.Price,
+            		};
+            	});
+            }
+            formValues.positions = newArr;
+            if (isNewDocument) {
+            	let responseName = await sendRequest(from + "/newname.php", {
+            		name: formValues.name ? formValues.name : "",
+            	});
+            	formValues.name = responseName.ResponseService;
+            }
+            let res = await sendRequest(
+            	from + "/put.php",
+            	keysToLowerCase(formValues)
+            );
+            if (res.ResponseStatus === "0") {
+            	message.success({
+            		content: "Dəyişikliklər yadda saxlanıldı!",
+            		key,
+            		duration: 2,
+            	});
+            	audio.play();
+            	setIsChangeDocument(false);
+            	if (isNewDocument) {
+            		Navigate(`/${from}`);
+            		setIsNewDocument(false);
+            	}
+            }
+        }
 	};
 	if (!from) {
 		navigate(`/`);
@@ -183,27 +142,15 @@ function Document() {
 	}
 	return (
 		<div className="document">
-			<Tabs className="doc-tabs" onChange={callbackTabs} type="card">
-				<TabPane tab="ƏSAS" key="1">
-					<MyForm
-						initialValues={isNewDocument ? null : documentsItem}
-						getFormValues={getFormValues}
-						setIsChangeDocument={setIsChangeDocument}
-					/>
-				</TabPane>
-				<TabPane tab="ÖDƏNİŞ" key="2">
-					<Payment
-						payment={payment}
-						setPayment={setPayment}
-						from={from}
-					/>
-				</TabPane>
-			</Tabs>
+			<MyForm
+				initialValues={isNewDocument ? null : documentsItem}
+				getFormValues={getFormValues}
+				setIsChangeDocument={setIsChangeDocument}
+			/>
 
 			{responsePositions.loading && <MyLoading />}
 
 			<ProductList
-				keyTabs={keyTabs}
 				setIsChangeDocument={setIsChangeDocument}
 				deleteProduct={deleteProduct}
 				setModalProductListForSelect={setModalProductListForSelect}
@@ -234,29 +181,3 @@ function Document() {
 }
 
 export default Document;
-
-const Payment = (props) => {
-	if (props.from !== "demands") {
-		return null;
-	}
-	return (
-		<div className="doc-form">
-			<Row className="doc-form-row">
-				<Col className="form-label" span={9}>
-					<label>Məbləğ:</label>
-				</Col>
-				<Col className="form-input" span={12}>
-					<input
-						autoComplete="off"
-						type="number"
-						value={props.payment}
-						onChange={(e) => props.setPayment(e.target.value)}
-					/>
-				</Col>
-				<Col className="form-icons" span={3}>
-					<img src={miniArrow_img} />
-				</Col>
-			</Row>
-		</div>
-	);
-};

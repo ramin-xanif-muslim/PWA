@@ -19,12 +19,23 @@ function DocumentTransaction() {
 	const [isFooterOpen, setIsFoterOpen] = useState(false);
 	const [formValues, setFormValues] = useState();
 	const [isChangeDocument, setIsChangeDocument] = useState(false);
+	const [endPoint, setEndPoint] = useState();
 
 	useEffect(() => {
 		if (isNewDocument) {
 			hideFooter();
 		}
 	}, []);
+	useEffect(() => {
+		if (formValues && formValues.typename === "Nağd mədaxil")
+			setEndPoint("paymentins");
+		else if (formValues && formValues.typename === "Nağdsız mədaxil")
+			setEndPoint("invoiceins");
+		else if (formValues && formValues.typename === "Nağd məxaric")
+			setEndPoint("paymentouts");
+		else if (formValues && formValues.typename === "Nağdsız məxaric")
+			setEndPoint("invoiceouts");
+	}, [formValues?.typename]);
 
 	const getFormValues = (v) => {
 		setFormValues(keysToLowerCase(v));
@@ -46,18 +57,10 @@ function DocumentTransaction() {
 				duration: 2,
 			});
 		} else {
-            message.loading({ content: "Loading...", key });
-			let endPoint = "";
-            if (formValues.typename === "Nağd mədaxil")
-                endPoint = "paymentins";
-            if (formValues.typename === "Nağdsız mədaxil")
-                endPoint = "paymentouts";
-            if (formValues.typename === "Nağd məxaric")
-                endPoint = "invoiceins";
-            if (formValues.typename === "Nağdsız məxaric")
-                endPoint = "invoiceouts";
-			if (isNewDocument) {
-				if (endPoint) {
+			message.loading({ content: "Loading...", key });
+			try {
+				if (isNewDocument && endPoint) {
+					console.log("111");
 					let responseName = await sendRequest(
 						endPoint + "/newname.php",
 						{
@@ -66,23 +69,28 @@ function DocumentTransaction() {
 					);
 					formValues.name = responseName.ResponseService;
 				}
+			} finally {
+				if (endPoint) {
+					console.log("222");
+					let res = await sendRequest(
+						endPoint + "/put.php",
+						formValues
+					);
+					if (res.ResponseStatus === "0") {
+						message.success({
+							content: "Dəyişikliklər yadda saxlanıldı!",
+							key,
+							duration: 2,
+						});
+						audio.play();
+						setIsChangeDocument(false);
+						if (isNewDocument) {
+							navigate(`/${from}`);
+							setIsNewDocument(false);
+						}
+					}
+				}
 			}
-            if (endPoint) {
-                let res = await sendRequest(endPoint + "/put.php", formValues);
-                if (res.ResponseStatus === "0") {
-                    message.success({
-                        content: "Dəyişikliklər yadda saxlanıldı!",
-                        key,
-                        duration: 2,
-                    });
-                    audio.play();
-                    setIsChangeDocument(false);
-                    if (isNewDocument) {
-                        navigate(`/${from}`);
-                        setIsNewDocument(false);
-                    }
-                }
-            }
 		}
 	};
 	if (!from) {
