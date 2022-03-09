@@ -24,6 +24,12 @@ function SelectPage(props) {
 	useEffect(() => {
 		getData();
 	}, []);
+	useEffect(() => {
+        if(props.url === 'spenditems/get.php' && listItems[0] && !!props.setDefaultValue) {
+            // props.setDefaultValue(listItems[0].Name)
+        }
+        // return () => props.setDefaultValue()
+	}, [listItems]);
 
 	return (
 		<div className={style.selectCustomerModal}>

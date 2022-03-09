@@ -60,7 +60,6 @@ function DocumentTransaction() {
 			message.loading({ content: "Loading...", key });
 			try {
 				if (isNewDocument && endPoint) {
-					console.log("111");
 					let responseName = await sendRequest(
 						endPoint + "/newname.php",
 						{
@@ -68,10 +67,10 @@ function DocumentTransaction() {
 						}
 					);
 					formValues.name = responseName.ResponseService;
+					formValues.status = true
 				}
 			} finally {
 				if (endPoint) {
-					console.log("222");
 					let res = await sendRequest(
 						endPoint + "/put.php",
 						formValues

@@ -35,3 +35,29 @@ Variables
 	height: 100vh;
 	position: relative;
 }
+
+
+
+.invoice_header {
+    display: flex;
+    justify-content: center;
+    background-color: #a6a6a6;
+}
+
+.invoice_main_info {
+    display: flex;
+    justify-content: center;
+}
+.invoice_main_info_wrapper {
+    padding: 10px 0 0 0;
+    justify-content: center;
+}
+
+.invoice_main_info_part {
+    display: flex;
+    color: black;
+}
+
+.number_wrapper p {
+    font-weight: bold !important;
+}

@@ -223,6 +223,8 @@ function Document() {
 				/>
 			</MyModal>
 			<DocFooter
+				from={from}
+				formValues={formValues}
 				products={products}
 				isFooterOpen={isFooterOpen}
 				setIsFoterOpen={setIsFoterOpen}

@@ -10,7 +10,7 @@ import { useGlobalContext } from "./config/context";
 import LoginPage from "./pages/LoginPage";
 
 function App() {
-	const { isLogin, isFooter } = useGlobalContext();
+	const { isLogin, isFooter, isHeader } = useGlobalContext();
 	const [modal, setModal] = useState(false);
 
 	if (isLogin === false) {
@@ -18,14 +18,15 @@ function App() {
 	}
 	return (
 		<div className="App">
+			{isHeader && <Header openSidebar={setModal} />}
 
-			<Header openSidebar={setModal} />
+			{/* <Header openSidebar={setModal} /> */}
 
 			<div className="content">
 				<RouteComponent />
 			</div>
 
-            { isFooter && <Footer />}
+			{isFooter && <Footer />}
 
 			<MyModal visible={modal} setVisible={setModal}>
 				<SideBar />

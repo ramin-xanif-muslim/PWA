@@ -8,8 +8,11 @@ import { useGlobalContext } from "../config/context";
 import { Button, Modal } from "antd";
 import { WarningOutlined } from "@ant-design/icons";
 import { ConvertFixedTable } from "../functions";
+import { Link } from "react-router-dom";
 
 const DocFooter = ({
+    from,
+    formValues,
 	products,
 	isFooterOpen,
 	setIsFoterOpen,
@@ -17,7 +20,7 @@ const DocFooter = ({
 	isChangeDocument,
 }) => {
 	let navigate = useNavigate();
-	const { from, setIsNewDocument } = useGlobalContext();
+	const { setIsNewDocument } = useGlobalContext();
 
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [totalQuantity, setTotalQuantity] = useState(0);
@@ -30,7 +33,9 @@ const DocFooter = ({
 			for (let i = 0; i < products.length; i++) {
 				if (products && products[i]) {
 					tq += Number(products[i].Quantity);
-					tp += Number(products[i].Price) * Number(products[i].Quantity);
+					tp +=
+						Number(products[i].Price) *
+						Number(products[i].Quantity);
 				}
 			}
 			setTotalQuantity(tq);
@@ -55,11 +60,17 @@ const DocFooter = ({
 			setIsNewDocument(false);
 		}
 	};
+	const onClickPrint = (e) => {
+		e.stopPropagation();
+        console.log(formValues)
+	};
 
 	return (
 		<div
 			style={from !== "demands" ? { bottom: 0 } : null}
-			onClick={from === "demands" ? () => setIsFoterOpen(!isFooterOpen) : null}
+			onClick={
+				from === "demands" ? () => setIsFoterOpen(!isFooterOpen) : null
+			}
 			className={
 				isFooterOpen ? "doc-footer doc-footer-open" : "doc-footer"
 			}
@@ -74,17 +85,27 @@ const DocFooter = ({
 					</div>
 					<p>Bağla</p>
 				</button>
-				<button
-					className="print"
-					onClick={(e) => {
-						e.stopPropagation();
+				<Link
+					to={{
+						pathname: "/invoice",
+						search: formValues ? `${formValues.id}` : '',
+						hash: from,
 					}}
+					target={"_blank"}
+					// className="buttons_click"
 				>
-					<div>
-						<img src={print_img} alt="" />
-					</div>
-					<p>Print</p>
-				</button>
+					<button
+						className="print"
+						onClick={(e) => {
+							onClickPrint(e);
+						}}
+					>
+						<div>
+							<img src={print_img} alt="" />
+						</div>
+						<p>Print</p>
+					</button>
+				</Link>
 				{isChangeDocument && (
 					<button
 						className="save"
@@ -116,7 +137,9 @@ const DocFooter = ({
 					</div>
 					<div className="text-block">
 						<p className="text">Miqdar</p>
-						<p className="number">{ConvertFixedTable(totalQuantity)}</p>
+						<p className="number">
+							{ConvertFixedTable(totalQuantity)}
+						</p>
 					</div>
 					<div className="text-block">
 						<p className="text">Mayası:</p>
@@ -135,7 +158,9 @@ const DocFooter = ({
 					</div>
 					<div className="text-block">
 						<p className="text">Miqdar</p>
-						<p className="number">{ConvertFixedTable(totalQuantity)}</p>
+						<p className="number">
+							{ConvertFixedTable(totalQuantity)}
+						</p>
 					</div>
 				</div>
 			)}

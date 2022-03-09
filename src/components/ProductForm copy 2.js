@@ -142,7 +142,7 @@ function ProductForm(props) {
 
 				{inputDescription}
 
-				{/* {inputIsweight} */}
+				{inputIsweight}
 
 				<Row className="doc-form-row">
 					<Col className="form-label" span={9}>

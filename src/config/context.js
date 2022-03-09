@@ -11,6 +11,7 @@ export const AppProvider = ({ children }) => {
         isSearch: false,
         isLogin: true,
         isFooter: true,
+        isHeader: true,
         documentsItem: '',
         isNewDocument: false,
 	};
@@ -34,6 +35,9 @@ export const AppProvider = ({ children }) => {
     }
     const hideFooter = () => {
         dispatch({ type: 'HIDE_FOOTER', payload: false})
+    }
+    const hideHeader = () => {
+        dispatch({ type: 'HIDE_HEADER', payload: false})
     }
     const getDocumentsItem = (item) => {
         dispatch({ type: 'DOCUMENTS_ITEM', payload: item})
@@ -62,6 +66,7 @@ export const AppProvider = ({ children }) => {
                 setIsNewDocument,
                 setCustomerId,
                 putFrom,
+                hideHeader,
 			}}
 		>
 			{children}

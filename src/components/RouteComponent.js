@@ -25,6 +25,7 @@ import Supply from "../pages/Supply";
 import Supplyreturns from "../pages/Supplyreturns";
 import Transactions from "../pages/Transactions";
 import Document from "../pages/Document";
+import Invoice from "../pages/Invoice";
 import Content from "./Content";
 import TabContends from "./TabContends";
 
@@ -34,6 +35,7 @@ function RouteComponent(props) {
 			<Route path="login" element={<LoginPage />} />
 			<Route path="/" element={<Content />} />
 			{/* <Route path="/dashboards" element={<Dashboards />} /> */}
+			<Route path="/invoice" element={<Invoice />} />
 			<Route path="/demands" element={<Demands />} />
 			<Route path="/documents" element={<Documents />} />
 			<Route path="/document" element={<Document />} />
@@ -57,7 +59,7 @@ function RouteComponent(props) {
 			<Route path="/settlements" element={<Settlements />} />
 			<Route path="/cashins" element={<Cashins />} />
 			<Route path="/cashouts" element={<Cashouts />} />
-			<Route path="*" element={<Navigate to='/' />} />
+			{/* <Route path="*" element={<Navigate to='/' />} /> */}
 		</Routes>
 	);
 }

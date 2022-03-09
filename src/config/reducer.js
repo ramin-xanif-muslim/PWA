@@ -31,6 +31,9 @@ const reducer = (state, action) => {
     if( action.type === 'CUSTOMER_ID') {
         return { ...state, customerId: action.payload }
     }
+    if( action.type === 'HIDE_HEADER') {
+        return { ...state, isHeader: action.payload }
+    }
     return state
 }
 
