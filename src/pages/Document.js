@@ -54,7 +54,6 @@ function Document() {
 	}, []);
 	useEffect(() => {
 		if (payment) {
-			console.log(from);
 			setIsChangeDocument(true);
 		}
 		return () => setIsChangeDocument(false);

@@ -212,9 +212,12 @@ const DocumentForStockbalance = ({ item, index, from, onClick }) => {
 	);
 };
 const DocumentForCustomers = ({ item, index, from, onClick }) => {
-	const { BarCode, Name, Price, Moment, OwnerId } = item;
+	const { Name } = item;
+    let linkTo
+    if(from === 'customers') { linkTo = '/document_customer'}
+    else { linkTo = "/document" }
 	return (
-		<Link to="/document" style={{ color: "inherit" }}>
+		<Link to={linkTo} style={{ color: "inherit" }}>
 			<div className="demand" onClick={onClick}>
 				<div className="index">
 					<p>{index}</p>

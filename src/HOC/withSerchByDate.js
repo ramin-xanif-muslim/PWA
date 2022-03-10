@@ -65,6 +65,8 @@ function withSerchByDate(Component, controller) {
 				navigate(`/document_transactions`);
             } else if (controller === "products") {
 				navigate(`/document_product`);
+            } else if (controller === "customers") {
+				navigate(`/document_customer`);
 			} else {
 				navigate(`/document`);
 			}

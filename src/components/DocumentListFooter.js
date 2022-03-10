@@ -57,9 +57,9 @@ function DocumentListFooterForProduct(props) {
 	return (
 		<div className="document-footer">
 			<div className="text">
-				{/* <p className="amount">Məbləğ</p>
-
-				<p className="profit">Qazanc</p> */}
+					<Link to="/">
+						<img src={img_goback}></img>
+					</Link>
 			</div>
 			<div className="create-button">
 				<button onClick={props.handleClickOnPlusBtn}>
