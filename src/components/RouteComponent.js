@@ -35,6 +35,7 @@ function RouteComponent(props) {
 			<Route path="login" element={<LoginPage />} />
 			<Route path="/" element={<Content />} />
 			{/* <Route path="/dashboards" element={<Dashboards />} /> */}
+
 			<Route path="/invoice" element={<Invoice />} />
 			<Route path="/demands" element={<Demands />} />
 			<Route path="/documents" element={<Documents />} />

@@ -1,0 +1,104 @@
+@media print {
+	body * {
+		visibility: hidden;
+	}
+
+	.wrapper,
+	.wrapper * {
+		visibility: visible;
+	}
+
+	.wrapper {
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+}
+
+#root {
+	background-color: #fff !important;
+}
+
+.company_info {
+	margin: 5px 0 !important;
+	margin-bottom: 12px !important;
+}
+
+.company_info,
+.buyer_info {
+	font-size: 14px;
+}
+
+[class*="col-"] {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
+.wrapper {
+	font-weight: bold;
+}
+
+.money {
+	width: initial !important;
+}
+
+.left_wrapper {
+	display: flex;
+	justify-content: space-between;
+	width: 50%;
+}
+
+#tabledemandresize {
+	margin-bottom: 0.9em;
+}
+
+p {
+	margin: 0 !important;
+}
+
+.row {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+}
+
+.buyer_info {
+	margin-bottom: 15px;
+}
+
+.receiptHeader {
+	text-align: center;
+	font-size: 1.2em;
+}
+
+.recipient {
+	margin-top: 20px;
+}
+
+.recipient p {
+	display: flex;
+	flex-direction: column;
+}
+
+.col-9 p {
+	/* text-align: right; */
+}
+
+.signature {
+	margin-top: 0.5em;
+}
+
+table,
+td,
+th {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+th,
+td {
+	font-size: 11px;
+}
+
+td {
+	text-align: center;
+}

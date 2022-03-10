@@ -20,8 +20,6 @@ function App() {
 		<div className="App">
 			{isHeader && <Header openSidebar={setModal} />}
 
-			{/* <Header openSidebar={setModal} /> */}
-
 			<div className="content">
 				<RouteComponent />
 			</div>

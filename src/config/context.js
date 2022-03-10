@@ -14,6 +14,7 @@ export const AppProvider = ({ children }) => {
         isHeader: true,
         documentsItem: '',
         isNewDocument: false,
+        isPrint: false,
 	};
 
 	const [state, dispatch] = useReducer(reducer, initialState);
@@ -51,6 +52,9 @@ export const AppProvider = ({ children }) => {
     const setCustomerId = (item) => {
         dispatch({ type: 'CUSTOMER_ID', payload: item})
     }
+    const print = (item) => {
+        dispatch({ type: 'PRINT', payload: true})
+    }
 
 	return (
 		<AppContect.Provider
@@ -67,6 +71,7 @@ export const AppProvider = ({ children }) => {
                 setCustomerId,
                 putFrom,
                 hideHeader,
+                print,
 			}}
 		>
 			{children}

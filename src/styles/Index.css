@@ -59,5 +59,7 @@ Variables
 }
 
 .number_wrapper p {
+    font-size: 100px;
     font-weight: bold !important;
+    width: 70%;
 }
