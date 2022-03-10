@@ -10,6 +10,7 @@ import {
 	customersLinks,
 	financeLinks,
 	relateLinks,
+    reportsLinks,
 } from "../config/data";
 import "../styles/Content.css";
 
@@ -51,7 +52,7 @@ function Content(props) {
 			return;
 		}
 		if (checkedFooterNavItem === 8) {
-			setShowIcons(dashboardLinks);
+			setShowIcons(reportsLinks);
 			return;
 		}
 		return setShowIcons(dashboardLinks);

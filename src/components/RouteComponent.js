@@ -21,6 +21,9 @@ import Sales from "../pages/Sales";
 import Settlements from "../pages/Settlements";
 import Spenditems from "../pages/Spenditems";
 import Stockbalance from "../pages/Stockbalance";
+import Salereports from "../pages/Salereports";
+import Profit from "../pages/Profit";
+import Cashes from "../pages/Cashes";
 import Supply from "../pages/Supply";
 import Supplyreturns from "../pages/Supplyreturns";
 import Transactions from "../pages/Transactions";
@@ -50,6 +53,9 @@ function RouteComponent(props) {
 			<Route path="/losses" element={<Losses />} />
 			<Route path="/moves" element={<Moves />} />
 			<Route path="/stockbalance" element={<Stockbalance />} />
+			<Route path="/salereports" element={<Salereports />} />
+			<Route path="/profit" element={<Profit />} />
+			<Route path="/cashes" element={<Cashes />} />
 			<Route path="/customers" element={<Customers />} />
 			<Route path="/transactions" element={<Transactions />} />
 			<Route path="/spenditems" element={<Spenditems />} />

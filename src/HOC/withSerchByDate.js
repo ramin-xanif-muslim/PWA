@@ -24,10 +24,14 @@ function withSerchByDate(Component, controller) {
 		const [searchdata, setsearchdata] = useState();
 		const [isLoading, setLoading] = useState(false);
 
+        let sr = 'Moment'
+        if(controller === 'salereports') { sr = 'ProductName'}
+        if(controller === 'cashes') { sr = ''}
+
 		const [obj, setObj] = useState({
 			pg: 0,
 			dr: 1,
-			sr: "Moment",
+			sr: sr,
 			momb: "",
 			mome: "",
 		});
@@ -68,9 +72,9 @@ function withSerchByDate(Component, controller) {
 			setIsNewDocument(true);
 		}
 		useEffect(() => {
+            setAllData(props.data);
 			if (props.data?.List) {
 				setData(props.data.List);
-				setAllData(props.data);
 			}
 		}, []);
 		useEffect(() => {
