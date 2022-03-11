@@ -36,6 +36,7 @@ function ProductListForSelect(props) {
 		}
 		setProducts([]);
 		props.close(false);
+        setPage(1)
 	};
 
 	const putQuantity = () => {
@@ -52,13 +53,14 @@ function ProductListForSelect(props) {
 		}
 	}, [quantity]);
 	const getDataOnSearch = (dataOnSearch) => {
+        let arr = products.filter((p) => p.checkedBox === true);
+        props.selectPrd(arr);
 		setProducts(dataOnSearch);
 	};
 	const getAllProducts = async () => {
 		setIsLoading(true);
 		let res = await api.fetchProducts({ pg: page });
 		setProducts((prev) => [...prev, ...res.List]);
-		// setProducts(res.List)
 		setPage(page + 1);
 		setIsLoading(false);
 	};

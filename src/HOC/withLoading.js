@@ -17,6 +17,7 @@ function withLoading(Component, url) {
         if(url === 'salepoints') {sendObj = {}}
         if(url === 'customers') {sendObj = {}}
         if(url === 'settlements') {sendObj = {}}
+        if(url === 'dashboard') {sendObj = {}}
         if(url === 'salereports') {sendObj.sr = 'ProductName'}
         if(url === 'cashes') {sendObj.sr = ''}
 

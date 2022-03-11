@@ -106,8 +106,7 @@ const Cashes = (props) => {
 	);
 };
 const Profit = (props) => {
-	const { Name, Amount, Id } = props.item;
-	const { CostSum, SaleSum } = props.allData;
+	const { Name, Profit} = props.item;
 	return (
 		<div className="demand">
 			<div className="index">
@@ -120,7 +119,7 @@ const Profit = (props) => {
 				</div>
 				<div className="demand-price">
 					<p className="amount">
-						{Math.round(Amount * 100) / 100}
+						{Profit}
 						<sub>₼</sub>
 					</p>
 				</div>
